@@ -2,7 +2,7 @@
 Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actually trying to hone my skills in several programming languages and frameworks, as well as cybersec.
 
 ## :open_book: Programming languages
-<div style="background-color:'yellow'; border-radius:5px; height:20px"><p>JavaScript</p></div>
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:20px; border-radius:10px"/>
 
 - 🌱 I’m currently learning ...
 
