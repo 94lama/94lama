@@ -3,21 +3,20 @@ Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actual
 
 ## :open_book: My stack
 ### Programming languages
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle:
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: :sparkle:
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>  :sparkle: :sparkle:
 
 ### Frameworks
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle:
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>  :sparkle: :sparkle:
 
 ### Database
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/databases/mysql.svg" style="height:30px"/>
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/databases/mysql.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle:
 
 ### Other
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/other/html.svg" style="height:30px"/>
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/other/css.svg" style="height:30px"/>
-<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/other/css.svg" style="height:30px"/>
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/html.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: :sparkle:
+<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/css.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle:
 
 - 🌱 I’m currently learning ...
 
