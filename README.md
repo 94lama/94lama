@@ -2,33 +2,26 @@
 Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actually trying to hone my skills in several programming languages and frameworks, as well as cybersec.
 
 ## :open_book: My stack
-|Programming language|Knowledge|
+|Language|Knowledge|
 |-|-|
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle:|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: :sparkle: |
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>|:sparkle: :sparkle: |
 
+|Framework|Knowledge|
+|-|-|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
 
-<table>
-  <tr>
-    <th>Programming languages</th>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle:</td>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: :sparkle: </td>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>  :sparkle: :sparkle: </td>
-  </tr>
-  <tr>
-    <th>Frameworks</th>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: </td>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>  :sparkle: :sparkle: </td>
-  </tr>
-  <tr>
-    <th>Database</th>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/databases/mysql.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: </td>
-  </tr>
-  <tr>
-    <th>Other</th>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/html.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: :sparkle: <br></td>
-    <td><img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/css.svg" style="height:30px"/>  :sparkle: :sparkle: :sparkle: <br></td>
-  </tr>
-</table>
+|Database|Knowledge|
+|-|-|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/databases/mysql.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
+
+|Other|Knowledge|
+|-|-|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/html.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: :sparkle: |
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/others/css.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: :sparkle: |
+
 
 - 🌱 I’m currently learning ...
 
