@@ -2,7 +2,7 @@
 Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actually trying to hone my skills in several programming languages and frameworks, as well as cybersec.
 
 ## :open_book: Programming languages
-<img src="https://github.com/94lama/94lama/assets/86843314/fda14149-b162-42aa-b646-f01490ece739" style="height:30px" >
+<img src="https://github.com/94lama/94lama/assets/86843314/fda14149-b162-42aa-b646-f01490ece739" style="height:30px; border-radius:5px" >
 
 
 - 🌱 I’m currently learning ...
