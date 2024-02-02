@@ -1,4 +1,10 @@
-### Hi there 👋
+## :left_speech_bubble: About me
+Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actually trying to hone my skills in several programming languages and frameworks, as well as cybersec.
+
+## Programming languages
+
+
+- 🌱 I’m currently learning ...
 
 <!--
 **94lama/94lama** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
