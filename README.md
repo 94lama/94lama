@@ -2,19 +2,26 @@
 Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actually trying to hone my skills in several programming languages and frameworks, as well as cybersec.
 
 ## :open_book: My stack
-|Language|Knowledge|
+<table>
+  <tr>
+    <td>
+      |Language|Knowledge|
 |-|-|
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle:|
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: :sparkle: |
-|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>|:sparkle: :sparkle: |    |Framework|Knowledge|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>|:sparkle: :sparkle: |
+    </td>
+    <td>
+      |Framework|Knowledge|
 |-|-|
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
+    </td>
+  </tr>
+</table>
 
-|Framework|Knowledge|
-|-|-|
-|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/react.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
-|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/frameworks/laravel.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: |
+
+
 
 |Database|Knowledge|
 |-|-|
