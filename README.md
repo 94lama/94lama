@@ -4,9 +4,10 @@ Hi there! I am Riccardo, a Junior Full-stack Developer and Architect. I'm actual
 ## :open_book: My stack
 |Language|Knowledge|
 |-|-|
-|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle:|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/python.svg" style="height:30px"/>|:sparkle: :sparkle:|
 |<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/javascript.svg" style="height:30px"/>|:sparkle: :sparkle: :sparkle: :sparkle: |
-|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>|:sparkle: :sparkle: |
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/php.png" style="height:30px"/>|:sparkle: :sparkle: :sparkle:|
+|<img src="https://github.com/bablubambal/All_logo_and_pictures/blob/main/programming%20languages/java.png" style="height:30px"/>|:sparkle:|
 
 |Framework|Knowledge|
 |-|-|
