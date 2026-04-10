@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Camera, Geometry, Mesh, Program, Renderer, Sphere, Transform, Vec3 } from 'ogl';
 
@@ -9,11 +9,40 @@ import type { SkillGroup } from '@/src/content/portfolio/types';
 const CATEGORY_COLORS = [
   [0.29, 0.63, 0.98],
   [0.53, 0.47, 0.98],
-  [0.10, 0.73, 0.61],
+  [0.1, 0.73, 0.61],
   [0.98, 0.62, 0.24],
   [0.94, 0.39, 0.55],
   [0.54, 0.72, 0.23],
 ] as const;
+
+const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
+  Python: ['DevOps'],
+  'Serverless (OpenWhisk)': ['DevOps'],
+  Docker: ['Backend'],
+  Bash: ['Backend'],
+  Linux: ['Backend'],
+  MySQL: ['Backend'],
+  PostgreSQL: ['Backend'],
+};
+
+const RELATED_SKILL_LINKS: Record<string, string[]> = {
+  React: ['Next.js', 'TypeScript', 'Tailwind', 'Svelte'],
+  'Next.js': ['React', 'TypeScript', 'Tailwind', 'Serverless (OpenWhisk)'],
+  Svelte: ['React', 'TypeScript'],
+  TypeScript: ['React', 'Next.js', 'Svelte', 'Tailwind'],
+  Tailwind: ['React', 'Next.js', 'TypeScript'],
+  Python: ['Django', 'Serverless (OpenWhisk)', 'Docker', 'Linux', 'Bash', 'PostgreSQL'],
+  PHP: ['Laravel', 'MySQL'],
+  Laravel: ['PHP', 'MySQL'],
+  Django: ['Python', 'PostgreSQL'],
+  'Serverless (OpenWhisk)': ['Python', 'Docker', 'Next.js'],
+  Docker: ['Python', 'Linux', 'Bash', 'CI/CD', 'Serverless (OpenWhisk)'],
+  'CI/CD': ['Docker', 'Linux', 'Bash'],
+  Linux: ['Docker', 'Bash', 'CI/CD', 'Python'],
+  Bash: ['Linux', 'Docker', 'CI/CD', 'Python'],
+  MySQL: ['PHP', 'Laravel', 'PostgreSQL'],
+  PostgreSQL: ['Python', 'Django', 'MySQL'],
+};
 
 const NODE_VERTEX_SHADER = /* glsl */ `
 attribute vec3 position;
@@ -70,25 +99,26 @@ void main() {
 }
 `;
 
-type SkillsKnowledgeMapProps = {
-  skillGroups: SkillGroup[];
-  selectedNodeId: string;
-  activeIndex: number;
-  onSelectionChange: (selection: KnowledgeMapSelection) => void;
-};
-
 export type KnowledgeMapSelection = {
   id: string;
   label: string;
-  kind: GraphNode['kind'];
+  kind: 'core' | 'category' | 'skill';
   activeIndex: number;
+};
+
+type SkillsKnowledgeMapProps = {
+  skillGroups: SkillGroup[];
+  activeIndex?: number;
+  selectedNodeId?: string;
+  onSelectionChange?: (selection: KnowledgeMapSelection) => void;
 };
 
 type GraphNode = {
   id: string;
   label: string;
   kind: 'core' | 'category' | 'skill';
-  groupIndex?: number;
+  groupIndices: number[];
+  knowledge?: number;
   color: readonly [number, number, number];
   position: readonly [number, number, number];
   neighbors: string[];
@@ -98,6 +128,7 @@ type GraphEdge = {
   id: string;
   from: string;
   to: string;
+  kind: 'hub' | 'domain' | 'technology';
 };
 
 type NodeVisual = {
@@ -140,15 +171,93 @@ function mix(from: number, to: number, amount: number) {
   return from + (to - from) * amount;
 }
 
+function getCategoryColor(index: number) {
+  return CATEGORY_COLORS[index % CATEGORY_COLORS.length];
+}
+
+function averageVector(values: readonly (readonly [number, number, number])[]) {
+  if (values.length === 0) {
+    return [0, 0, 0] as const;
+  }
+
+  const total = values.reduce<[number, number, number]>(
+    (accumulator, value) => {
+      accumulator[0] += value[0];
+      accumulator[1] += value[1];
+      accumulator[2] += value[2];
+      return accumulator;
+    },
+    [0, 0, 0],
+  );
+
+  return [
+    total[0] / values.length,
+    total[1] / values.length,
+    total[2] / values.length,
+  ] as const;
+}
+
+function hashLabel(label: string) {
+  let hash = 0;
+
+  for (const character of label) {
+    hash = (hash * 31 + character.charCodeAt(0)) % 2147483647;
+  }
+
+  return hash;
+}
+
+function connectNodes(
+  nodeMap: Map<string, GraphNode>,
+  edges: GraphEdge[],
+  edgeIds: Set<string>,
+  fromId: string,
+  toId: string,
+  kind: GraphEdge['kind'],
+) {
+  if (fromId === toId) {
+    return;
+  }
+
+  const fromNode = nodeMap.get(fromId);
+  const toNode = nodeMap.get(toId);
+
+  if (!fromNode || !toNode) {
+    return;
+  }
+
+  if (!fromNode.neighbors.includes(toId)) {
+    fromNode.neighbors.push(toId);
+  }
+
+  if (!toNode.neighbors.includes(fromId)) {
+    toNode.neighbors.push(fromId);
+  }
+
+  const edgeId = [fromId, toId].sort().join('::');
+
+  if (edgeIds.has(edgeId)) {
+    return;
+  }
+
+  edgeIds.add(edgeId);
+  edges.push({ id: edgeId, from: fromId, to: toId, kind });
+}
+
 function createGraph(skillGroups: SkillGroup[]) {
   const nodes: GraphNode[] = [];
   const edges: GraphEdge[] = [];
   const nodeMap = new Map<string, GraphNode>();
+  const edgeIds = new Set<string>();
+  const categoryIndexByLabel = new Map(
+    skillGroups.map((group, index) => [group.category, index] as const),
+  );
 
   const rootNode: GraphNode = {
     id: 'core',
-    label: 'Core Skills',
+    label: 'Knowledge Graph',
     kind: 'core',
+    groupIndices: [],
     color: [0.94, 0.97, 1],
     position: [0, 0, 0],
     neighbors: [],
@@ -157,53 +266,112 @@ function createGraph(skillGroups: SkillGroup[]) {
   nodes.push(rootNode);
   nodeMap.set(rootNode.id, rootNode);
 
-  skillGroups.forEach((group, groupIndex) => {
+  const categoryNodes = skillGroups.map((group, groupIndex) => {
     const angle = (groupIndex / Math.max(skillGroups.length, 1)) * Math.PI * 2;
-    const categoryColor = CATEGORY_COLORS[groupIndex % CATEGORY_COLORS.length];
     const categoryNode: GraphNode = {
       id: `category-${groupIndex}`,
       label: group.category,
       kind: 'category',
-      groupIndex,
-      color: categoryColor,
+      groupIndices: [groupIndex],
+      color: getCategoryColor(groupIndex),
       position: [
-        Math.cos(angle) * 3.2,
-        Math.sin(angle * 1.8) * 0.9 + (groupIndex % 2 === 0 ? 0.85 : -0.85),
-        Math.sin(angle * 1.3) * 1.85,
+        Math.cos(angle) * 3.75,
+        Math.sin(angle * 2) * 1.1,
+        Math.sin(angle) * 3.1,
       ],
-      neighbors: ['core'],
+      neighbors: [],
     };
 
-    rootNode.neighbors.push(categoryNode.id);
     nodes.push(categoryNode);
     nodeMap.set(categoryNode.id, categoryNode);
-    edges.push({ id: `edge-core-${groupIndex}`, from: 'core', to: categoryNode.id });
+    connectNodes(nodeMap, edges, edgeIds, rootNode.id, categoryNode.id, 'hub');
 
-    group.items.forEach((item, itemIndex) => {
-      const itemAngle = angle + ((itemIndex + 1) / (group.items.length + 1)) * Math.PI * 1.75;
-      const orbit = 1.65 + (itemIndex % 2) * 0.24;
-      const skillNode: GraphNode = {
-        id: `skill-${groupIndex}-${itemIndex}`,
+    return categoryNode;
+  });
+
+  const skillRecords = new Map<
+    string,
+    { label: string; groupIndices: Set<number>; knowledgeValues: number[] }
+  >();
+
+  skillGroups.forEach((group, groupIndex) => {
+    group.entries.forEach((entry) => {
+      const item = entry.label;
+      const record = skillRecords.get(item) ?? {
         label: item,
-        kind: 'skill',
-        groupIndex,
-        color: categoryColor,
-        position: [
-          categoryNode.position[0] + Math.cos(itemAngle) * orbit,
-          categoryNode.position[1] + ((itemIndex / Math.max(group.items.length - 1, 1)) - 0.5) * 1.55,
-          categoryNode.position[2] + Math.sin(itemAngle) * orbit,
-        ],
-        neighbors: [categoryNode.id],
+        groupIndices: new Set<number>(),
+        knowledgeValues: [],
       };
 
-      categoryNode.neighbors.push(skillNode.id);
-      nodes.push(skillNode);
-      nodeMap.set(skillNode.id, skillNode);
-      edges.push({
-        id: `edge-${groupIndex}-${itemIndex}`,
-        from: categoryNode.id,
-        to: skillNode.id,
-      });
+      record.groupIndices.add(groupIndex);
+      if (typeof entry.knowledge === 'number') {
+        record.knowledgeValues.push(entry.knowledge);
+      }
+
+      for (const categoryLabel of CROSS_DOMAIN_MEMBERSHIPS[item] ?? []) {
+        const extraGroupIndex = categoryIndexByLabel.get(categoryLabel);
+
+        if (typeof extraGroupIndex === 'number') {
+          record.groupIndices.add(extraGroupIndex);
+        }
+      }
+
+      skillRecords.set(item, record);
+    });
+  });
+
+  const skillNodeIds = new Map<string, string>();
+
+  Array.from(skillRecords.values()).forEach((record, skillIndex) => {
+    const groupIndices = Array.from(record.groupIndices).sort((left, right) => left - right);
+    const anchorPositions = groupIndices.map((groupIndex) => categoryNodes[groupIndex]?.position ?? [0, 0, 0]);
+    const centroid = averageVector(anchorPositions);
+    const hash = hashLabel(record.label);
+    const angle = (hash % 360) * (Math.PI / 180);
+    const orbit = groupIndices.length > 1 ? 1.05 : 1.55;
+    const knowledge =
+      record.knowledgeValues.length > 0
+        ? record.knowledgeValues.reduce((sum, value) => sum + value, 0) / record.knowledgeValues.length
+        : undefined;
+    const skillNode: GraphNode = {
+      id: `skill-${skillIndex}`,
+      label: record.label,
+      kind: 'skill',
+      groupIndices,
+      knowledge,
+      color: averageVector(groupIndices.map((groupIndex) => getCategoryColor(groupIndex))),
+      position: [
+        centroid[0] + Math.cos(angle) * orbit,
+        centroid[1] + (((hash >> 3) % 9) - 4) * 0.18,
+        centroid[2] + Math.sin(angle) * (groupIndices.length > 1 ? 1.1 : 1.45),
+      ],
+      neighbors: [],
+    };
+
+    nodes.push(skillNode);
+    nodeMap.set(skillNode.id, skillNode);
+    skillNodeIds.set(skillNode.label, skillNode.id);
+
+    groupIndices.forEach((groupIndex) => {
+      connectNodes(nodeMap, edges, edgeIds, `category-${groupIndex}`, skillNode.id, 'domain');
+    });
+  });
+
+  Object.entries(RELATED_SKILL_LINKS).forEach(([fromLabel, toLabels]) => {
+    const fromId = skillNodeIds.get(fromLabel);
+
+    if (!fromId) {
+      return;
+    }
+
+    toLabels.forEach((toLabel) => {
+      const toId = skillNodeIds.get(toLabel);
+
+      if (!toId) {
+        return;
+      }
+
+      connectNodes(nodeMap, edges, edgeIds, fromId, toId, 'technology');
     });
   });
 
@@ -221,12 +389,14 @@ function syncHighlight(
 
   const selectedNode = nodeMap.get(selectedNodeId) ?? nodeMap.get('core');
   const neighbors = new Set(selectedNode?.neighbors ?? []);
+  const baseDimmedNodeAlpha = 0.34;
+  const relatedNodeAlpha = 0.82;
 
   for (const visual of scene.nodeVisuals) {
     const isSelected = visual.data.id === selectedNode?.id;
     const isNeighbor = neighbors.has(visual.data.id);
     const isRelated = isSelected || isNeighbor;
-    const emphasis = isSelected ? 1 : isNeighbor ? 0.82 : selectedNode ? 0.18 : 0.45;
+    const emphasis = isSelected ? 1 : isNeighbor ? relatedNodeAlpha : selectedNode ? baseDimmedNodeAlpha : 0.45;
     const scaleBoost = isSelected ? 1.28 : isNeighbor ? 1.08 : 0.92;
     const colorValue = visual.program.uniforms.uColor.value as Float32Array;
 
@@ -246,60 +416,109 @@ function syncHighlight(
   for (const visual of scene.edgeVisuals) {
     const touchesSelected =
       visual.data.from === selectedNode?.id || visual.data.to === selectedNode?.id;
+    const touchesNeighbor =
+      neighbors.has(visual.data.from) ||
+      neighbors.has(visual.data.to) ||
+      (neighbors.has(visual.data.from) && neighbors.has(visual.data.to));
     const colorValue = visual.program.uniforms.uColor.value as Float32Array;
-    const alpha = touchesSelected ? 0.9 : 0.16;
+    const baseColor =
+      visual.data.kind === 'hub'
+        ? [0.67, 0.71, 0.8]
+        : visual.data.kind === 'domain'
+          ? [0.33, 0.61, 0.96]
+          : [0.91, 0.45, 0.82];
+    const emphasizedColor =
+      visual.data.kind === 'hub'
+        ? [0.84, 0.88, 0.98]
+        : visual.data.kind === 'domain'
+          ? [0.48, 0.76, 1]
+          : [1, 0.64, 0.9];
+    const alpha = touchesSelected
+      ? visual.data.kind === 'technology'
+        ? 0.96
+        : 0.9
+      : touchesNeighbor
+        ? visual.data.kind === 'technology'
+          ? 0.42
+          : 0.28
+        : visual.data.kind === 'technology'
+          ? 0.18
+          : visual.data.kind === 'domain'
+            ? 0.12
+            : 0.08;
 
-    colorValue[0] = touchesSelected ? 0.56 : 0.42;
-    colorValue[1] = touchesSelected ? 0.75 : 0.5;
-    colorValue[2] = touchesSelected ? 1 : 0.65;
+    colorValue[0] = touchesSelected ? emphasizedColor[0] : baseColor[0];
+    colorValue[1] = touchesSelected ? emphasizedColor[1] : baseColor[1];
+    colorValue[2] = touchesSelected ? emphasizedColor[2] : baseColor[2];
     visual.program.uniforms.uAlpha.value = alpha;
   }
 }
 
 export function SkillsKnowledgeMap({
-  activeIndex,
+  activeIndex: controlledActiveIndex,
   onSelectionChange,
-  selectedNodeId,
+  selectedNodeId: controlledSelectedNodeId,
   skillGroups,
 }: Readonly<SkillsKnowledgeMapProps>) {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const sceneRef = useRef<SceneState | null>(null);
 
   const graphData = useMemo(() => createGraph(skillGroups), [skillGroups]);
-  const resolvedActiveIndex = skillGroups[activeIndex] ? activeIndex : 0;
-  const resolvedSelectedNodeId = graphData.nodeMap.has(selectedNodeId)
-    ? selectedNodeId
-    : graphData.nodeMap.has('category-0')
-      ? 'category-0'
-      : 'core';
+  const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(0);
+  const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] = useState('core');
+  const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
+  const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
+  const resolvedSelectedNodeId = graphData.nodeMap.has(selectedNodeId) ? selectedNodeId : 'core';
 
-  const activeGroup = skillGroups[resolvedActiveIndex] ?? skillGroups[0];
   const selectedNode = graphData.nodeMap.get(resolvedSelectedNodeId) ?? graphData.nodeMap.get('core');
+  const activeGroupIndex = selectedNode?.groupIndices[0] ?? activeIndex;
+  const activeGroup = skillGroups[activeGroupIndex] ?? skillGroups[0];
+  const selectedNeighborNodes = useMemo(() => {
+    return (selectedNode?.neighbors ?? [])
+      .map((nodeId) => graphData.nodeMap.get(nodeId))
+      .filter((node): node is GraphNode => node !== undefined && node.id !== 'core')
+      .sort((left, right) => {
+        if (left.kind !== right.kind) {
+          return left.kind === 'category' ? -1 : 1;
+        }
 
-  const reportSelection = useCallback(
-    (nextNodeId: string, nextActiveIndex?: number) => {
-      const node = graphData.nodeMap.get(nextNodeId) ?? graphData.nodeMap.get('core');
-
-      if (!node) {
-        return;
-      }
-
-      const resolvedIndex =
-        typeof node.groupIndex === 'number'
-          ? node.groupIndex
-          : typeof nextActiveIndex === 'number' && skillGroups[nextActiveIndex]
-            ? nextActiveIndex
-            : resolvedActiveIndex;
-
-      onSelectionChange({
-        id: node.id,
-        label: node.label,
-        kind: node.kind,
-        activeIndex: resolvedIndex,
+        return left.label.localeCompare(right.label);
       });
-    },
-    [graphData.nodeMap, onSelectionChange, resolvedActiveIndex, skillGroups],
-  );
+  }, [graphData.nodeMap, selectedNode]);
+  const selectedGroupNames = (selectedNode?.groupIndices ?? [])
+    .map((groupIndex) => skillGroups[groupIndex]?.category)
+    .filter(Boolean);
+  const selectedKnowledgeLabel =
+    selectedNode?.kind === 'skill' && typeof selectedNode.knowledge === 'number'
+      ? `${Math.round(selectedNode.knowledge * 5)}/5 knowledge`
+      : null;
+  const selectedKindLabel =
+    selectedNode?.kind === 'category'
+      ? 'domain'
+      : selectedNode?.kind === 'skill'
+        ? 'technology'
+        : 'hub';
+
+  const applySelection = (nodeId: string) => {
+    const node = graphData.nodeMap.get(nodeId);
+    const nextActiveIndex = node?.groupIndices[0] ?? activeIndex;
+    const normalizedSelection: KnowledgeMapSelection = {
+      id: node?.id ?? 'core',
+      label: node?.label ?? 'Knowledge Graph',
+      kind: node?.kind ?? 'core',
+      activeIndex: typeof nextActiveIndex === 'number' ? nextActiveIndex : -1,
+    };
+
+    if (controlledSelectedNodeId === undefined) {
+      setUncontrolledSelectedNodeId(normalizedSelection.id);
+    }
+
+    if (controlledActiveIndex === undefined && normalizedSelection.activeIndex >= 0) {
+      setUncontrolledActiveIndex(normalizedSelection.activeIndex);
+    }
+
+    onSelectionChange?.(normalizedSelection);
+  };
 
   useEffect(() => {
     const container = viewportRef.current;
@@ -343,7 +562,12 @@ export function SkillsKnowledgeMap({
         },
       });
       const mesh = new Mesh(gl, { geometry: sphereGeometry, program });
-      const baseScale = node.kind === 'core' ? 0.72 : node.kind === 'category' ? 0.44 : 0.22;
+      const baseScale =
+        node.kind === 'core'
+          ? 0.74
+          : node.kind === 'category'
+            ? 0.44
+            : 0.16 + (node.knowledge ?? 0.45) * 0.18;
 
       mesh.position.set(node.position[0], node.position[1], node.position[2]);
       mesh.scale.set(baseScale, baseScale, baseScale);
@@ -355,6 +579,14 @@ export function SkillsKnowledgeMap({
     const edgeVisuals: EdgeVisual[] = graphData.edges.map((edge) => {
       const fromNode = graphData.nodeMap.get(edge.from);
       const toNode = graphData.nodeMap.get(edge.to);
+      const baseColor =
+        edge.kind === 'hub'
+          ? [0.67, 0.71, 0.8]
+          : edge.kind === 'domain'
+            ? [0.33, 0.61, 0.96]
+            : [0.91, 0.45, 0.82];
+      const baseAlpha =
+        edge.kind === 'hub' ? 0.08 : edge.kind === 'domain' ? 0.12 : 0.18;
       const geometry = new Geometry(gl, {
         position: {
           size: 3,
@@ -374,8 +606,8 @@ export function SkillsKnowledgeMap({
         transparent: true,
         depthWrite: false,
         uniforms: {
-          uColor: { value: new Float32Array([0.42, 0.5, 0.65]) },
-          uAlpha: { value: 0.18 },
+          uColor: { value: new Float32Array(baseColor) },
+          uAlpha: { value: baseAlpha },
         },
       });
       const mesh = new Mesh(gl, { geometry, program, mode: gl.LINES });
@@ -455,7 +687,7 @@ export function SkillsKnowledgeMap({
               ? 28
               : visual.data.kind === 'category'
                 ? 18
-                : 12,
+                : 10 + Math.round((visual.data.knowledge ?? 0.45) * 10),
         });
       }
 
@@ -488,7 +720,29 @@ export function SkillsKnowledgeMap({
         return;
       }
 
-      reportSelection(winner.id);
+      const node = graphData.nodeMap.get(winner.id);
+
+      if (!node) {
+        return;
+      }
+
+      const nextActiveIndex = node.groupIndices[0] ?? activeIndex;
+      const normalizedSelection: KnowledgeMapSelection = {
+        id: node.id,
+        label: node.label,
+        kind: node.kind,
+        activeIndex: typeof nextActiveIndex === 'number' ? nextActiveIndex : -1,
+      };
+
+      if (controlledSelectedNodeId === undefined) {
+        setUncontrolledSelectedNodeId(normalizedSelection.id);
+      }
+
+      if (controlledActiveIndex === undefined && normalizedSelection.activeIndex >= 0) {
+        setUncontrolledActiveIndex(normalizedSelection.activeIndex);
+      }
+
+      onSelectionChange?.(normalizedSelection);
     };
 
     const onPointerDown = (event: PointerEvent) => {
@@ -529,6 +783,7 @@ export function SkillsKnowledgeMap({
 
       isDragging = false;
       pointerId = -1;
+
       if (gl.canvas.hasPointerCapture(event.pointerId)) {
         gl.canvas.releasePointerCapture(event.pointerId);
       }
@@ -574,15 +829,15 @@ export function SkillsKnowledgeMap({
         sceneRef.current = null;
       }
     };
-  }, [graphData, reportSelection]);
+  }, [activeIndex, controlledActiveIndex, controlledSelectedNodeId, graphData, onSelectionChange]);
 
   useEffect(() => {
     syncHighlight(sceneRef.current, graphData.nodeMap, resolvedSelectedNodeId);
   }, [graphData, resolvedSelectedNodeId]);
 
-  if (!activeGroup) {
-    return null;
-  }
+  const focusNode = (nodeId: string) => {
+    applySelection(nodeId);
+  };
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
@@ -591,14 +846,14 @@ export function SkillsKnowledgeMap({
         <div className="relative space-y-6">
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
-              Interactive skills atlas
+              Unified knowledge graph
             </p>
             <div className="space-y-2">
               <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white sm:text-3xl">
-                {activeGroup.category}
+                Frontend, backend, DevOps, and data in one map
               </h3>
               <p className="max-w-xl text-sm leading-7 text-black/65 dark:text-white/65 sm:text-base">
-                Rotate the graph in 3D and select a node to reveal its immediate connections.
+                Rotate the graph in 3D and inspect how frameworks, runtimes, infrastructure, and storage tools connect across the stack.
               </p>
             </div>
           </div>
@@ -607,49 +862,82 @@ export function SkillsKnowledgeMap({
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
               Selected point
             </p>
-            <div className="mt-2 flex items-center justify-between gap-3">
-              <div>
-                <p className="text-lg font-semibold text-black dark:text-white">{selectedNode?.label}</p>
-                <p className="text-sm text-black/60 dark:text-white/60">
-                  {selectedNode?.neighbors.length ?? 0} neighboring nodes highlighted
-                </p>
+            <div className="mt-2 space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-lg font-semibold text-black dark:text-white">{selectedNode?.label}</p>
+                  <p className="text-sm text-black/60 dark:text-white/60">
+                    {selectedNeighborNodes.length} directly connected points highlighted
+                  </p>
+                </div>
+                <span className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/55">
+                  {selectedKindLabel}
+                </span>
               </div>
-              <span className="rounded-full border border-black/10 bg-black/[0.04] px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/55">
-                {selectedNode?.kind}
-              </span>
+
+              <div className="flex flex-wrap gap-2">
+                {(selectedGroupNames.length > 0 ? selectedGroupNames : ['All fields']).map((groupName) => (
+                  <span
+                    key={groupName}
+                    className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-black/20 dark:text-white/55"
+                  >
+                    {groupName}
+                  </span>
+                ))}
+                {selectedKnowledgeLabel ? (
+                  <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-black/20 dark:text-white/55">
+                    {selectedKnowledgeLabel}
+                  </span>
+                ) : null}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {activeGroup.items.map((item, itemIndex) => {
-              const isSelected = resolvedSelectedNodeId === `skill-${resolvedActiveIndex}-${itemIndex}`;
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
+                Connected points
+              </p>
+              {activeGroup ? (
+                <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/40 dark:text-white/40">
+                  Focused field: {activeGroup.category}
+                </span>
+              ) : null}
+            </div>
 
-              return (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => reportSelection(`skill-${resolvedActiveIndex}-${itemIndex}`, resolvedActiveIndex)}
-                  className={`rounded-full border px-3 py-1.5 text-sm shadow-sm transition-colors ${
-                    isSelected
-                      ? 'border-black/15 bg-black text-white dark:border-white/15 dark:bg-white dark:text-black'
-                      : 'border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75'
-                  }`}
-                >
-                  {item}
-                </button>
-              );
-            })}
+            <div className="flex flex-wrap gap-2">
+              {selectedNeighborNodes.length > 0 ? (
+                selectedNeighborNodes.map((node) => (
+                  <button
+                    key={node.id}
+                    type="button"
+                    onClick={() => focusNode(node.id)}
+                    className={`rounded-full border px-3 py-1.5 text-sm shadow-sm transition-colors ${
+                      node.kind === 'category'
+                        ? 'border-black/10 bg-black/[0.04] text-black/75 dark:border-white/10 dark:bg-white/[0.06] dark:text-white/75'
+                        : 'border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75'
+                    }`}
+                  >
+                    {node.label}
+                  </button>
+                ))
+              ) : (
+                <p className="text-sm leading-7 text-black/60 dark:text-white/60">
+                  Select a point to inspect the domains and technologies directly connected to it.
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
             {skillGroups.map((group, index) => {
-              const isActive = index === resolvedActiveIndex;
+              const isActive = index === activeGroupIndex;
 
               return (
                 <button
                   key={group.category}
                   type="button"
-                  onClick={() => reportSelection(`category-${index}`, index)}
+                  onClick={() => focusNode(`category-${index}`)}
                   aria-pressed={isActive}
                   className={`rounded-2xl border px-4 py-3 text-left transition-colors duration-300 ${
                     isActive
@@ -659,7 +947,7 @@ export function SkillsKnowledgeMap({
                 >
                   <span className="block text-sm font-semibold">{group.category}</span>
                   <span className="mt-1 block text-xs uppercase tracking-[0.18em] opacity-60">
-                    {group.items.length} nodes
+                    {group.items.length} mapped technologies
                   </span>
                 </button>
               );
@@ -679,7 +967,7 @@ export function SkillsKnowledgeMap({
           <div ref={viewportRef} className="absolute inset-0" />
 
           <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 rounded-2xl border border-black/10 bg-white/60 px-4 py-3 text-xs uppercase tracking-[0.22em] text-black/45 backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:text-white/45 sm:inset-x-6 sm:bottom-6">
-            Tap any point to highlight all neighboring nodes.
+            Tap any point to trace its direct links across the graph.
           </div>
         </div>
       </div>
