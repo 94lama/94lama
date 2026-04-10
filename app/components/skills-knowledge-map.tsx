@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { Camera, Geometry, Mesh, Program, Renderer, Sphere, Transform, Vec3 } from 'ogl';
 
@@ -276,27 +276,30 @@ export function SkillsKnowledgeMap({
   const activeGroup = skillGroups[resolvedActiveIndex] ?? skillGroups[0];
   const selectedNode = graphData.nodeMap.get(resolvedSelectedNodeId) ?? graphData.nodeMap.get('core');
 
-  const reportSelection = (nextNodeId: string, nextActiveIndex?: number) => {
-    const node = graphData.nodeMap.get(nextNodeId) ?? graphData.nodeMap.get('core');
+  const reportSelection = useCallback(
+    (nextNodeId: string, nextActiveIndex?: number) => {
+      const node = graphData.nodeMap.get(nextNodeId) ?? graphData.nodeMap.get('core');
 
-    if (!node) {
-      return;
-    }
+      if (!node) {
+        return;
+      }
 
-    const resolvedIndex =
-      typeof node.groupIndex === 'number'
-        ? node.groupIndex
-        : typeof nextActiveIndex === 'number' && skillGroups[nextActiveIndex]
-          ? nextActiveIndex
-          : resolvedActiveIndex;
+      const resolvedIndex =
+        typeof node.groupIndex === 'number'
+          ? node.groupIndex
+          : typeof nextActiveIndex === 'number' && skillGroups[nextActiveIndex]
+            ? nextActiveIndex
+            : resolvedActiveIndex;
 
-    onSelectionChange({
-      id: node.id,
-      label: node.label,
-      kind: node.kind,
-      activeIndex: resolvedIndex,
-    });
-  };
+      onSelectionChange({
+        id: node.id,
+        label: node.label,
+        kind: node.kind,
+        activeIndex: resolvedIndex,
+      });
+    },
+    [graphData.nodeMap, onSelectionChange, resolvedActiveIndex, skillGroups],
+  );
 
   useEffect(() => {
     const container = viewportRef.current;
@@ -571,7 +574,7 @@ export function SkillsKnowledgeMap({
         sceneRef.current = null;
       }
     };
-  }, [graphData]);
+  }, [graphData, reportSelection]);
 
   useEffect(() => {
     syncHighlight(sceneRef.current, graphData.nodeMap, resolvedSelectedNodeId);
