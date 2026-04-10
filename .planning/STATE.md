@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Quick task 260410-tzy completed; Phase 2 manual browser verification still pending
-last_updated: "2026-04-10T21:42:48Z"
-last_activity: 2026-04-10 - Completed quick task 260410-tzy: put the legend under the map, not inside
+stopped_at: Phase 3 contact polish completed; Phase 2 manual browser verification still pending
+last_updated: "2026-04-10T22:15:00Z"
+last_activity: 2026-04-10 - Completed Phase 3 contact polish and surfaced GitHub/LinkedIn contact actions
 progress:
   total_phases: 3
-  completed_phases: 1
-  total_plans: 5
-  completed_plans: 5
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
   percent: 100
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Phase 2 - Portfolio Page Experience
+**Current focus:** Phase 2 manual browser verification and final sign-off
 
 ## Current Position
 
-Phase: 2 of 3 (Portfolio Page Experience)
-Plan: 3 of 3 in current phase
-Status: Implementation complete; awaiting manual verification
-Last activity: 2026-04-10 - Completed quick task 260410-tzy: put the legend under the map, not inside
+Phase: Milestone wrap-up (implementation complete through Phase 3)
+Plan: 6 of 6 completed across Phases 1-3
+Status: Awaiting manual verification for Phase 2 before milestone completion
+Last activity: 2026-04-10 - Completed Phase 3 contact polish and surfaced GitHub/LinkedIn contact actions
 
 Progress: [######....] 67%
 
@@ -36,7 +36,7 @@ Progress: [######....] 67%
 
 **Velocity:**
 
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 18 min
 - Total execution time: 1.5 hours
 
@@ -46,11 +46,12 @@ Progress: [######....] 67%
 |-------|-------|-------|----------|
 | 1 | 2 | 40 min | 20 min |
 | 2 | 3 | 90 min | 30 min |
+| 3 | 1 | n/a | n/a |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-01, 01-02, 02-01, 02-02, 02-03
-- Trend: Building momentum with implementation awaiting visual sign-off
+- Last 5 plans: 01-02, 02-01, 02-02, 02-03, 03-01
+- Trend: Implementation complete; awaiting visual sign-off
 
 *Updated after each plan completion*
 
@@ -68,6 +69,7 @@ Recent decisions affecting current work:
 - Phase 1: Keep the first rendered page simple; reserve bold visual design changes for Phase 2.
 - Phase 2: Keep the portfolio home page server-rendered while upgrading hierarchy, layout rhythm, and shell design.
 - Phase 2: Preserve the interactive knowledge map as a supporting section inside the redesigned portfolio instead of regressing earlier work.
+- Phase 3: Keep email as the primary CTA while sourcing GitHub and LinkedIn URLs from `public/assets/cv.md` and exposing them as secondary actions.
 
 ### Pending Todos
 
@@ -75,7 +77,7 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- LinkedIn URL still needs to be supplied before final contact CTA implementation.
+- No technical blockers; milestone completion is waiting on manual browser verification for Phase 2.
 
 ### Quick Tasks Completed
 
@@ -88,6 +90,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-10T21:42:48Z
-Stopped at: Quick task 260410-tzy completed; Phase 2 manual browser verification still pending
-Resume file: .planning/quick/260410-tzy-put-the-legend-under-the-map-not-inside/260410-tzy-SUMMARY.md
+Last session: 2026-04-10T22:15:00Z
+Stopped at: Phase 3 contact polish completed; Phase 2 manual browser verification still pending
+Resume file: .planning/phases/03-contact-final-polish/03-contact-final-polish-01-SUMMARY.md

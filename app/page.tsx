@@ -1,6 +1,25 @@
 import { ExperienceMapSection } from "@/app/components/experience-map-section";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
+function ContactLink({
+  href,
+  label,
+}: Readonly<{
+  href: string;
+  label: string;
+}>) {
+  return (
+    <a
+      className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 bg-white/4 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-200 hover:border-white/24 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+    >
+      {label}
+    </a>
+  );
+}
+
 function SectionHeading({
   index,
   title,
@@ -29,6 +48,14 @@ function SectionHeading({
 
 export default async function Home() {
   const content = await getPortfolioContent();
+  const secondaryContactActions = [
+    content.contact.github
+      ? { href: content.contact.github, label: "GitHub" }
+      : null,
+    content.contact.linkedin
+      ? { href: content.contact.linkedin, label: "LinkedIn" }
+      : null,
+  ].filter((action): action is { href: string; label: string } => Boolean(action));
 
   return (
     <main className="min-h-screen">
@@ -65,9 +92,9 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm">
+                <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm">
                     <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
                       Location
                     </p>
@@ -81,12 +108,21 @@ export default async function Home() {
                   </div>
                 </div>
 
-                <a
-                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                  href={`mailto:${content.contact.email}`}
-                >
-                  Email Riccardo
-                </a>
+                <div className="flex flex-col items-start gap-3 xl:items-end">
+                  <a
+                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    href={`mailto:${content.contact.email}`}
+                  >
+                    Email Riccardo
+                  </a>
+                  {secondaryContactActions.length ? (
+                    <div className="flex flex-wrap gap-3 xl:justify-end">
+                      {secondaryContactActions.map((action) => (
+                        <ContactLink key={action.label} href={action.href} label={action.label} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
 
@@ -313,6 +349,13 @@ export default async function Home() {
                 >
                   Email Riccardo
                 </a>
+                {secondaryContactActions.length ? (
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {secondaryContactActions.map((action) => (
+                      <ContactLink key={`contact-${action.label}`} href={action.href} label={action.label} />
+                    ))}
+                  </div>
+                ) : null}
               </div>
 
               <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
@@ -340,6 +383,38 @@ export default async function Home() {
                     Phone
                   </p>
                   <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                </div>
+              ) : null}
+
+              {content.contact.github ? (
+                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                    GitHub
+                  </p>
+                  <a
+                    className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
+                    href={content.contact.github}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {content.contact.github}
+                  </a>
+                </div>
+              ) : null}
+
+              {content.contact.linkedin ? (
+                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                    LinkedIn
+                  </p>
+                  <a
+                    className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
+                    href={content.contact.linkedin}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {content.contact.linkedin}
+                  </a>
                 </div>
               ) : null}
             </div>

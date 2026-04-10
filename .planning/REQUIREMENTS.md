@@ -26,9 +26,9 @@ Requirements for milestone v1.0. Each maps to exactly one roadmap phase.
 
 ### Contact
 
-- [ ] **CNTC-01**: Visitor can use a clear primary CTA to contact Riccardo by email.
-- [ ] **CNTC-02**: Visitor can open Riccardo's GitHub profile from the page.
-- [ ] **CNTC-03**: Visitor can open Riccardo's LinkedIn profile from the page.
+- [x] **CNTC-01**: Visitor can use a clear primary CTA to contact Riccardo by email.
+- [x] **CNTC-02**: Visitor can open Riccardo's GitHub profile from the page.
+- [x] **CNTC-03**: Visitor can open Riccardo's LinkedIn profile from the page.
 
 ### Portfolio UX
 
@@ -73,9 +73,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXPR-02 | Phase 2 | Pending |
 | PORT-01 | Phase 2 | Pending |
 | PORT-02 | Phase 2 | Pending |
-| CNTC-01 | Phase 3 | Pending |
-| CNTC-02 | Phase 3 | Pending |
-| CNTC-03 | Phase 3 | Pending |
+| CNTC-01 | Phase 3 | Completed 2026-04-10 |
+| CNTC-02 | Phase 3 | Completed 2026-04-10 |
+| CNTC-03 | Phase 3 | Completed 2026-04-10 |
 
 **Coverage:**
 - v1 requirements: 13 total
