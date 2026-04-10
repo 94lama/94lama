@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Quick task 260410-tbn completed
-last_updated: "2026-04-10T21:16:23Z"
-last_activity: 2026-04-10 - Completed quick task 260410-tbn: update the experience items according to the selected point (or selected category) in the knowledge map
+stopped_at: Quick task 260410-trc completed
+last_updated: "2026-04-10T21:25:37Z"
+last_activity: 2026-04-10 - Completed quick task 260410-trc: increase the opacity of the unselected dots in the map
 progress:
   total_phases: 3
   completed_phases: 1
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 Phase: 2 of 3 (Portfolio Page Experience)
 Plan: 0 of 0 in current phase
 Status: Ready to execute
-Last activity: 2026-04-10 - Completed quick task 260410-tbn: update the experience items according to the selected point (or selected category) in the knowledge map
+Last activity: 2026-04-10 - Completed quick task 260410-trc: increase the opacity of the unselected dots in the map
 
 Progress: [###.......] 33%
 
@@ -80,9 +80,10 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260410-swt | the knowledge-map has to be interactive (the user nes to be able to rotate it in 3d and to select a point to highlight all neigbooring nodes) use OGL library | 2026-04-10 | pending | [260410-swt-the-knowledge-map-has-to-be-interactive-](./quick/260410-swt-the-knowledge-map-has-to-be-interactive-/) |
 | 260410-tbn | update the experience items according to the selected point (or selected category) in the knowledge map | 2026-04-10 | 1f71b96, 91314df | [260410-tbn-update-the-experience-items-according-to](./quick/260410-tbn-update-the-experience-items-according-to/) |
+| 260410-trc | increase the opacity of the unselected dots in the map | 2026-04-10 | 69dc5ec | [260410-trc-increase-the-opacity-of-the-unselected-d](./quick/260410-trc-increase-the-opacity-of-the-unselected-d/) |
 
 ## Session Continuity
 
-Last session: 2026-04-10T21:16:23Z
-Stopped at: Quick task 260410-tbn completed
-Resume file: .planning/quick/260410-tbn-update-the-experience-items-according-to/260410-tbn-SUMMARY.md
+Last session: 2026-04-10T21:25:37Z
+Stopped at: Quick task 260410-trc completed
+Resume file: .planning/quick/260410-trc-increase-the-opacity-of-the-unselected-d/260410-trc-SUMMARY.md
