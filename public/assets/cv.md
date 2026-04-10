@@ -59,3 +59,7 @@ Italian (Native), English (C1), French (A2)
 
 ## Relocation
 Open to relocation across EU (Netherlands, Germany, Denmark preferred)
+
+## Contact
+- GitHub: https://github.com/94lama
+- LinkedIn: https://www.linkedin.com/in/riccardo-la-malfa

@@ -15,6 +15,7 @@ const SECTION_HEADINGS = new Set([
   "Education",
   "Languages",
   "Relocation",
+  "Contact",
 ]);
 
 function normalizeLine(line: string) {
@@ -241,6 +242,41 @@ function parseRelocation(lines: string[]) {
   };
 }
 
+function parseContactLinks(lines: string[]) {
+  const links = lines
+    .map(stripListMarker)
+    .filter(Boolean)
+    .reduce<{
+      github?: string;
+      linkedin?: string;
+    }>((accumulator, line) => {
+      const separatorIndex = line.indexOf(":");
+
+      if (separatorIndex === -1) {
+        throw new Error(`Invalid contact entry: ${line}`);
+      }
+
+      const label = line.slice(0, separatorIndex).trim().toLowerCase();
+      const value = line.slice(separatorIndex + 1).trim();
+
+      if (!value) {
+        throw new Error(`Missing contact URL for: ${label}`);
+      }
+
+      if (label === "github") {
+        accumulator.github = value;
+      }
+
+      if (label === "linkedin") {
+        accumulator.linkedin = value;
+      }
+
+      return accumulator;
+    }, {});
+
+  return links;
+}
+
 function splitSections(lines: string[]) {
   const sections = new Map<string, string[]>();
   let currentSection: string | null = null;
@@ -318,6 +354,9 @@ export function parseCvMarkdown(markdown: string): PortfolioContent {
     .filter(Boolean);
   const languages = parseLanguages(requireSection(sections, "Languages"));
   const relocation = parseRelocation(requireSection(sections, "Relocation"));
+  const contactLinks = sections.has("Contact")
+    ? parseContactLinks(requireSection(sections, "Contact"))
+    : {};
   const projectsSection = sections.get("Projects") ?? [];
   const projects = parseProjects(projectsSection.filter((line) => normalizeLine(line)));
 
@@ -333,6 +372,8 @@ export function parseCvMarkdown(markdown: string): PortfolioContent {
       location: locationParts.join(" • "),
       email,
       phone,
+      github: contactLinks.github,
+      linkedin: contactLinks.linkedin,
     },
     projects: projects.length > 0 ? projects : undefined,
   };
