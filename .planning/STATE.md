@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Requirements definition for milestone v1.0
+**Current focus:** Phase 1 - Content Model & Data Setup
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: -
-Status: Defining requirements
-Last activity: 2026-04-10 - Milestone v1.0 started
+Phase: 1 of 3 (Content Model & Data Setup)
+Plan: 0 of 0 in current phase
+Status: Ready to plan
+Last activity: 2026-04-10 - Roadmap created and Phase 1 is ready for planning
 
 Progress: [..........] 0%
 
@@ -44,6 +44,7 @@ Recent decisions affecting current work:
 
 - v1.0: Start with a bold, recruiter-focused one-page portfolio.
 - v1.0: Use `public/assets/cv.md` as the source of truth for portfolio content.
+- v1.0: Execute work in three phases: content foundation, portfolio experience, then contact polish.
 
 ### Pending Todos
 
@@ -56,5 +57,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-04-10 16:52
-Stopped at: Milestone v1.0 initialized and requirements are being defined
+Stopped at: ROADMAP.md written and Phase 1 is ready for /gsd-plan-phase
 Resume file: None

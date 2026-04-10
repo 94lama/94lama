@@ -63,13 +63,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| - | - | Pending roadmap generation |
+| CONT-01 | Phase 1 | Pending |
+| CONT-02 | Phase 1 | Pending |
+| HERO-01 | Phase 2 | Pending |
+| HERO-02 | Phase 2 | Pending |
+| HERO-03 | Phase 2 | Pending |
+| SKIL-01 | Phase 2 | Pending |
+| EXPR-01 | Phase 2 | Pending |
+| EXPR-02 | Phase 2 | Pending |
+| PORT-01 | Phase 2 | Pending |
+| PORT-02 | Phase 2 | Pending |
+| CNTC-01 | Phase 3 | Pending |
+| CNTC-02 | Phase 3 | Pending |
+| CNTC-03 | Phase 3 | Pending |
 
 **Coverage:**
-- v1 requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12
+- v1 requirements: 13 total
+- Mapped to phases: 13
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-10*
-*Last updated: 2026-04-10 after initial definition*
+*Last updated: 2026-04-10 after roadmap creation*
