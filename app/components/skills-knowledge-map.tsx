@@ -971,6 +971,46 @@ export function SkillsKnowledgeMap({
           </div>
         </div>
       </div>
+
+      <div className="rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/[0.04] sm:px-5 xl:col-start-2">
+        <div className="flex flex-col gap-3 text-[0.68rem] uppercase tracking-[0.22em] text-black/45 dark:text-white/45 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <p>Link legend</p>
+            <div className="flex flex-wrap gap-3 text-[0.62rem]">
+              <span className="inline-flex items-center gap-2">
+                <span className="h-px w-5 bg-[rgb(171,181,204)]" />
+                Hub
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-px w-5 bg-[rgb(84,156,245)]" />
+                Domain
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <span className="h-px w-5 bg-[rgb(232,115,209)]" />
+                Technology
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-2 text-[0.62rem]">
+            <p>Dot size = skill knowledge</p>
+            <div className="flex items-end gap-3">
+              <span className="inline-flex items-end gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-black/50 dark:bg-white/55" />
+                1/5
+              </span>
+              <span className="inline-flex items-end gap-1.5">
+                <span className="h-3.5 w-3.5 rounded-full bg-black/55 dark:bg-white/60" />
+                3/5
+              </span>
+              <span className="inline-flex items-end gap-1.5">
+                <span className="h-5 w-5 rounded-full bg-black/60 dark:bg-white/70" />
+                5/5
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
