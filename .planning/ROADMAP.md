@@ -26,7 +26,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. App content is sourced from a dedicated structured module or dataset, not scattered across the page component.
   2. The content shape covers all v1 sections: hero, summary, skills, experience, education, languages, relocation, and contact.
   3. The page can render from that shared content source without breaking current app behavior.
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 01-01-PLAN.md — Define the shared portfolio content contract and markdown loader/parser.
+- [ ] 01-02-PLAN.md — Refactor the page to render required sections from the shared content source.
 **UI hint**: yes
 
 ### Phase 2: Portfolio Page Experience
