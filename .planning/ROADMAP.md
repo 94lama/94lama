@@ -41,11 +41,12 @@ Plans:
   2. Skills, experience, education, and languages are presented in a visually strong, easy-to-scan sequence.
   3. The layout works cleanly on both mobile and desktop as a single-page experience.
   4. The design language feels intentionally bold/creative rather than like the default starter template.
-**Plans**: 3 plans
+**Plans**: 4 plans
 Plans:
 - [x] 02-01-PLAN.md — Establish the editorial dark shell and global portfolio foundation.
 - [x] 02-02-PLAN.md — Rebuild the page into the recruiter-first one-page portfolio narrative.
 - [x] 02-03-PLAN.md — Tighten responsive polish and record final validation checkpoints.
+- [ ] 02-04-PLAN.md — Close the hero clarity gap by making the hero photo content-driven and removing redundant hero copy.
 **UI hint**: yes
 
 ### Phase 3: Contact & Final Polish
