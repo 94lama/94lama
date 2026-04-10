@@ -9,8 +9,8 @@ Requirements for milestone v1.0. Each maps to exactly one roadmap phase.
 
 ### Content Foundation
 
-- [ ] **CONT-01**: Maintainer can update hero, summary, skills, experience, education, languages, relocation, and contact content from a shared structured source.
-- [ ] **CONT-02**: The one-page portfolio can render the shared content without hardcoded section copy directly inside the page layout.
+- [x] **CONT-01**: Maintainer can update hero, summary, skills, experience, education, languages, relocation, and contact content from a shared structured source.
+- [x] **CONT-02**: The one-page portfolio can render the shared content without hardcoded section copy directly inside the page layout.
 
 ### Hero and Positioning
 
@@ -63,8 +63,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONT-01 | Phase 1 | Pending |
-| CONT-02 | Phase 1 | Pending |
+| CONT-01 | Phase 1 | Completed 2026-04-10 |
+| CONT-02 | Phase 1 | Completed 2026-04-10 |
 | HERO-01 | Phase 2 | Pending |
 | HERO-02 | Phase 2 | Pending |
 | HERO-03 | Phase 2 | Pending |

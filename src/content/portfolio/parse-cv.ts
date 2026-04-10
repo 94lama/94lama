@@ -3,6 +3,7 @@ import type {
   LanguageEntry,
   PortfolioContent,
   ProjectEntry,
+  SkillEntry,
   SkillGroup,
 } from "@/src/content/portfolio/types";
 
@@ -24,6 +25,22 @@ function stripListMarker(line: string) {
   return normalizeLine(line).replace(/^[-*]\s+/, "");
 }
 
+function parseSkillToken(value: string): SkillEntry {
+  const match = value.trim().match(/^(.*?)(?::\s*(\d+)\/(\d+))?\s*$/);
+  const label = match?.[1]?.trim() ?? value.trim();
+  const numerator = match?.[2] ? Number(match[2]) : undefined;
+  const denominator = match?.[3] ? Number(match[3]) : undefined;
+  const knowledge =
+    numerator !== undefined && denominator && denominator > 0
+      ? numerator / denominator
+      : undefined;
+
+  return {
+    label,
+    knowledge,
+  };
+}
+
 function parseSkillLine(line: string): SkillGroup {
   const value = stripListMarker(line);
   const separatorIndex = value.indexOf(":");
@@ -33,25 +50,24 @@ function parseSkillLine(line: string): SkillGroup {
   }
 
   const category = value.slice(0, separatorIndex).trim();
-  const items = value
+  const entries = value
     .slice(separatorIndex + 1)
     .split(",")
-    .map((item) => item.trim())
-    .filter(Boolean);
+    .map((item) => parseSkillToken(item))
+    .filter((item) => item.label);
+  const items = entries.map((entry) => entry.label);
 
   if (!category || items.length === 0) {
     throw new Error(`Incomplete skill line: ${line}`);
   }
 
-  return { category, items };
+  return { category, items, entries };
 }
 
 function parseNestedSkillItem(line: string) {
   const value = normalizeLine(line).replace(/^[-*]\s+/, "");
-  const match = value.match(/^(.*?)(?::\s*\d+\/\d+)?\s*$/);
-  const label = match?.[1]?.trim() ?? value.trim();
 
-  return label;
+  return parseSkillToken(value);
 }
 
 function parseSkills(lines: string[]) {
@@ -80,15 +96,17 @@ function parseSkills(lines: string[]) {
       currentGroup = {
         category: trimmed.replace(/^[-*]\s+/, '').replace(/:\s*$/, '').trim(),
         items: [],
+        entries: [],
       };
       continue;
     }
 
     if (/^\s{2,}[-*]\s+/.test(line) && currentGroup) {
-      const label = parseNestedSkillItem(trimmed);
+      const entry = parseNestedSkillItem(trimmed);
 
-      if (label) {
-        currentGroup.items.push(label);
+      if (entry.label) {
+        currentGroup.items.push(entry.label);
+        currentGroup.entries.push(entry);
       }
 
       continue;

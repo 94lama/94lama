@@ -1,0 +1,8 @@
+timestamp=20260410-215837
+root_dir=/home/riccardolm/github/94lama
+mode=audit
+focus=technical SEO and internal linking
+skill_path=/home/riccardolm/github/94lama/.agents/skills/seo-optimization/SKILL.md
+prompt_file=/home/riccardolm/github/94lama/.seo-optimization-workspace/20260410-215837/prompt.md
+report_file=/home/riccardolm/github/94lama/.seo-optimization-workspace/20260410-215837/report.md
+stderr_file=/home/riccardolm/github/94lama/.seo-optimization-workspace/20260410-215837/claude.stderr.log

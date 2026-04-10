@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "read": {
+      "/workspaces/94lama/.opencode/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "/workspaces/94lama/.opencode/get-shit-done/*": "allow"
+    }
+  }
+}

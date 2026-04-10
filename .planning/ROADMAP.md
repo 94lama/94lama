@@ -12,8 +12,8 @@ This milestone turns the starter app into a recruiter-focused one-page portfolio
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Content Model & Data Setup** - Move portfolio content into a reusable structured source for future UI reuse.
-- [ ] **Phase 2: Portfolio Page Experience** - Replace the starter page with a bold, recruiter-focused one-page portfolio.
+- [x] **Phase 1: Content Model & Data Setup** - Move portfolio content into a reusable structured source for future UI reuse. (Completed 2026-04-10)
+- [ ] **Phase 2: Portfolio Page Experience** - Replace the starter page with a bold, recruiter-focused one-page portfolio. (Implementation complete 2026-04-10; manual verification pending)
 - [ ] **Phase 3: Contact & Final Polish** - Make recruiter action obvious and finish the first release cleanly.
 
 ## Phase Details
@@ -28,8 +28,8 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. The page can render from that shared content source without breaking current app behavior.
 **Plans**: 2 plans
 Plans:
-- [ ] 01-01-PLAN.md — Define the shared portfolio content contract and markdown loader/parser.
-- [ ] 01-02-PLAN.md — Refactor the page to render required sections from the shared content source.
+- [x] 01-01-PLAN.md — Define the shared portfolio content contract and markdown loader/parser.
+- [x] 01-02-PLAN.md — Refactor the page to render required sections from the shared content source.
 **UI hint**: yes
 
 ### Phase 2: Portfolio Page Experience
@@ -62,6 +62,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Content Model & Data Setup | 0/0 | Not started | - |
-| 2. Portfolio Page Experience | 0/0 | Not started | - |
+| 1. Content Model & Data Setup | 2/2 | Complete | 2026-04-10 |
+| 2. Portfolio Page Experience | 3/3 | Awaiting manual verification | - |
 | 3. Contact & Final Polish | 0/0 | Not started | - |

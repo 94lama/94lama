@@ -22,7 +22,8 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ### Validated
 
-- None yet - the repository currently contains only the default Next.js starter app.
+- CONT-01 validated in Phase 1: shared portfolio content now loads from `public/assets/cv.md` through a typed server-side parser/loader.
+- CONT-02 validated in Phase 1: the landing page now renders required recruiter-facing sections from shared content instead of starter-template copy.
 
 ### Active
 
@@ -58,10 +59,14 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Start with a one-page recruiter portfolio | Keeps the first release focused on positioning and contact conversion | Pending |
-| Use `public/assets/cv.md` as the portfolio content source | The README is outdated and serves a different purpose | Pending |
+| Start with a one-page recruiter portfolio | Keeps the first release focused on positioning and contact conversion | Completed in Phase 1 |
+| Use `public/assets/cv.md` as the portfolio content source | The README is outdated and serves a different purpose | Completed in Phase 1 |
 | Defer project showcase and direct CV download | They add scope without improving the core recruiter flow enough for v1.0 | Pending |
 | Prepare content for future UI variants without building a switcher now | The user wants multiple UIs eventually, but not at the cost of first-release focus | Pending |
+
+## Current State
+
+Phase 1 is complete, and Phase 2 implementation is now in place. The app keeps the same reusable typed content pipeline from `public/assets/cv.md` while the landing page has been redesigned into a bold recruiter-facing portfolio; manual browser verification is still pending before Phase 2 can be treated as fully signed off.
 
 ## Evolution
 
@@ -81,4 +86,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 after milestone v1.0 initialization*
+*Last updated: 2026-04-10 after Phase 1 completion*

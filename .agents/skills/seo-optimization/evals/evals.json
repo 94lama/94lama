@@ -1,0 +1,35 @@
+{
+  "skill_name": "seo-optimization",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I have a marketing site in this repo. Please inspect it and decide whether the main SEO problem across `/features/lead-routing` and `/blog/what-is-lead-routing` is technical SEO, content SEO, or internal linking. Then make the smallest coherent changes you think matter and explain why you chose that lane.",
+      "expected_output": "A routed SEO response that chooses a lead subskill, explains the diagnosis, and makes or proposes the smallest coherent code or content changes for the overlapping pages.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "In this website repo, our docs pages have a technical SEO mess: some `/help/*` pages are blocked by `robots.txt`, the sitemap still lists old `/docs/*` URLs, and parameterized pages do not get correct canonicals. Please inspect the implementation, fix the technical SEO issues, and summarize the exact file changes.",
+      "expected_output": "A technical-SEO-first response that identifies crawl and canonical blockers, updates the relevant code or config, and clearly summarizes the implemented fixes.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "We're moving our product docs from `docs.acme.io/docs/*` to `docs.acme.io/help/*` next week. I need you to handle the SEO side end to end: redirects, canonicals, sitemap updates, robots rules, internal links, Google Search Console checks, and what to monitor after launch so we do not lose Google traffic.",
+      "expected_output": "A migration-SEO action plan ordered by impact and timing, with redirect, canonical, sitemap, internal-link, crawl, indexation, and post-launch monitoring guidance or implementation details.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Our site has a local service page in the codebase for emergency water heater repair in Austin. Please improve it for Google Search without making it sound spammy. I want a better title tag, meta description, H1, section structure, FAQ ideas, internal links, and local schema suggestions, and if the page file is easy to update then make the changes too.",
+      "expected_output": "A local-SEO-first response with exact non-spammy page rewrites, internal-link suggestions, and grounded local schema recommendations, plus code or content edits when appropriate.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "This ecommerce repo generates indexable color-filter and size-filter URLs, and I think Google is crawling hundreds of thin near-duplicate pages. Please inspect how these pages are built, decide the right indexation and canonical strategy, and implement the smallest coherent fix instead of just giving me theory.",
+      "expected_output": "A template-SEO response that diagnoses faceted-navigation duplication, chooses an indexation strategy, and makes or specifies the smallest coherent template-level fix with clear reasoning.",
+      "files": []
+    }
+  ]
+}

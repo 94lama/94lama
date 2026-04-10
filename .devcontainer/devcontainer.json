@@ -1,0 +1,41 @@
+{
+  "name": "next-ts-opencode",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "NODE_VARIANT": "22-bookworm",
+      "OPENCODE_VERSION": "1.4.3",
+      "GSD_OPENCODE_VERSION": "1.33.1"
+    }
+  },
+  "remoteUser": "node",
+  "updateRemoteUserUID": true,
+  "containerEnv": {
+    "OPENCODE_CONFIG_DIR": "/home/node/.config/opencode",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "mounts": [
+    "source=94lama-opencode-config,target=/home/node/.config/opencode,type=volume"
+  ],
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js dev server",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
