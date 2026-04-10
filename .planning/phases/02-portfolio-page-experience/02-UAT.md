@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 02-portfolio-page-experience
 source:
   - 02-portfolio-page-experience-01-SUMMARY.md
@@ -53,7 +53,18 @@ blocked: 0
   reason: "User reported: avoid redundancies in text and add a photo"
   severity: major
   test: 1
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "The hero composition repeats summary, location, and relocation content across adjacent blocks, and the shared content contract/parser does not expose any profile-photo field even though an existing headshot asset is present in public assets."
+  artifacts:
+    - path: "app/page.tsx"
+      issue: "Hero renders duplicated summary/location/relocation content and has no image slot."
+    - path: "src/content/portfolio/types.ts"
+      issue: "Portfolio content contract has no hero or contact photo field."
+    - path: "src/content/portfolio/parse-cv.ts"
+      issue: "Parser only exposes text-based content and never returns a profile image reference."
+    - path: "public/assets/cv.md"
+      issue: "Source-of-truth content contains no authored image reference."
+  missing:
+    - "Reduce hero copy to one primary summary block and one compact metadata area."
+    - "Extend the shared content model/parser to expose a profile photo reference."
+    - "Render the existing headshot asset in the hero without breaking the recruiter-first layout."
+  debug_session: ".planning/debug/hero-clarity-photo-gap.md"
