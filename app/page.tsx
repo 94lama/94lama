@@ -62,7 +62,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-4 sm:gap-16 sm:px-6 sm:py-6 lg:gap-24 lg:px-8 xl:px-10">
-        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
+        <section className="overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
           <div className="grid min-h-full gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:px-10 lg:py-10 xl:px-14 xl:py-14">
             <div className="flex flex-col justify-between gap-10 xl:gap-14">
               <div className="space-y-8 sm:space-y-10">
@@ -83,7 +83,7 @@ export default async function Home() {
                     {content.summary}
                   </p>
 
-                  <div className="grid gap-3 rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:max-w-xl sm:grid-cols-2">
+                  <div className="grid gap-3 rounded-3xl border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:max-w-xl sm:grid-cols-2">
                     <div className="space-y-2">
                       <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
                         Based in
@@ -123,17 +123,17 @@ export default async function Home() {
               </div>
             </div>
 
-            <aside className="flex h-full flex-col justify-between gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 xl:p-8">
+            <aside className="flex h-full flex-col justify-between gap-6 rounded-4xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 xl:p-8">
               <div className="space-y-6">
                 {content.hero.photo ? (
                   <div className="space-y-3">
                     <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white/44">
                       Profile
                     </p>
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/20">
+                    <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/10 bg-black/20">
                       <Image
                         alt={content.hero.photo.alt}
-                        className="object-cover"
+                        className="object-contain translate-y-15"
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 28rem"
@@ -143,7 +143,7 @@ export default async function Home() {
                   </div>
                 ) : null}
 
-                <div className="space-y-3 rounded-[1.5rem] border border-white/10 bg-black/20 p-5">
+                <div className="space-y-3 rounded-3xl border border-white/10 bg-black/20 p-5">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                     Contact line
                   </p>
@@ -159,7 +159,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(184,255,32,0.03))] p-5">
+              <div className="space-y-3 rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(184,255,32,0.03))] p-5">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/52">
                   Preferred regions
                 </p>
@@ -244,7 +244,7 @@ export default async function Home() {
                     <span className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/12 bg-white/4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/48">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white/42 lg:max-w-[10rem]">
+                    <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white/42 lg:max-w-40">
                       {entry.dateRange}
                     </p>
                   </div>
@@ -274,7 +274,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(23,26,34,0.96),rgba(12,12,15,0.98))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
+        <section className="space-y-8 rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(23,26,34,0.96),rgba(12,12,15,0.98))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
           <SectionHeading
             index="02A"
             title="Interactive Skills And Experience"
@@ -287,7 +287,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-8 xl:grid-cols-2">
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
+          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
             <SectionHeading index="03" title="Education" />
             <ul className="mt-8 space-y-4">
               {content.education.map((entry) => (
@@ -301,7 +301,7 @@ export default async function Home() {
             </ul>
           </article>
 
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
+          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
             <SectionHeading index="04" title="Languages" />
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {content.languages.map((entry) => (
@@ -320,7 +320,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-8 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <article className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
+          <article className="rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
             <SectionHeading index="05" title="Relocation" />
             <div className="mt-8 space-y-6">
               <p className="max-w-2xl text-lg leading-8 text-white/78">
@@ -342,10 +342,10 @@ export default async function Home() {
             </div>
           </article>
 
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
+          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
             <SectionHeading index="06" title="Contact" />
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5 sm:col-span-2">
+              <div className="rounded-3xl border border-white/8 bg-black/18 p-5 sm:col-span-2">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                   Primary CTA
                 </p>
@@ -364,7 +364,7 @@ export default async function Home() {
                 ) : null}
               </div>
 
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+              <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                   Email
                 </p>
@@ -376,7 +376,7 @@ export default async function Home() {
                 </a>
               </div>
 
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+              <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                   Location
                 </p>
@@ -384,7 +384,7 @@ export default async function Home() {
               </div>
 
               {content.contact.phone ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5 sm:col-span-2">
+                <div className="rounded-3xl border border-white/8 bg-black/18 p-5 sm:col-span-2">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                     Phone
                   </p>
@@ -393,7 +393,7 @@ export default async function Home() {
               ) : null}
 
               {content.contact.github ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                     GitHub
                   </p>
@@ -409,7 +409,7 @@ export default async function Home() {
               ) : null}
 
               {content.contact.linkedin ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                     LinkedIn
                   </p>

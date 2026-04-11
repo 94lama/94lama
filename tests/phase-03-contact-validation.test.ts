@@ -2,8 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-
-import { parseCvMarkdown } from "../src/content/portfolio/parse-cv.ts";
+import { parseCvMarkdown } from "@/src/content/portfolio/parse-cv";
 
 const rootDir = process.cwd();
 const cvPath = path.join(rootDir, "public/assets/cv.md");
@@ -13,7 +12,7 @@ test("Phase 3 authored CV contact data includes GitHub and LinkedIn", async () =
   const markdown = await readFile(cvPath, "utf8");
   const content = parseCvMarkdown(markdown);
 
-  assert.equal(content.contact.email, "riccardo.lamalfa94@gmail.com");
+  assert.equal(content.contact.email, "info@riccardolamalfa.it");
   assert.equal(content.contact.github, "https://github.com/94lama");
   assert.equal(content.contact.linkedin, "https://www.linkedin.com/in/riccardo-la-malfa");
 });
