@@ -1491,7 +1491,39 @@ function cmdAgentSkills(cwd, agentType, raw) {
   }
 
   const config = loadConfig(cwd);
-  const block = buildAgentSkillsBlock(config, agentType, cwd);
+
+  // Build base block from config
+  let block = buildAgentSkillsBlock(config, agentType, cwd);
+
+  // Auto-inject caveman skill when marker exists and skill present
+  try {
+    const cavemanMarker = path.join(cwd, '.agents', 'skills', 'caveman', 'AUTO_TRIGGER');
+    const cavemanSkillMd = path.join(cwd, '.agents', 'skills', 'caveman', 'SKILL.md');
+    if (fs.existsSync(cavemanMarker) && fs.existsSync(cavemanSkillMd)) {
+      const caveEntry = `- @.agents/skills/caveman/SKILL.md`;
+      if (block && block.includes('Read these user-configured skills')) {
+        // Insert caveman entry near the top unless already present
+        const lines = block.split('\n');
+        if (!lines.some(l => l.includes('@.agents/skills/caveman/SKILL.md'))) {
+          // After the header and explanatory line, insert the caveman entry
+          // header (line 0): <agent_skills>
+          // explanatory (line 1): Read these user-configured skills:
+          lines.splice(2, 0, caveEntry);
+          block = lines.join('\n');
+        }
+      } else {
+        // No configured skills — create block with caveman only
+        block = `<agent_skills>\nRead these user-configured skills:\n${caveEntry}\n</agent_skills>`;
+      }
+    } else if (fs.existsSync(cavemanMarker) && !fs.existsSync(cavemanSkillMd)) {
+      // Marker present but SKILL.md missing — warn on stderr but do not fail
+      process.stderr.write('[agent-skills] WARNING: AUTO_TRIGGER present but caveman SKILL.md not found; ignoring marker.\n');
+    }
+  } catch (e) {
+    // Defensive: do not let auto-inject break agent-skills output
+    process.stderr.write(`[agent-skills] WARNING: caveman auto-inject failed: ${String(e)}\n`);
+  }
+
   // Output raw text (not JSON) so workflows can embed it directly
   if (block) {
     process.stdout.write(block);
