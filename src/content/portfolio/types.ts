@@ -1,6 +1,12 @@
+export interface HeroPhoto {
+  src: string;
+  alt: string;
+}
+
 export interface HeroContent {
   name: string;
   role: string;
+  photo?: HeroPhoto;
 }
 
 export interface SkillEntry {

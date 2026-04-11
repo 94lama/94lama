@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:phase-03": "node --test --experimental-strip-types tests/phase-03-contact-validation.test.ts"
   },
   "dependencies": {
     "next": "16.2.3",

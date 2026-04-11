@@ -1,5 +1,6 @@
 import type {
   ExperienceEntry,
+  HeroPhoto,
   LanguageEntry,
   PortfolioContent,
   ProjectEntry,
@@ -277,6 +278,20 @@ function parseContactLinks(lines: string[]) {
   return links;
 }
 
+function parseHeroPhoto(line: string, heroName: string): HeroPhoto | undefined {
+  const match = line.match(/^Profile Photo:\s*(.+)$/i);
+  const value = match?.[1]?.trim();
+
+  if (!value || !value.startsWith("/assets/")) {
+    return undefined;
+  }
+
+  return {
+    src: value,
+    alt: `Profile photo of ${heroName}`,
+  };
+}
+
 function splitSections(lines: string[]) {
   const sections = new Map<string, string[]>();
   let currentSection: string | null = null;
@@ -316,9 +331,19 @@ function requireSection(sections: Map<string, string[]>, name: string) {
 
 export function parseCvMarkdown(markdown: string): PortfolioContent {
   const lines = markdown.split(/\r?\n/);
-  const nameLine = normalizeLine(lines[0] ?? "");
-  const roleLine = normalizeLine(lines[1] ?? "");
-  const contactLine = normalizeLine(lines[2] ?? "");
+  const firstSectionIndex = lines.findIndex((line) => line.startsWith("## "));
+
+  if (firstSectionIndex === -1) {
+    throw new Error("CV markdown must include section headings");
+  }
+
+  const heroLines = lines
+    .slice(0, firstSectionIndex)
+    .map(normalizeLine)
+    .filter(Boolean);
+  const nameLine = heroLines[0] ?? "";
+  const roleLine = heroLines[1] ?? "";
+  const contactLine = heroLines[2] ?? "";
 
   if (!nameLine.startsWith("# ")) {
     throw new Error("CV markdown must start with an H1 name line");
@@ -328,9 +353,12 @@ export function parseCvMarkdown(markdown: string): PortfolioContent {
     throw new Error("CV markdown hero block is incomplete");
   }
 
+  const heroName = nameLine.replace(/^#\s+/, "");
+  const photoLine = heroLines.slice(3).find((line) => /^Profile Photo:\s*/i.test(line));
   const hero = {
-    name: nameLine.replace(/^#\s+/, ""),
+    name: heroName,
     role: roleLine,
+    photo: photoLine ? parseHeroPhoto(photoLine, heroName) : undefined,
   };
 
   const contactParts = contactLine.split(" • ").map((part) => part.trim()).filter(Boolean);
@@ -342,7 +370,7 @@ export function parseCvMarkdown(markdown: string): PortfolioContent {
     throw new Error("CV markdown contact line must include location and email");
   }
 
-  const sections = splitSections(lines.slice(4));
+  const sections = splitSections(lines.slice(firstSectionIndex));
   const summary = requireSection(sections, "Summary")
     .map(normalizeLine)
     .filter(Boolean)

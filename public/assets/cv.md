@@ -1,6 +1,7 @@
 # Riccardo La Malfa
 Frontend-focused Full-Stack Developer (React, TypeScript, Python)
 Italy • Open to EU Relocation • riccardo.lamalfa94@gmail.com • +39 3314852911
+Profile Photo: /assets/foto-profilo.png
 
 ## Summary
 Frontend-focused Full-Stack Developer with nearly 2 years of experience building and deploying
