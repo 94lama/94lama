@@ -1,8 +1,21 @@
 # TODO
 
-- [ ] Remove the centeral sphere in the knowledge map
-- [ ] Spread the items more three-dimensionally in the knowledge map
+## UI
+- [ ] Use blue instead of green as primary color
+- [ ] add animations
+
+## skills section
+- [ ] replace it with tehe knowlodge map
+
+## knowledge-map
+- [ ] Remove the centeral sphere
+- [ ] Spread the items more three-dimensionally
 - [ ] Move the knowledge map instead of 01 - skills
 - [ ] Remove the Experneice block under the knowledge map (use 02 - Experience instead while keeping the interaction with the map)
-- [ ] Use blue instead of green as primary color
-- [ ] Add a hero section (with picture)
+
+## relocation
+- [ ] add more content
+
+## contact
+- [ ] use icons for links instead of cards with anchor tag
+- [ ] remove the relocation info (there is already a dedicated section)
