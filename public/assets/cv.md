@@ -10,7 +10,7 @@ architectures, with exposure to AI workflows and DevOps practices.
 
 ## Core Skills
 - Frontend:
-  - React: 4/5 
+  - React: 5/5 
   - Next.js: 4/5
   - Svelte: 3/5
   - Javascript: 4/5

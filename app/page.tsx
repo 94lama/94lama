@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ExperienceMapSection } from "@/app/components/experience-map-section";
+import { ExperienceMapController } from "@/app/components/experience-map-controller";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
 function ContactLink({
@@ -280,7 +280,8 @@ export default async function Home() {
             title="Interactive Skills And Experience"
             description="A deeper pass on how the grouped skill areas connect back to the experience timeline without changing the one-page flow."
           />
-          <ExperienceMapSection
+          {/* ExperienceMapSection: controlled selection lifted to parent */}
+          <ExperienceMapController
             experience={content.experience}
             skillGroups={content.skills}
           />

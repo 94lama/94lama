@@ -11,6 +11,9 @@ import type { ExperienceEntry, SkillGroup } from '@/src/content/portfolio/types'
 type ExperienceMapSectionProps = {
   skillGroups: SkillGroup[];
   experience: ExperienceEntry[];
+  // Optional controlled selection from parent
+  selection?: KnowledgeMapSelection;
+  onSelectionChange?: (selection: KnowledgeMapSelection) => void;
 };
 
 function createInitialSelection(skillGroups: SkillGroup[]): KnowledgeMapSelection {
@@ -25,10 +28,14 @@ function createInitialSelection(skillGroups: SkillGroup[]): KnowledgeMapSelectio
 export function ExperienceMapSection({
   skillGroups,
   experience,
+  selection: controlledSelection,
+  onSelectionChange,
 }: Readonly<ExperienceMapSectionProps>) {
-  const [selection, setSelection] = useState<KnowledgeMapSelection>(() =>
+  const [uncontrolledSelection, setUncontrolledSelection] = useState<KnowledgeMapSelection>(() =>
     createInitialSelection(skillGroups),
   );
+  const selection = controlledSelection ?? uncontrolledSelection;
+  const setSelection = onSelectionChange ?? setUncontrolledSelection;
 
   const safeSelection = useMemo(() => {
     if (skillGroups.length === 0) {
@@ -105,7 +112,7 @@ export function ExperienceMapSection({
 
   return (
     <div className="space-y-10">
-      <section className="space-y-4 border-t border-black/10 pt-8 dark:border-white/10">
+    <section className="space-y-4 border-t border-black/10 pt-8 dark:border-white/10">
         <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-black/60 dark:text-white/60">
           Skills
         </h2>

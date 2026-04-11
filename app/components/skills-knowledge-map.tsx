@@ -544,7 +544,7 @@ export function SkillsKnowledgeMap({
     graph.setParent(scene);
 
     const sphereGeometry = new Sphere(gl, {
-      radius: 1,
+      radius: 0.6,
       widthSegments: 24,
       heightSegments: 24,
     });
