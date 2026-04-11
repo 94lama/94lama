@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: MVP
-status: completed
-stopped_at: Milestone v1.0 archived; waiting for next milestone definition
-last_updated: "2026-04-11T10:30:00Z"
-last_activity: 2026-04-11 - Archived milestone v1.0 and prepared the workspace for next planning
+milestone: v1.1
+milestone_name: portfolio TODO refresh
+status: planning
+stopped_at: Defining milestone requirements
+last_updated: "2026-04-11T12:14:27Z"
+last_activity: 2026-04-11 - Milestone v1.1 started
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,37 +21,35 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Define the next milestone with `/gsd-new-milestone`
+**Current focus:** Define requirements and roadmap for milestone v1.1 portfolio TODO refresh
 
 ## Current Position
 
-Phase: None - v1.0 shipped
-Plan: No active plan
-Status: Awaiting next milestone definition
-Last activity: 2026-04-11 - Milestone v1.0 archived
+Phase: Not started (defining requirements)
+Plan: -
+Status: Defining requirements
+Last activity: 2026-04-11 - Milestone v1.1 started
 
-Progress: [##########] 100%
+Progress: [..........] 0%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 10
-- Average duration: 18 min
-- Total execution time: 1.5 hours
+- Total plans completed: 0
+- Average duration: -
+- Total execution time: -
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 | 2 | 40 min | 20 min |
-| 2 | 4 | - | - |
-| 3 | 1 | n/a | n/a |
+| - | - | - | - |
 
 **Recent Trend:**
 
-- Last 5 plans: 01-02, 02-01, 02-02, 02-03, 03-01
-- Trend: v1.0 archived; workspace ready for fresh milestone planning
+- Last 5 plans: None yet for v1.1
+- Trend: Milestone v1.1 started; requirements and roadmap pending
 
 *Updated after each plan completion*
 
