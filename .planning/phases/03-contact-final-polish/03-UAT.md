@@ -28,7 +28,6 @@ result: pass
 ## Summary
 
 total: 3
-passed: 2
 passed: 3
 issues: 0
 pending: 0

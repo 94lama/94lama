@@ -1,12 +1,13 @@
 ---
-status: diagnosed
+status: complete
 phase: 02-portfolio-page-experience
 source:
   - 02-portfolio-page-experience-01-SUMMARY.md
   - 02-portfolio-page-experience-02-SUMMARY.md
   - 02-portfolio-page-experience-03-SUMMARY.md
-started: 2026-04-10T22:45:15Z
-updated: 2026-04-10T22:52:02Z
+  - 02-portfolio-page-experience-04-SUMMARY.md
+started: 2026-04-11T00:00:00Z
+updated: 2026-04-11T09:36:37Z
 ---
 
 ## Current Test
@@ -16,13 +17,11 @@ updated: 2026-04-10T22:52:02Z
 ## Tests
 
 ### 1. Hero clarity and recruiter positioning
-expected: At the top of the page, the hero should immediately communicate Riccardo La Malfa's name, frontend-focused full-stack positioning, summary, Italy location, and EU relocation context without needing to scroll or hunt for the information.
-result: issue
-reported: "avoid redundancies in text and add a photo"
-severity: major
+expected: At the top of the page, the hero should immediately communicate Riccardo La Malfa's name, frontend-focused full-stack positioning, one clear summary block, Italy location, EU relocation context, and a profile photo without redundant repeated copy.
+result: pass
 
 ### 2. Bold visual shell
-expected: The page should feel intentionally bold and editorial rather than like the default Next.js starter, with a dark shell, strong contrast, clear surface hierarchy, and non-generic typography.
+expected: The page should feel intentionally bold and editorial rather than like the default Next.js starter, with a dark shell, strong contrast, clear surface hierarchy, non-generic typography, and the updated hero photo integrated naturally into that presentation.
 result: pass
 
 ### 3. Recruiter scan order
@@ -40,31 +39,12 @@ result: pass
 ## Summary
 
 total: 5
-passed: 4
-issues: 1
+passed: 5
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
 
 ## Gaps
 
-- truth: "At the top of the page, the hero should immediately communicate Riccardo La Malfa's name, frontend-focused full-stack positioning, summary, Italy location, and EU relocation context without needing to scroll or hunt for the information."
-  status: failed
-  reason: "User reported: avoid redundancies in text and add a photo"
-  severity: major
-  test: 1
-  root_cause: "The hero composition repeats summary, location, and relocation content across adjacent blocks, and the shared content contract/parser does not expose any profile-photo field even though an existing headshot asset is present in public assets."
-  artifacts:
-    - path: "app/page.tsx"
-      issue: "Hero renders duplicated summary/location/relocation content and has no image slot."
-    - path: "src/content/portfolio/types.ts"
-      issue: "Portfolio content contract has no hero or contact photo field."
-    - path: "src/content/portfolio/parse-cv.ts"
-      issue: "Parser only exposes text-based content and never returns a profile image reference."
-    - path: "public/assets/cv.md"
-      issue: "Source-of-truth content contains no authored image reference."
-  missing:
-    - "Reduce hero copy to one primary summary block and one compact metadata area."
-    - "Extend the shared content model/parser to expose a profile photo reference."
-    - "Render the existing headshot asset in the hero without breaking the recruiter-first layout."
-  debug_session: ".planning/debug/hero-clarity-photo-gap.md"
+[none yet]

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { ExperienceMapSection } from "@/app/components/experience-map-section";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
@@ -61,18 +63,9 @@ export default async function Home() {
     <main className="min-h-screen">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-4 sm:gap-16 sm:px-6 sm:py-6 lg:gap-24 lg:px-8 xl:px-10">
         <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
-          <div className="grid min-h-full gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(19rem,0.8fr)] lg:px-10 lg:py-10 xl:px-14 xl:py-14">
+          <div className="grid min-h-full gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:px-10 lg:py-10 xl:px-14 xl:py-14">
             <div className="flex flex-col justify-between gap-10 xl:gap-14">
               <div className="space-y-8 sm:space-y-10">
-                <div className="flex flex-wrap items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white/58">
-                  <span className="rounded-full border border-white/12 bg-white/4 px-4 py-3 font-mono">
-                    {content.contact.location}
-                  </span>
-                  <span className="rounded-full border border-accent/30 bg-accent px-4 py-3 font-mono text-accent-foreground">
-                    {content.relocation.summary}
-                  </span>
-                </div>
-
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.32em] text-white/48">
@@ -89,25 +82,29 @@ export default async function Home() {
                   <p className="max-w-2xl text-base leading-8 text-white/72 sm:text-lg">
                     {content.summary}
                   </p>
+
+                  <div className="grid gap-3 rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:max-w-xl sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
+                        Based in
+                      </p>
+                      <p className="text-base font-medium text-white sm:text-lg">
+                        {content.contact.location}
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
+                        Relocation
+                      </p>
+                      <p className="text-base font-medium text-white sm:text-lg">
+                        {content.relocation.summary}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-                <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm">
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
-                      Location
-                    </p>
-                    <p className="mt-3 text-lg font-medium text-white">{content.contact.location}</p>
-                  </div>
-                  <div className="rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm">
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
-                      Relocation
-                    </p>
-                    <p className="mt-3 text-lg font-medium text-white">{content.relocation.summary}</p>
-                  </div>
-                </div>
-
+              <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
                 <div className="flex flex-col items-start gap-3 xl:items-end">
                   <a
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
@@ -128,14 +125,23 @@ export default async function Home() {
 
             <aside className="flex h-full flex-col justify-between gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 xl:p-8">
               <div className="space-y-6">
-                <div className="space-y-2">
-                  <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white/44">
-                    Recruiter snapshot
-                  </p>
-                  <p className="text-lg leading-8 text-white/74">
-                    {content.summary}
-                  </p>
-                </div>
+                {content.hero.photo ? (
+                  <div className="space-y-3">
+                    <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white/44">
+                      Profile
+                    </p>
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/20">
+                      <Image
+                        alt={content.hero.photo.alt}
+                        className="object-cover"
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 28rem"
+                        src={content.hero.photo.src}
+                      />
+                    </div>
+                  </div>
+                ) : null}
 
                 <div className="space-y-3 rounded-[1.5rem] border border-white/10 bg-black/20 p-5">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">

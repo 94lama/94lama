@@ -1,7 +1,7 @@
 ---
 phase: 2
 slug: portfolio-page-experience
-status: draft
+status: complete
 nyquist_compliant: true
 wave_0_complete: true
 created: 2026-04-10
@@ -38,9 +38,9 @@ created: 2026-04-10
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 2-01-01 | 01 | 1 | HERO-01, HERO-02, HERO-03, PORT-02 | T-2-01 | No untrusted input; hero renders server-side content only | build + source | `npm run lint` | ✅ | ⬜ pending |
-| 2-01-02 | 01 | 1 | SKIL-01, EXPR-01, EXPR-02 | T-2-01 | Static typed content only; no new trust boundary | build + source | `npm run lint` | ✅ | ⬜ pending |
-| 2-02-01 | 02 | 2 | PORT-01, PORT-02 | T-2-02 | No security regression in global styles/layout | build | `npm run lint && npm run build` | ✅ | ⬜ pending |
+| 2-01-01 | 01 | 1 | HERO-01, HERO-02, HERO-03, PORT-02 | T-2-01 | No untrusted input; hero renders server-side content only | build + source | `npm run lint` | ✅ | ✅ green |
+| 2-01-02 | 01 | 1 | SKIL-01, EXPR-01, EXPR-02 | T-2-01 | Static typed content only; no new trust boundary | build + source | `npm run lint` | ✅ | ✅ green |
+| 2-02-01 | 02 | 2 | PORT-01, PORT-02 | T-2-02 | No security regression in global styles/layout | build | `npm run lint && npm run build` | ✅ | ✅ green |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -71,4 +71,4 @@ Existing infrastructure covers all phase requirements.
 - [x] Feedback latency < 40s
 - [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved 2026-04-11
