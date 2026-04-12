@@ -97,7 +97,26 @@
   ],
   "relocation": {
     "summary": "Open to relocation across EU (Netherlands, France, Denmark preferred)",
-    "preferredRegions": ["Netherlands", "France", "Denmark"]
+    "preferredRegions": ["Netherlands", "France", "Denmark"],
+    "support": [
+      {
+        "label": "Relocation timing",
+        "value": "Ready to discuss relocation for the right frontend-focused full-stack role with a practical transition plan."
+      },
+      {
+        "label": "What I optimize for",
+        "value": "Teams where I can keep shipping product work close to users while contributing across React, TypeScript, Python, and delivery workflows."
+      },
+      {
+        "label": "Working setup",
+        "value": "Comfortable with hybrid or onsite collaboration, especially when it helps speed up product discovery, handoff quality, and release cadence."
+      }
+    ],
+    "priorities": [
+      "Product teams with strong frontend ownership",
+      "English-friendly collaboration across design and engineering",
+      "Roles that mix implementation depth with visible business impact"
+    ]
   },
   "contact": {
     "location": "Italy • Open to EU Relocation",

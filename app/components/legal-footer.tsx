@@ -1,5 +1,3 @@
-import Script from "next/script";
-
 export function LegalFooter() {
   return (
     <footer className="flex flex-wrap items-center justify-center gap-4 px-6 py-6 text-sm">
@@ -17,10 +15,6 @@ export function LegalFooter() {
       >
         Cookie Policy
       </a>
-      <Script
-        id="iubenda-footer-loader"
-        src="https://cdn.iubenda.com/iubenda.js"
-      />
     </footer>
   );
 }

@@ -35,6 +35,11 @@ export interface LanguageEntry {
 export interface RelocationInfo {
   summary: string;
   preferredRegions?: string[];
+  support?: {
+    label: string;
+    value: string;
+  }[];
+  priorities?: string[];
 }
 
 export interface ContactInfo {
