@@ -49,7 +49,7 @@ export function LegalEmbedFooter() {
 
   return (
     <footer className="mt-auto py-6 border-t border-border">
-      <div className="max-w-3xl mx-auto px-4 text-sm text-muted-foreground flex justify-center gap-6">
+      {/* <div className="max-w-3xl mx-auto px-4 text-sm text-muted-foreground flex justify-center gap-6">
         <span id="privacy-policy-slot" />
         <template
           id="privacy-policy-template"
@@ -63,7 +63,7 @@ export function LegalEmbedFooter() {
       </div>
       <Script id="iubenda-template-bootstrap" strategy="afterInteractive">
         {iubendaTemplateBootstrap}
-      </Script>
+      </Script> */}
     </footer>
   );
 }
