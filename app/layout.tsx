@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
-import { LegalEmbedFooter } from "./components/legal-embed-footer";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -34,36 +33,15 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         {children}
 
-        {/* 1. Config iubenda — deve essere la prima cosa */}
-        <Script
-          id="iubenda-config"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-      var _iub = _iub || [];
-      _iub.csConfiguration = {
-        siteId: 1234567,
-        cookiePolicyId: 7654321,
-        lang: "it",
-        storage: { useSiteId: true },
-        callback: {
-          onReady: function() {
-            console.log("iubenda ready");
-          }
-        }
-      };
-    `,
-          }}
-        />
+        {/* Privacy policy */}
+        <a href="https://www.iubenda.com/privacy-policy/76360064" className="iubenda-black iubenda-noiframe iubenda-embed" title="Privacy Policy ">Privacy Policy</a>
+        <Script id="iubenda-privacy" type="text/javascript">{`(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);`}</Script>
 
-        {/* 2. Script iubenda */}
-        <Script
-          id="iubenda-cs"
-          src="https://cdn.iubenda.com/cs/iubenda_cs.js"
-          strategy="afterInteractive"
-        />
+        {/* Cookie Policy */}
+        <a href="https://www.iubenda.com/privacy-policy/76360064/cookie-policy" className="iubenda-black iubenda-noiframe iubenda-embed" title="Cookie Policy ">Cookie Policy</a>
+        <Script id="iubenda-cookie" type="text/javascript">{`(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);`}</Script>
 
-        {/* 3. GTM solo dopo */}
+        {/* GTM */}
         <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
         {/* Google tag */}
         <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
