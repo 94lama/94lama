@@ -13,8 +13,8 @@
 
 ### Skill Navigation
 
-- [ ] **MAP-01**: Recruiter can use section `01` knowledge map as the primary skills surface instead of a separate skills grid.
-- [ ] **MAP-02**: Recruiter can inspect a cleaner knowledge map with no center sphere and better spatial separation between items.
+- [x] **MAP-01**: Recruiter can use section `01` knowledge map as the primary skills surface instead of a separate skills grid.
+- [x] **MAP-02**: Recruiter can inspect a cleaner knowledge map with no center sphere and better spatial separation between items.
 
 ### Experience Sync
 
@@ -58,8 +58,8 @@
 | UI-01 | Phase 5 | Pending |
 | UI-02 | Phase 5 | Pending |
 | UI-03 | Phase 5 | Pending |
-| MAP-01 | Phase 4 | Pending |
-| MAP-02 | Phase 4 | Pending |
+| MAP-01 | Phase 4 | Complete |
+| MAP-02 | Phase 4 | Complete |
 | EXP-01 | Phase 4 | Complete |
 | EXP-02 | Phase 4 | Complete |
 | RELO-01 | Phase 5 | Pending |
