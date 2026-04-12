@@ -101,21 +101,22 @@
   },
   "contact": {
     "location": "Italy • Open to EU Relocation",
-    "email": "info@riccardolamalfa94.it",
+    "email": "info@riccardolamalfa.it",
     "phone": "+39 3314852911",
     "github": "https://github.com/94lama",
     "linkedin": "https://www.linkedin.com/in/riccardo-la-malfa"
   },
   "projects": [
     {
-      "name": "Apache OpenServerless",
-      "description": "Open source contribution"
+      "name": "Contribution to Apache OpenServerless",
+      "description": "Open source contribution (Python)"
     },
     {
       "name": "VPN setup with WireGuard (Linux)"
     },
     {
-      "name": "Client website development (WordPress)"
+      "name": "Client website development",
+      "description": "Built a client-facing website using React and Tailwind CSS, improving user engagement and lead generation."
     }
   ]
 }
