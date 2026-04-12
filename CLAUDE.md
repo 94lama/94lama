@@ -62,6 +62,16 @@ Use these entry points:
 Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
 <!-- GSD:workflow-end -->
 
+<!-- GSD:automation-start source:AUTOMATION.md -->
+## Automation
+
+- Script: `scripts/update-skill-radar.js` — computes role ratings from `public/assets/cv.json` and updates `README.md` and `public/assets/readme/skill-radar.svg` automatically.
+- Run locally: `npm run update:radar` or `node scripts/update-skill-radar.js`.
+- CI automation: a GitHub Actions workflow is included at `.github/workflows/update-skill-radar.yml`. It triggers on pushes that change `public/assets/cv.json` and will run the script and commit any resulting changes back to the repository.
+- To disable automatic updates, remove or rename the workflow file.
+
+<!-- GSD:automation-end -->
+
 <!-- GSD:profile-start -->
 ## Developer Profile
 

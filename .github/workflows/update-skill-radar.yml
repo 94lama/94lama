@@ -1,0 +1,27 @@
+name: Update Skill Radar
+
+on:
+  push:
+    paths:
+      - 'public/assets/cv.json'
+
+jobs:
+  update-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install (no deps)
+        run: echo 'No install required'
+      - name: Run radar update
+        run: node scripts/update-skill-radar.js
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md public/assets/readme/skill-radar.svg || true
+          git commit -m "chore: update skill radar from cv.json (auto)" || echo "no changes"
+          git push || echo "push skipped"
