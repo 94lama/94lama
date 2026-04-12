@@ -55,22 +55,22 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UI-01 | Phase TBD | Pending |
-| UI-02 | Phase TBD | Pending |
-| UI-03 | Phase TBD | Pending |
-| MAP-01 | Phase TBD | Pending |
-| MAP-02 | Phase TBD | Pending |
-| EXP-01 | Phase TBD | Pending |
-| EXP-02 | Phase TBD | Pending |
-| RELO-01 | Phase TBD | Pending |
-| CONT-01 | Phase TBD | Pending |
-| CONT-02 | Phase TBD | Pending |
-| CONS-01 | Phase TBD | Pending |
+| UI-01 | Phase 5 | Pending |
+| UI-02 | Phase 5 | Pending |
+| UI-03 | Phase 5 | Pending |
+| MAP-01 | Phase 4 | Pending |
+| MAP-02 | Phase 4 | Pending |
+| EXP-01 | Phase 4 | Pending |
+| EXP-02 | Phase 4 | Pending |
+| RELO-01 | Phase 5 | Pending |
+| CONT-01 | Phase 5 | Pending |
+| CONT-02 | Phase 5 | Pending |
+| CONS-01 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11 ⚠️
+- Mapped to phases: 11
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-12*

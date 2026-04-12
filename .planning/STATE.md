@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: TODO refresh
-status: planning
-stopped_at: Defining milestone requirements
-last_updated: "2026-04-12T09:18:49Z"
-last_activity: 2026-04-12 - Milestone v1.1 started
+status: roadmap_created
+stopped_at: Roadmap created; Phase 4 ready to plan
+last_updated: "2026-04-12T12:00:00Z"
+last_activity: 2026-04-12 - Roadmap created for milestone v1.1
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -18,17 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-11)
+See: .planning/PROJECT.md (updated 2026-04-12)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Define requirements and roadmap for milestone v1.1 TODO refresh
+**Current focus:** Plan Phase 4: Knowledge Map & Experience Contract
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: -
-Status: Defining requirements
-Last activity: 2026-04-12 - Milestone v1.1 started
+Phase: 4 of 6 (Knowledge Map & Experience Contract)
+Plan: 0 of 0 (plans not created yet)
+Status: Ready to plan
+Last activity: 2026-04-12 — Roadmap created and requirements mapped to phases
 
 Progress: [..........] 0%
 
@@ -49,7 +49,7 @@ Progress: [..........] 0%
 **Recent Trend:**
 
 - Last 5 plans: None yet for v1.1
-- Trend: Milestone v1.1 started; requirements and roadmap pending
+- Trend: Roadmap complete; ready to begin phase planning
 
 *Updated after each plan completion*
 
@@ -60,13 +60,10 @@ Progress: [..........] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- v1.0: Start with a bold, recruiter-focused one-page portfolio.
-- v1.0: Use `public/assets/cv.md` as the source of truth for portfolio content.
-- v1.0: Execute work in three phases: content foundation, portfolio experience, then contact polish.
-- Phase 1: Parse `cv.md` into a typed shared content model instead of maintaining duplicate content files.
-- Phase 2: Keep the portfolio home page server-rendered while upgrading hierarchy, layout rhythm, and shell design.
-- Phase 2: Preserve the interactive knowledge map as a supporting section instead of regressing earlier work.
-- Phase 3: Keep email as the primary CTA while sourcing GitHub and LinkedIn URLs from `public/assets/cv.md`.
+- v1.1: Keep the recruiter-first experience as a single page.
+- v1.1: Lock the shared map/experience interaction contract before heavier UI polish.
+- v1.1: Keep consent bootstrap isolated to its own later phase.
+- v1.1: Favor atomized composition over an OOP rewrite.
 
 ### Pending Todos
 
@@ -74,22 +71,12 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- None. The workspace is ready for the next milestone definition workflow.
-
-### Quick Tasks Completed
-
-| # | Description | Date | Commit | Directory |
-|---|-------------|------|--------|-----------|
-| 260410-swt | the knowledge-map has to be interactive (the user nes to be able to rotate it in 3d and to select a point to highlight all neigbooring nodes) use OGL library | 2026-04-10 | pending | [260410-swt-the-knowledge-map-has-to-be-interactive-](./quick/260410-swt-the-knowledge-map-has-to-be-interactive-/) |
-| 260410-tbn | update the experience items according to the selected point (or selected category) in the knowledge map | 2026-04-10 | 1f71b96, 91314df | [260410-tbn-update-the-experience-items-according-to](./quick/260410-tbn-update-the-experience-items-according-to/) |
-| 260410-trc | increase the opacity of the unselected dots in the map | 2026-04-10 | 69dc5ec | [260410-trc-increase-the-opacity-of-the-unselected-d](./quick/260410-trc-increase-the-opacity-of-the-unselected-d/) |
-| 260410-tzy | put the legend under the map, not inside | 2026-04-10 | 5e400a9 | [260410-tzy-put-the-legend-under-the-map-not-inside](./quick/260410-tzy-put-the-legend-under-the-map-not-inside/) |
-| 260412-0hl | in @app/layout.tsx fix the errors on the reading cookie and privacy tags (DO NOT EDIT THEM) | 2026-04-12 | c47fb6a, 60c3873 | [260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-](./quick/260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-/) |
-| 260412-bs4 | add cookie and privacy policy in @app/layout.tsx from @app/components/cookie-policy.html and @app/components/privacy-policy.html | 2026-04-12 | a44ab99 | [260412-bs4-add-cookie-and-privacy-policy-in-app-lay](./quick/260412-bs4-add-cookie-and-privacy-policy-in-app-lay/) |
-| 260412-cmf | implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user | 2026-04-12 | 515c542, 16f9bdf, c55a1f3 | [260412-cmf-implement-in-the-gsd-workflow-the-use-of](./quick/260412-cmf-implement-in-the-gsd-workflow-the-use-of/) |
+- Validate skill-to-experience matching fidelity during Phase 4 planning.
+- Validate mobile map usability and authored relocation detail during Phase 5 planning.
+- Confirm iubenda bootstrap config and load order during Phase 6 planning.
 
 ## Session Continuity
 
-Last session: 2026-04-11T10:30:00Z
-Stopped at: Milestone v1.0 archived and ready for the next milestone
+Last session: 2026-04-12T12:00:00Z
+Stopped at: Roadmap creation complete; ready for `/gsd-plan-phase 4`
 Resume file: None
