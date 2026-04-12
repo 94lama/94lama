@@ -3,12 +3,33 @@ import Image from "next/image";
 import { KnowledgeExperienceCoordinator } from "@/app/components/knowledge-experience-coordinator";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
+function EmailIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M3.75 7.5 12 13.5l8.25-6M5.25 6h13.5A1.5 1.5 0 0 1 20.25 7.5v9a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5v-9A1.5 1.5 0 0 1 5.25 6Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
 function ContactLink({
   href,
   label,
+  icon,
 }: Readonly<{
   href: string;
   label: string;
+  icon?: React.ReactNode;
 }>) {
   return (
     <a
@@ -17,7 +38,8 @@ function ContactLink({
       rel="noreferrer"
       target="_blank"
     >
-      {label}
+      {icon ? <span className="mr-2 inline-flex items-center">{icon}</span> : null}
+      <span>{label}</span>
     </a>
   );
 }
@@ -157,10 +179,14 @@ export default async function Home() {
               <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
                 <div className="flex flex-col items-start gap-3 xl:items-end">
                   <a
+                    aria-label={`Email ${content.contact.email}`}
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                     href={`mailto:${content.contact.email}`}
                   >
-                    Email me
+                    <span className="mr-2 inline-flex items-center">
+                      <EmailIcon />
+                    </span>
+                    <span>Email me</span>
                   </a>
                   {secondaryContactActions.length ? (
                     <div className="flex flex-wrap gap-3 xl:justify-end">
@@ -279,6 +305,19 @@ export default async function Home() {
                   {content.relocation.summary}
                 </p>
 
+                {content.relocation.support?.length ? (
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    {content.relocation.support.map((entry) => (
+                      <div key={entry.label} className={sectionInnerCardClassName}>
+                        <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/42">
+                          {entry.label}
+                        </p>
+                        <p className="mt-3 text-base leading-7 text-white/76">{entry.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
                 {content.relocation.preferredRegions?.length ? (
                   <div className="flex flex-wrap gap-3">
                     {content.relocation.preferredRegions.map((region) => (
@@ -289,6 +328,22 @@ export default async function Home() {
                         {region}
                       </span>
                     ))}
+                  </div>
+                ) : null}
+
+                {content.relocation.priorities?.length ? (
+                  <div className={sectionInnerCardClassName}>
+                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/42">
+                      Relocation priorities
+                    </p>
+                    <ul className="mt-4 space-y-3 text-base leading-7 text-white/76">
+                      {content.relocation.priorities.map((priority) => (
+                        <li key={priority} className="flex gap-3">
+                          <span className="mt-2 h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+                          <span>{priority}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ) : null}
               </div>
@@ -305,10 +360,14 @@ export default async function Home() {
                     Primary CTA
                   </p>
                   <a
+                    aria-label={`Email ${content.contact.email}`}
                     className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                     href={`mailto:${content.contact.email}`}
                   >
-                    Email me
+                    <span className="mr-2 inline-flex items-center">
+                      <EmailIcon />
+                    </span>
+                    <span>Email me</span>
                   </a>
                   {secondaryContactActions.length ? (
                     <div className="mt-4 flex flex-wrap gap-3">

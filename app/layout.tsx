@@ -33,6 +33,14 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         <Script
+          id="iubenda-consent-config"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `window._iub = window._iub || {}; window._iub.csConfiguration = window._iub.csConfiguration || { siteId: 4040418, cookiePolicyId: 76360064, lang: "en", storage: { useSiteId: true }, banner: { acceptButtonDisplay: true, closeButtonDisplay: false, customizeButtonDisplay: true, explicitWithdrawal: true, listPurposes: true, position: "float-bottom-center", rejectButtonDisplay: true } };`,
+          }}
+        />
+        <Script
+          id="iubenda-widget-bootstrap"
           src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"
           type="text/javascript"
           strategy="beforeInteractive"
