@@ -1,0 +1,121 @@
+{
+  "hero": {
+    "name": "Riccardo La Malfa",
+    "role": "Frontend-focused Full-Stack Developer (React, TypeScript, Python)",
+    "photo": {
+      "src": "/assets/foto-profilo.png",
+      "alt": "Profile photo of Riccardo La Malfa"
+    }
+  },
+  "summary": "Frontend-focused Full-Stack Developer with nearly 2 years of experience building and deploying web applications from PoC to production. Strong in React, TypeScript, Python, and serverless architectures, with exposure to AI workflows and DevOps practices.",
+  "skills": [
+    {
+      "category": "Frontend",
+      "items": ["React", "Next.js", "Svelte", "Javascript", "TypeScript", "Tailwind"],
+      "entries": [
+        { "label": "React", "knowledge": 1 },
+        { "label": "Next.js", "knowledge": 0.8 },
+        { "label": "Svelte", "knowledge": 0.6 },
+        { "label": "Javascript", "knowledge": 0.8 },
+        { "label": "TypeScript", "knowledge": 0.6 },
+        { "label": "Tailwind", "knowledge": 0.6 }
+      ]
+    },
+    {
+      "category": "Backend",
+      "items": ["Python", "PHP", "Laravel", "Django", "Serverless (OpenWhisk)"],
+      "entries": [
+        { "label": "Python", "knowledge": 0.6 },
+        { "label": "PHP", "knowledge": 0.4 },
+        { "label": "Laravel", "knowledge": 0.6 },
+        { "label": "Django", "knowledge": 0.4 },
+        { "label": "Serverless (OpenWhisk)", "knowledge": 0.4 }
+      ]
+    },
+    {
+      "category": "DevOps",
+      "items": ["Docker", "CI/CD", "Linux", "Bash"],
+      "entries": [
+        { "label": "Docker", "knowledge": 0.4 },
+        { "label": "CI/CD", "knowledge": 0.4 },
+        { "label": "Linux", "knowledge": 0.4 },
+        { "label": "Bash", "knowledge": 0.2 }
+      ]
+    },
+    {
+      "category": "Databases",
+      "items": ["MySQL", "PostgreSQL"],
+      "entries": [
+        { "label": "MySQL", "knowledge": 0.6 },
+        { "label": "PostgreSQL", "knowledge": 0.2 }
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Python Developer",
+      "company": "Nuvolaris",
+      "dateRange": "10/2025 – Present",
+      "highlights": [
+        "Built front-end applications (PoC → production) with React/Svelte",
+        "Built serverless applications (PoC → production) with Python/OpenWhisk backend",
+        "Built AI-based workflows for data extraction and processing",
+        "Presented technical solutions to clients",
+        "Deployed a Nuvolaris cluster (Kubernetes) project in production"
+      ]
+    },
+    {
+      "role": "Full-Stack Developer",
+      "company": "Aroma S.r.l.",
+      "dateRange": "10/2024 – 06/2025",
+      "highlights": [
+        "Developed scalable frontend architecture with React",
+        "Implemented features across frontend and backend (Laravel)",
+        "Managed deployments using Docker and Linux environments"
+      ]
+    },
+    {
+      "role": "Full-Stack Developer",
+      "company": "Loliv",
+      "dateRange": "06/2024 – 12/2024",
+      "highlights": [
+        "Designed and developed a front-end web application",
+        "Designed and developer a back-end application",
+        "Managed database architecture and deployments",
+        "Coordinated small technical team"
+      ]
+    }
+  ],
+  "education": [
+    "Master in Architecture – Politecnico di Torino",
+    "Bachelor in Architecture – Politecnico di Torino"
+  ],
+  "languages": [
+    { "label": "Italian", "level": "Native" },
+    { "label": "English", "level": "C1" },
+    { "label": "French", "level": "A2" }
+  ],
+  "relocation": {
+    "summary": "Open to relocation across EU (Netherlands, France, Denmark preferred)",
+    "preferredRegions": ["Netherlands", "France", "Denmark"]
+  },
+  "contact": {
+    "location": "Italy • Open to EU Relocation",
+    "email": "info@riccardolamalfa94.it",
+    "phone": "+39 3314852911",
+    "github": "https://github.com/94lama",
+    "linkedin": "https://www.linkedin.com/in/riccardo-la-malfa"
+  },
+  "projects": [
+    {
+      "name": "Apache OpenServerless",
+      "description": "Open source contribution"
+    },
+    {
+      "name": "VPN setup with WireGuard (Linux)"
+    },
+    {
+      "name": "Client website development (WordPress)"
+    }
+  ]
+}
