@@ -60,6 +60,8 @@ Use these entry points:
 - `/gsd-execute-phase` for planned phase work
 
 Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
+
+- Branching policy: NEVER push directly to the `main` branch. ALWAYS work on `development` or a topic-specific branch (for example `feature/xyz` or `fix/abc`) and open a pull request for merging after review and CI checks.
 <!-- GSD:workflow-end -->
 
 <!-- GSD:automation-start source:AUTOMATION.md -->
