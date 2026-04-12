@@ -1,5 +1,9 @@
 # TODO
 
+## Architecture
+- [ ] Use OOP to manage components
+- [ ] Use atomization to manage components
+
 ## UI
 - [ ] Use blue instead of green as primary color
 - [ ] add animations
@@ -19,3 +23,6 @@
 ## contact
 - [ ] use icons for links instead of cards with anchor tag
 - [ ] remove the relocation info (there is already a dedicated section)
+
+## footer
+- [ ] prompt the cookie policy to the user at app bootstrap

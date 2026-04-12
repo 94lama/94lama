@@ -6,7 +6,7 @@ import type {
   ProjectEntry,
   SkillEntry,
   SkillGroup,
-} from "@/src/content/portfolio/types";
+} from "./types.ts";
 
 const SECTION_HEADINGS = new Set([
   "Summary",

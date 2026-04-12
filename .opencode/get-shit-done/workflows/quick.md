@@ -36,7 +36,42 @@ Parse `$ARGUMENTS` for:
 - `--research` flag → store `$RESEARCH_MODE=true`
 - Remaining text → use as `$DESCRIPTION` if non-empty
 
-If `$DESCRIPTION` is empty after parsing, prompt user interactively:
+Initialize quick backlog intake state:
+- `$TODO_MD_SELECTED=false`
+- `$TODO_MD_SELECTED_TEXT=""`
+- `$TODO_MD_SELECTED_SECTION=""`
+- `$TODO_MD_SELECTED_LINE=""`
+
+If `$DESCRIPTION` is empty after parsing, load the repo-root backlog first:
+
+```bash
+BACKLOG_INIT=$(node "/workspaces/94lama/.opencode/get-shit-done/bin/gsd-tools.cjs" init quick "" --raw)
+if [[ "$BACKLOG_INIT" == @file:* ]]; then BACKLOG_INIT=$(cat "${BACKLOG_INIT#@file:}"); fi
+```
+
+Parse JSON for: `todo_md_exists`, `todo_md_item_count`, `todo_md_items`.
+
+If `todo_md_exists` is true and `todo_md_item_count > 0`, offer the unchecked `TODO.md` items as selectable work plus a custom freeform description path:
+
+```
+question(
+  header: "Quick Task",
+  question: "Pick work from TODO.md or enter a custom freeform description.",
+  options: [
+    { label: "[TODO.md] ${item_1.section}: ${item_1.text}", description: "TODO.md line ${item_1.line_number}" },
+    { label: "[TODO.md] ${item_2.section}: ${item_2.text}", description: "TODO.md line ${item_2.line_number}" },
+    { label: "Custom freeform description", description: "Describe ad-hoc work that is not listed in TODO.md" }
+  ],
+  followUp: null
+)
+```
+
+If the user selects a TODO.md item:
+- Store `$DESCRIPTION` as the selected item's `text`
+- Store `$TODO_MD_SELECTED=true`
+- Store `$TODO_MD_SELECTED_TEXT`, `$TODO_MD_SELECTED_SECTION`, `$TODO_MD_SELECTED_LINE`
+
+If the user selects `Custom freeform description`, or if `TODO.md` does not exist / has no open items, prompt user interactively:
 
 ```
 question(
@@ -137,7 +172,9 @@ AGENT_SKILLS_CHECKER=$(node "/workspaces/94lama/.opencode/get-shit-done/bin/gsd-
 AGENT_SKILLS_VERIFIER=$(node "/workspaces/94lama/.opencode/get-shit-done/bin/gsd-tools.cjs" agent-skills gsd-verifier 2>/dev/null)
 ```
 
-Parse JSON for: `planner_model`, `executor_model`, `checker_model`, `verifier_model`, `commit_docs`, `branch_name`, `quick_id`, `slug`, `date`, `timestamp`, `quick_dir`, `task_dir`, `roadmap_exists`, `planning_exists`.
+If `$TODO_MD_SELECTED=true`, rerun the normal quick init with the chosen description so slug/task-dir generation stays correct for the selected `TODO.md` item.
+
+Parse JSON for: `planner_model`, `executor_model`, `checker_model`, `verifier_model`, `commit_docs`, `branch_name`, `quick_id`, `slug`, `date`, `timestamp`, `quick_dir`, `task_dir`, `roadmap_exists`, `planning_exists`, `todo_md_exists`, `todo_md_item_count`, `todo_md_items`.
 
 ```bash
 USE_WORKTREES=$(node "/workspaces/94lama/.opencode/get-shit-done/bin/gsd-tools.cjs" config-get workflow.use_worktrees 2>/dev/null || echo "true")
@@ -400,6 +437,7 @@ Task(
 <files_to_read>
 - .planning/STATE.md (Project State)
 - ./AGENTS.md (if exists — follow project-specific guidelines)
+- TODO.md (repo-root backlog context for quick planning)
 ${DISCUSS_MODE ? '- ' + QUICK_DIR + '/' + quick_id + '-CONTEXT.md (User decisions — locked, do not revisit)' : ''}
 ${RESEARCH_MODE ? '- ' + QUICK_DIR + '/' + quick_id + '-RESEARCH.md (Research findings — use to inform implementation choices)' : ''}
 </files_to_read>
@@ -576,6 +614,7 @@ This corrects a known issue on Windows where EnterWorktree creates branches from
 - ${QUICK_DIR}/${quick_id}-PLAN.md (Plan)
 - .planning/STATE.md (Project state)
 - ./AGENTS.md (Project instructions, if exists)
+- TODO.md (repo-root backlog context and selected item continuity)
 - .claude/skills/ or .agents/skills/ (Project skills, if either exists — list skills, read SKILL.md for each, follow relevant rules during implementation)
 </files_to_read>
 
@@ -587,6 +626,7 @@ ${AGENT_SKILLS_EXECUTOR}
 - Create summary at: ${QUICK_DIR}/${quick_id}-SUMMARY.md
 - Do NOT commit docs artifacts (SUMMARY.md, STATE.md, PLAN.md) — the orchestrator handles the docs commit in Step 8
 - Do NOT update ROADMAP.md (quick tasks are separate from planned phases)
+- If this run started from a selected TODO.md item, preserve the stored TODO metadata for any post-success completion logic
 </constraints>
 ",
   subagent_type="gsd-executor",
@@ -756,6 +796,44 @@ Store as `$VERIFICATION_STATUS`.
 
 ---
 
+**Step 6.75: Mark selected TODO.md item complete (only when this quick task came from TODO.md)**
+
+Run this only when `$TODO_MD_SELECTED=true` and executor succeeded.
+
+If `$VALIDATE_MODE` is enabled, run it after verification when results are accepted. If the verifier found gaps and the user chose rework, defer this step until the final successful pass.
+
+Use the stored `TODO.md` line number and selected text as a drift guard. Never guess if the file changed mid-run.
+
+```bash
+TODO_MD_UPDATED=false
+if [ "$TODO_MD_SELECTED" = "true" ] && [ -n "$TODO_MD_SELECTED_LINE" ] && [ -n "$TODO_MD_SELECTED_TEXT" ] && [ -f "TODO.md" ]; then
+  CURRENT_LINE=$(sed -n "${TODO_MD_SELECTED_LINE}p" "TODO.md")
+  EXPECTED_LINE="- [ ] ${TODO_MD_SELECTED_TEXT}"
+  if [ "$CURRENT_LINE" = "$EXPECTED_LINE" ]; then
+    python3 - <<'PY'
+from pathlib import Path
+path = Path('TODO.md')
+line_number = int("""${TODO_MD_SELECTED_LINE}""")
+lines = path.read_text().splitlines(True)
+target = lines[line_number - 1]
+lines[line_number - 1] = target.replace('- [ ]', '- [x]', 1)
+path.write_text(''.join(lines))
+PY
+    TODO_MD_UPDATED=true
+    echo "Marked TODO.md item complete: line number ${TODO_MD_SELECTED_LINE}"
+  else
+    echo "TODO.md changed since selection; skipping completion instead of guessing."
+  fi
+fi
+```
+
+Rules:
+- Manual quick tasks leave `TODO.md` untouched
+- If the stored line number no longer matches the selected text, leave `TODO.md` untouched and continue normally
+- Only flip `- [ ]` to `- [x]` for the exact selected line
+
+---
+
 **Step 7: Update STATE.md**
 
 Update STATE.md with quick task completion record.
@@ -822,6 +900,7 @@ Build file list:
 - If `$DISCUSS_MODE` and context file exists: `${QUICK_DIR}/${quick_id}-CONTEXT.md`
 - If `$RESEARCH_MODE` and research file exists: `${QUICK_DIR}/${quick_id}-RESEARCH.md`
 - If `$VALIDATE_MODE` and verification file exists: `${QUICK_DIR}/${quick_id}-VERIFICATION.md`
+- If `TODO.md` was updated by Step 6.75: `TODO.md` (include it in the final docs commit file list only when it changed)
 
 ```bash
 # Explicitly stage all artifacts before commit — PLAN.md may be untracked

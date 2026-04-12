@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ExperienceMapSection } from "@/app/components/experience-map-section";
+import { KnowledgeExperienceCoordinator } from "@/app/components/knowledge-experience-coordinator";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
 function ContactLink({
@@ -18,6 +18,47 @@ function ContactLink({
       target="_blank"
     >
       {label}
+    </a>
+  );
+}
+
+function ContactIconLink({
+  href,
+  label,
+  icon,
+}: Readonly<{
+  href: string;
+  label: string;
+  icon: "github" | "linkedin";
+}>) {
+  return (
+    <a
+      aria-label={label}
+      className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/12 bg-white/6 text-white transition-colors duration-200 hover:border-white/24 hover:bg-white/12 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+      title={label}
+    >
+      {icon === "github" ? (
+        <svg
+          aria-hidden="true"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 2C6.48 2 2 6.59 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.5 0-.24-.01-1.04-.01-1.88-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.33 9.33 0 0 1 12 6.83c.85 0 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.71 1.03 1.62 1.03 2.74 0 3.95-2.35 4.81-4.59 5.07.36.32.68.93.68 1.88 0 1.36-.01 2.46-.01 2.8 0 .27.18.6.69.5A10.24 10.24 0 0 0 22 12.25C22 6.59 17.52 2 12 2Z" />
+        </svg>
+      ) : (
+        <svg
+          aria-hidden="true"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M6.94 8.5H3.56V20h3.38V8.5Zm.22-3.56c0-1.07-.8-1.94-1.91-1.94-1.1 0-1.91.87-1.91 1.94 0 1.06.79 1.94 1.88 1.94h.02c1.12 0 1.92-.88 1.92-1.94ZM20.44 13.02c0-3.48-1.86-5.1-4.35-5.1-2 0-2.9 1.12-3.4 1.9V8.5H9.31c.04.88 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.68.12-.92.27-.69.88-1.4 1.9-1.4 1.34 0 1.88 1.05 1.88 2.58V20h3.38v-6.98Z" />
+        </svg>
+      )}
     </a>
   );
 }
@@ -48,6 +89,15 @@ function SectionHeading({
   );
 }
 
+const sectionShellClassName =
+  "relative overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(23,26,34,0.88))] px-5 py-6 shadow-[0_35px_120px_-80px_rgba(56,189,248,0.3)] sm:px-6 sm:py-7 xl:px-8";
+
+const sectionGlowClassName =
+  "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.1),transparent_28%)]";
+
+const sectionInnerCardClassName =
+  "rounded-[1.35rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(12,12,15,0.34))] px-4 py-4 backdrop-blur-sm";
+
 export default async function Home() {
   const content = await getPortfolioContent();
   const secondaryContactActions = [
@@ -62,7 +112,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-4 sm:gap-16 sm:px-6 sm:py-6 lg:gap-24 lg:px-8 xl:px-10">
-        <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
+        <section className="overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
           <div className="grid min-h-full gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:px-10 lg:py-10 xl:px-14 xl:py-14">
             <div className="flex flex-col justify-between gap-10 xl:gap-14">
               <div className="space-y-8 sm:space-y-10">
@@ -83,7 +133,7 @@ export default async function Home() {
                     {content.summary}
                   </p>
 
-                  <div className="grid gap-3 rounded-[1.5rem] border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:max-w-xl sm:grid-cols-2">
+                  <div className="grid gap-3 rounded-3xl border border-white/10 bg-white/4 p-5 backdrop-blur-sm sm:max-w-xl sm:grid-cols-2">
                     <div className="space-y-2">
                       <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/46">
                         Based in
@@ -110,7 +160,7 @@ export default async function Home() {
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                     href={`mailto:${content.contact.email}`}
                   >
-                    Email Riccardo
+                    Email me
                   </a>
                   {secondaryContactActions.length ? (
                     <div className="flex flex-wrap gap-3 xl:justify-end">
@@ -123,17 +173,17 @@ export default async function Home() {
               </div>
             </div>
 
-            <aside className="flex h-full flex-col justify-between gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 xl:p-8">
+            <aside className="flex h-full flex-col justify-between gap-6 rounded-4xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm sm:p-6 xl:p-8">
               <div className="space-y-6">
                 {content.hero.photo ? (
                   <div className="space-y-3">
                     <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-white/44">
                       Profile
                     </p>
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/20">
+                    <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-white/10 bg-black/20">
                       <Image
                         alt={content.hero.photo.alt}
-                        className="object-cover"
+                        className="object-contain translate-y-15"
                         fill
                         priority
                         sizes="(max-width: 1024px) 100vw, 28rem"
@@ -143,7 +193,7 @@ export default async function Home() {
                   </div>
                 ) : null}
 
-                <div className="space-y-3 rounded-[1.5rem] border border-white/10 bg-black/20 p-5">
+                <div className="space-y-3 rounded-3xl border border-white/10 bg-black/20 p-5">
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
                     Contact line
                   </p>
@@ -159,7 +209,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-[1.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(184,255,32,0.03))] p-5">
+              <div className="space-y-3 rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(37,99,235,0.05))] p-5">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/52">
                   Preferred regions
                 </p>
@@ -178,251 +228,131 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12 xl:gap-16">
-          <SectionHeading
-            index="01"
-            title="Skills"
-            description="Grouped for recruiter-speed scanning across frontend, backend, DevOps, and data work."
-          />
-
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {content.skills.map((group, index) => (
-              <article
-                key={group.category}
-                className={`rounded-[1.75rem] border p-5 sm:p-6 ${
-                  index === 0
-                    ? "border-accent/25 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))]"
-                    : "border-white/10 bg-surface"
-                }`}
-              >
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="text-2xl font-semibold tracking-tight text-white">
-                      {group.category}
-                    </h2>
-                  </div>
-
-                  <ul className="space-y-3">
-                    {group.entries.map((entry) => (
-                      <li
-                        key={`${group.category}-${entry.label}`}
-                        className="flex items-center justify-between gap-4 border-t border-white/8 pt-3 text-sm text-white/72"
-                      >
-                        <span>{entry.label}</span>
-                        {typeof entry.knowledge === "number" ? (
-                          <span className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/42">
-                            {Math.round(entry.knowledge * 5)}/5
-                          </span>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12 xl:gap-16">
-          <SectionHeading
-            index="02"
-            title="Experience"
-            description="The highest-weight credential block after the hero, organized for role, company, timing, and proof points."
-          />
-
-          <div className="space-y-5">
-            {content.experience.map((entry, index) => (
-              <article
-                key={`${entry.role}-${entry.company}-${entry.dateRange}`}
-                className="rounded-[1.75rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8"
-              >
-                <div className="grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)]">
-                  <div className="flex items-start gap-4 lg:flex-col lg:gap-8">
-                    <span className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/12 bg-white/4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/48">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white/42 lg:max-w-[10rem]">
-                      {entry.dateRange}
-                    </p>
-                  </div>
-
-                  <div className="space-y-5">
-                    <div className="space-y-3">
-                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                        {entry.company}
-                      </p>
-                      <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-[2.2rem]">
-                        {entry.role}
-                      </h2>
-                    </div>
-
-                    <ul className="space-y-3 text-base leading-7 text-white/74">
-                      {entry.highlights.map((highlight) => (
-                        <li key={highlight} className="flex gap-3">
-                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-accent" />
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="space-y-8 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(23,26,34,0.96),rgba(12,12,15,0.98))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-          <SectionHeading
-            index="02A"
-            title="Interactive Skills And Experience"
-            description="A deeper pass on how the grouped skill areas connect back to the experience timeline without changing the one-page flow."
-          />
-          <ExperienceMapSection
-            experience={content.experience}
-            skillGroups={content.skills}
-          />
-        </section>
+        <KnowledgeExperienceCoordinator
+          experience={content.experience}
+          skillGroups={content.skills}
+        />
 
         <section className="grid gap-8 xl:grid-cols-2">
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="03" title="Education" />
-            <ul className="mt-8 space-y-4">
-              {content.education.map((entry) => (
-                <li
-                  key={entry}
-                  className="rounded-[1.25rem] border border-white/8 bg-black/18 px-4 py-4 text-base leading-7 text-white/76"
-                >
-                  {entry}
-                </li>
-              ))}
-            </ul>
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="03" title="Education" />
+              <ul className="mt-8 space-y-4">
+                {content.education.map((entry) => (
+                  <li
+                    key={entry}
+                    className={`${sectionInnerCardClassName} text-base leading-7 text-white/76`}
+                  >
+                    {entry}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </article>
 
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="04" title="Languages" />
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {content.languages.map((entry) => (
-                <div
-                  key={entry.label}
-                  className="rounded-[1.25rem] border border-white/8 bg-black/18 px-4 py-4"
-                >
-                  <p className="text-lg font-semibold text-white">{entry.label}</p>
-                  <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/46">
-                    {entry.level}
-                  </p>
-                </div>
-              ))}
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="04" title="Languages" />
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {content.languages.map((entry) => (
+                  <div key={entry.label} className={sectionInnerCardClassName}>
+                    <p className="text-lg font-semibold text-white">{entry.label}</p>
+                    <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/46">
+                      {entry.level}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </article>
         </section>
 
         <section className="grid gap-8 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <article className="rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="05" title="Relocation" />
-            <div className="mt-8 space-y-6">
-              <p className="max-w-2xl text-lg leading-8 text-white/78">
-                {content.relocation.summary}
-              </p>
-
-              {content.relocation.preferredRegions?.length ? (
-                <div className="flex flex-wrap gap-3">
-                  {content.relocation.preferredRegions.map((region) => (
-                    <span
-                      key={region}
-                      className="rounded-full border border-white/12 bg-white/6 px-4 py-3 text-sm text-white/78"
-                    >
-                      {region}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </article>
-
-          <article className="rounded-[2rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="06" title="Contact" />
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5 sm:col-span-2">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Primary CTA
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="05" title="Relocation" />
+              <div className="mt-8 space-y-6">
+                <p className="max-w-2xl text-lg leading-8 text-white/78">
+                  {content.relocation.summary}
                 </p>
-                <a
-                  className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                  href={`mailto:${content.contact.email}`}
-                >
-                  Email Riccardo
-                </a>
-                {secondaryContactActions.length ? (
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    {secondaryContactActions.map((action) => (
-                      <ContactLink key={`contact-${action.label}`} href={action.href} label={action.label} />
+
+                {content.relocation.preferredRegions?.length ? (
+                  <div className="flex flex-wrap gap-3">
+                    {content.relocation.preferredRegions.map((region) => (
+                      <span
+                        key={region}
+                        className="rounded-full border border-white/12 bg-white/8 px-4 py-3 text-sm text-white/78 backdrop-blur-sm"
+                      >
+                        {region}
+                      </span>
                     ))}
                   </div>
                 ) : null}
               </div>
+            </div>
+          </article>
 
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Email
-                </p>
-                <a
-                  className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                  href={`mailto:${content.contact.email}`}
-                >
-                  {content.contact.email}
-                </a>
-              </div>
-
-              <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Location
-                </p>
-                <p className="mt-3 text-base leading-7 text-white/76">{content.contact.location}</p>
-              </div>
-
-              {content.contact.phone ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5 sm:col-span-2">
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="06" title="Contact" />
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    Phone
+                    Primary CTA
                   </p>
-                  <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                  <a
+                    className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    href={`mailto:${content.contact.email}`}
+                  >
+                    Email me
+                  </a>
+                  {secondaryContactActions.length ? (
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      {secondaryContactActions.map((action) => (
+                        <ContactIconLink
+                          key={`contact-${action.label}`}
+                          href={action.href}
+                          icon={action.label === "GitHub" ? "github" : "linkedin"}
+                          label={action.label}
+                        />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
 
-              {content.contact.github ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                <div className={sectionInnerCardClassName}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    GitHub
+                    Email
                   </p>
                   <a
                     className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                    href={content.contact.github}
-                    rel="noreferrer"
-                    target="_blank"
+                    href={`mailto:${content.contact.email}`}
                   >
-                    {content.contact.github}
+                    {content.contact.email}
                   </a>
                 </div>
-              ) : null}
 
-              {content.contact.linkedin ? (
-                <div className="rounded-[1.5rem] border border-white/8 bg-black/18 p-5">
+                <div className={sectionInnerCardClassName}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    LinkedIn
+                    Location
                   </p>
-                  <a
-                    className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                    href={content.contact.linkedin}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {content.contact.linkedin}
-                  </a>
+                  <p className="mt-3 text-base leading-7 text-white/76">{content.contact.location}</p>
                 </div>
-              ) : null}
+
+                {content.contact.phone ? (
+                  <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
+                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                      Phone
+                    </p>
+                    <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                  </div>
+                ) : null}
+
+              </div>
             </div>
           </article>
         </section>

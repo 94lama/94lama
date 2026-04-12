@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { LegalEmbedFooter } from "./components/legal-embed-footer";
 import "./globals.css";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +32,9 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         {children}
+        <LegalEmbedFooter />
+        {/* Google tag */}
+        <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
       </body>
     </html>
   );

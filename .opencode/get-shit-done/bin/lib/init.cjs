@@ -445,10 +445,57 @@ function cmdInitNewMilestone(cwd, raw) {
   output(withProjectRoot(cwd, result), raw);
 }
 
+function parseQuickTodoMdItems(cwd) {
+  const todoPath = path.join(cwd, 'TODO.md');
+  const result = {
+    todo_md_exists: fs.existsSync(todoPath),
+    todo_md_path: 'TODO.md',
+    todo_md_item_count: 0,
+    todo_md_items: [],
+  };
+
+  if (!result.todo_md_exists) {
+    return result;
+  }
+
+  try {
+    const lines = fs.readFileSync(todoPath, 'utf-8').split(/\r?\n/);
+    let currentSection = null;
+
+    lines.forEach((line, index) => {
+      const headingMatch = line.match(/^##\s+(.+)$/);
+      if (headingMatch) {
+        currentSection = headingMatch[1].trim();
+        return;
+      }
+
+      const todoMatch = line.match(/^\s*-\s+\[ \]\s+(.+)$/);
+      if (!todoMatch) return;
+
+      const text = todoMatch[1].trim();
+      result.todo_md_items.push({
+        section: currentSection,
+        text,
+        line_number: index + 1,
+        source_line: line,
+      });
+    });
+
+    result.todo_md_item_count = result.todo_md_items.length;
+  } catch {
+    result.todo_md_exists = false;
+    result.todo_md_item_count = 0;
+    result.todo_md_items = [];
+  }
+
+  return result;
+}
+
 function cmdInitQuick(cwd, description, raw) {
   const config = loadConfig(cwd);
   const now = new Date();
   const slug = description ? generateSlugInternal(description)?.substring(0, 40) : null;
+  const todoMetadata = parseQuickTodoMdItems(cwd);
 
   // Generate collision-resistant quick task ID: YYMMDD-xxx
   // xxx = 2-second precision blocks since midnight, encoded as 3-char Base36 (lowercase)
@@ -497,6 +544,12 @@ function cmdInitQuick(cwd, description, raw) {
     // File existence
     roadmap_exists: fs.existsSync(path.join(planningDir(cwd), 'ROADMAP.md')),
     planning_exists: fs.existsSync(planningRoot(cwd)),
+
+    // Repo-root quick backlog metadata
+    todo_md_exists: todoMetadata.todo_md_exists,
+    todo_md_path: todoMetadata.todo_md_path,
+    todo_md_item_count: todoMetadata.todo_md_item_count,
+    todo_md_items: todoMetadata.todo_md_items,
 
   };
 
@@ -1491,7 +1544,39 @@ function cmdAgentSkills(cwd, agentType, raw) {
   }
 
   const config = loadConfig(cwd);
-  const block = buildAgentSkillsBlock(config, agentType, cwd);
+
+  // Build base block from config
+  let block = buildAgentSkillsBlock(config, agentType, cwd);
+
+  // Auto-inject caveman skill when marker exists and skill present
+  try {
+    const cavemanMarker = path.join(cwd, '.agents', 'skills', 'caveman', 'AUTO_TRIGGER');
+    const cavemanSkillMd = path.join(cwd, '.agents', 'skills', 'caveman', 'SKILL.md');
+    if (fs.existsSync(cavemanMarker) && fs.existsSync(cavemanSkillMd)) {
+      const caveEntry = `- @.agents/skills/caveman/SKILL.md`;
+      if (block && block.includes('Read these user-configured skills')) {
+        // Insert caveman entry near the top unless already present
+        const lines = block.split('\n');
+        if (!lines.some(l => l.includes('@.agents/skills/caveman/SKILL.md'))) {
+          // After the header and explanatory line, insert the caveman entry
+          // header (line 0): <agent_skills>
+          // explanatory (line 1): Read these user-configured skills:
+          lines.splice(2, 0, caveEntry);
+          block = lines.join('\n');
+        }
+      } else {
+        // No configured skills — create block with caveman only
+        block = `<agent_skills>\nRead these user-configured skills:\n${caveEntry}\n</agent_skills>`;
+      }
+    } else if (fs.existsSync(cavemanMarker) && !fs.existsSync(cavemanSkillMd)) {
+      // Marker present but SKILL.md missing — warn on stderr but do not fail
+      process.stderr.write('[agent-skills] WARNING: AUTO_TRIGGER present but caveman SKILL.md not found; ignoring marker.\n');
+    }
+  } catch (e) {
+    // Defensive: do not let auto-inject break agent-skills output
+    process.stderr.write(`[agent-skills] WARNING: caveman auto-inject failed: ${String(e)}\n`);
+  }
+
   // Output raw text (not JSON) so workflows can embed it directly
   if (block) {
     process.stdout.write(block);
