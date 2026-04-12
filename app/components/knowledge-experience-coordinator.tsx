@@ -82,7 +82,7 @@ export function KnowledgeExperienceCoordinator({
 
   return (
     <div className="space-y-12 lg:space-y-16">
-      <section className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12 xl:gap-16">
+      <section className="space-y-8 lg:space-y-10">
         <SectionHeading
           index="01"
           title="Skills"
