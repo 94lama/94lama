@@ -14,6 +14,7 @@ I like shipping work that feels sharp in the UI, stays practical in the backend,
 - Turning prototypes into production-ready product work
 - Working on **serverless delivery, AI-assisted workflows, and clean developer experience**
 - Looking for teams where frontend ownership and cross-stack execution both matter
+- Currently based in Italy and open to the right EU relocation move
 
 ## Toolbox
 
@@ -23,6 +24,12 @@ I like shipping work that feels sharp in the UI, stays practical in the backend,
 - Backend: Python, PHP, Laravel, Django, OpenWhisk serverless apps
 - Delivery: Docker, CI/CD, Linux, Bash
 - Data: MySQL, PostgreSQL
+
+**I tend to reach for when shipping**
+
+- React and Next.js for product surfaces that need speed, clarity, and iteration room
+- Python when workflow logic, data handling, or automation becomes the real job
+- Lightweight deployment paths that keep releases understandable instead of magical
 
 **What I usually bring to a project**
 
@@ -64,6 +71,7 @@ I like shipping work that feels sharp in the UI, stays practical in the backend,
 - Best fit is collaborative product work: clear tradeoffs, direct feedback, iterative delivery
 - I like owning the connective tissue between interface, backend behavior, and release workflow
 - Strong interest in open source, developer tooling, and systems that balance UX with operational simplicity
+- Background in architecture, which still influences how I think about systems, constraints, and composition
 
 ## Find me
 
