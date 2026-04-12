@@ -30,6 +30,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <Script
+        src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"
+      />
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         {children}
 
