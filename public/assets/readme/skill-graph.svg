@@ -1,0 +1,102 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Riccardo La Malfa stack graph</title>
+  <desc id="desc">GitHub-safe network graph of categories and tools sourced from public/assets/cv.json.</desc>
+  <rect width="1280" height="760" rx="28" fill="#08111F"/>
+  <rect x="20" y="20" width="1240" height="720" rx="22" fill="#0D1B31" stroke="#24456F"/>
+  <text x="72" y="96" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="20" letter-spacing="0.16em">STACK MAP</text>
+  <text x="72" y="146" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="42" font-weight="700">How the toolkit clusters</text>
+  <text x="72" y="184" fill="#AFC9E6" font-family="Verdana, Geneva, sans-serif" font-size="20">Categories from cv.json, with node size stepping from each knowledge value.</text>
+
+  <g opacity="0.9" stroke-linecap="round">
+    <path d="M430 352C506 292 560 274 640 268" stroke="#24456F" stroke-width="4"/>
+    <path d="M452 402C528 428 562 436 640 432" stroke="#24456F" stroke-width="4"/>
+    <path d="M684 268C770 276 840 294 930 346" stroke="#24456F" stroke-width="4"/>
+    <path d="M684 430C768 426 840 412 932 374" stroke="#24456F" stroke-width="4"/>
+    <path d="M642 274C626 208 620 170 620 116" stroke="#24456F" stroke-width="4"/>
+    <path d="M642 426C630 496 624 554 624 628" stroke="#24456F" stroke-width="4"/>
+  </g>
+
+  <g>
+    <circle cx="640" cy="352" r="98" fill="#091321" stroke="#5EA5F8" stroke-width="4"/>
+    <circle cx="640" cy="352" r="74" fill="#0F2741"/>
+    <text x="640" y="336" text-anchor="middle" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="18" letter-spacing="0.14em">BUILD MODE</text>
+    <text x="640" y="366" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="30" font-weight="700">Frontend ↔ Backend</text>
+    <text x="640" y="396" text-anchor="middle" fill="#AFC9E6" font-family="Verdana, Geneva, sans-serif" font-size="18">Product UI, services, delivery</text>
+  </g>
+
+  <g>
+    <circle cx="398" cy="376" r="76" fill="#091321" stroke="#5EA5F8" stroke-width="4"/>
+    <text x="398" y="368" text-anchor="middle" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="16" letter-spacing="0.12em">FRONTEND</text>
+    <text x="398" y="398" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="26" font-weight="700">React-first</text>
+
+    <circle cx="276" cy="312" r="36" fill="#16385D" stroke="#7AB7FF" stroke-width="3"/>
+    <text x="276" y="318" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="18">React</text>
+    <text x="276" y="344" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="14">1.0</text>
+
+    <circle cx="334" cy="468" r="30" fill="#16385D" stroke="#7AB7FF" stroke-width="3"/>
+    <text x="334" y="473" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="16">Next.js</text>
+    <text x="334" y="496" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="13">0.8</text>
+
+    <circle cx="492" cy="472" r="30" fill="#16385D" stroke="#7AB7FF" stroke-width="3"/>
+    <text x="492" y="477" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="15">Javascript</text>
+    <text x="492" y="500" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="13">0.8</text>
+
+    <circle cx="498" cy="274" r="26" fill="#12314F" stroke="#5EA5F8" stroke-width="3"/>
+    <text x="498" y="279" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="14">TypeScript</text>
+    <text x="498" y="300" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="12">0.6</text>
+
+    <circle cx="366" cy="224" r="26" fill="#12314F" stroke="#5EA5F8" stroke-width="3"/>
+    <text x="366" y="229" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="15">Svelte</text>
+    <text x="366" y="250" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="12">0.6</text>
+  </g>
+
+  <g>
+    <circle cx="956" cy="364" r="76" fill="#091321" stroke="#5EA5F8" stroke-width="4"/>
+    <text x="956" y="356" text-anchor="middle" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="16" letter-spacing="0.12em">BACKEND</text>
+    <text x="956" y="386" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="26" font-weight="700">Python + Laravel</text>
+
+    <circle cx="1072" cy="308" r="26" fill="#12314F" stroke="#5EA5F8" stroke-width="3"/>
+    <text x="1072" y="313" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="15">Python</text>
+    <text x="1072" y="334" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="12">0.6</text>
+
+    <circle cx="1058" cy="448" r="26" fill="#12314F" stroke="#5EA5F8" stroke-width="3"/>
+    <text x="1058" y="453" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="15">Laravel</text>
+    <text x="1058" y="474" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="12">0.6</text>
+
+    <circle cx="904" cy="240" r="22" fill="#102A44" stroke="#3E7FD1" stroke-width="3"/>
+    <text x="904" y="245" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="13">PHP</text>
+    <text x="904" y="264" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="11">0.4</text>
+
+    <circle cx="878" cy="488" r="22" fill="#102A44" stroke="#3E7FD1" stroke-width="3"/>
+    <text x="878" y="493" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="13">OpenWhisk</text>
+    <text x="878" y="512" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="11">0.4</text>
+  </g>
+
+  <g>
+    <circle cx="620" cy="112" r="66" fill="#091321" stroke="#2E5C8F" stroke-width="4"/>
+    <text x="620" y="104" text-anchor="middle" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="15" letter-spacing="0.12em">DELIVERY</text>
+    <text x="620" y="132" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="22" font-weight="700">Docker · Linux</text>
+
+    <circle cx="550" cy="62" r="22" fill="#102A44" stroke="#3E7FD1" stroke-width="3"/>
+    <text x="550" y="67" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="13">Docker</text>
+    <text x="550" y="86" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="11">0.4</text>
+
+    <circle cx="690" cy="62" r="22" fill="#102A44" stroke="#3E7FD1" stroke-width="3"/>
+    <text x="690" y="67" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="14">Linux</text>
+    <text x="690" y="86" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="11">0.4</text>
+  </g>
+
+  <g>
+    <circle cx="624" cy="628" r="66" fill="#091321" stroke="#2E5C8F" stroke-width="4"/>
+    <text x="624" y="620" text-anchor="middle" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="15" letter-spacing="0.12em">DATA</text>
+    <text x="624" y="648" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="22" font-weight="700">MySQL-led</text>
+
+    <circle cx="552" cy="684" r="26" fill="#12314F" stroke="#5EA5F8" stroke-width="3"/>
+    <text x="552" y="689" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="15">MySQL</text>
+    <text x="552" y="710" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="12">0.6</text>
+
+    <circle cx="706" cy="684" r="18" fill="#102A44" stroke="#3E7FD1" stroke-width="3"/>
+    <text x="706" y="689" text-anchor="middle" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="12">PostgreSQL</text>
+    <text x="706" y="707" text-anchor="middle" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="10">0.2</text>
+  </g>
+</svg>

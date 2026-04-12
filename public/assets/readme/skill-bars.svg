@@ -1,0 +1,110 @@
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Riccardo La Malfa skill bars</title>
+  <desc id="desc">GitHub-safe bar chart showing the strongest skills from public/assets/cv.json using the README blue palette.</desc>
+  <rect width="1280" height="760" rx="28" fill="#08111F"/>
+  <rect x="20" y="20" width="1240" height="720" rx="22" fill="#0D1B31" stroke="#24456F"/>
+  <text x="72" y="96" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="20" letter-spacing="0.16em">STACK INTENSITY</text>
+  <text x="72" y="146" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="42" font-weight="700">Core tools I reach for most</text>
+  <text x="72" y="184" fill="#AFC9E6" font-family="Verdana, Geneva, sans-serif" font-size="20">Bars reflect the knowledge values already stored in cv.json.</text>
+
+  <g transform="translate(72 234)">
+    <text x="0" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">0.0</text>
+    <text x="208" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">0.2</text>
+    <text x="416" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">0.4</text>
+    <text x="624" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">0.6</text>
+    <text x="832" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">0.8</text>
+    <text x="1040" y="10" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="15">1.0</text>
+    <path d="M120 0V404" stroke="#17314E"/>
+    <path d="M328 0V404" stroke="#17314E"/>
+    <path d="M536 0V404" stroke="#17314E"/>
+    <path d="M744 0V404" stroke="#17314E"/>
+    <path d="M952 0V404" stroke="#17314E"/>
+    <path d="M1160 0V404" stroke="#17314E"/>
+
+    <g transform="translate(0 44)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">React</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">1.0</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#5EA5F8"/>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="url(#glowReact)" fill-opacity="0.55"/>
+    </g>
+
+    <g transform="translate(0 92)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">Next.js</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.8</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="685" height="28" rx="14" fill="#5095EA"/>
+      <rect x="248" y="0" width="685" height="28" rx="14" fill="url(#glowMid)" fill-opacity="0.5"/>
+    </g>
+
+    <g transform="translate(0 140)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">Javascript</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.8</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="685" height="28" rx="14" fill="#5095EA"/>
+      <rect x="248" y="0" width="685" height="28" rx="14" fill="url(#glowMid)" fill-opacity="0.5"/>
+    </g>
+
+    <g transform="translate(0 188)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">TypeScript</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.6</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="#3E7FD1"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="url(#glowBase)" fill-opacity="0.45"/>
+    </g>
+
+    <g transform="translate(0 236)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">Python</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.6</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="#3E7FD1"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="url(#glowBase)" fill-opacity="0.45"/>
+    </g>
+
+    <g transform="translate(0 284)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">Laravel</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.6</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="#3E7FD1"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="url(#glowBase)" fill-opacity="0.45"/>
+    </g>
+
+    <g transform="translate(0 332)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">MySQL</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.6</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="#3E7FD1"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="url(#glowBase)" fill-opacity="0.45"/>
+    </g>
+
+    <g transform="translate(0 380)">
+      <text x="0" y="24" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="24">Svelte</text>
+      <text x="1168" y="24" text-anchor="end" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="20">0.6</text>
+      <rect x="248" y="0" width="856" height="28" rx="14" fill="#0A1524" stroke="#1E3858"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="#3E7FD1"/>
+      <rect x="248" y="0" width="514" height="28" rx="14" fill="url(#glowBase)" fill-opacity="0.45"/>
+    </g>
+  </g>
+
+  <g transform="translate(914 102)">
+    <rect x="0" y="0" width="274" height="106" rx="18" fill="#091321" stroke="#2E5C8F"/>
+    <text x="24" y="32" fill="#77B5FF" font-family="Verdana, Geneva, sans-serif" font-size="16">Source</text>
+    <text x="24" y="60" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="20">public/assets/cv.json</text>
+    <text x="24" y="84" fill="#AFC9E6" font-family="Verdana, Geneva, sans-serif" font-size="15">Top entries by recorded knowledge value.</text>
+  </g>
+
+  <defs>
+    <linearGradient id="glowReact" x1="248" y1="14" x2="1104" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#88C1FF"/>
+      <stop offset="1" stop-color="#2B74C8"/>
+    </linearGradient>
+    <linearGradient id="glowMid" x1="248" y1="14" x2="933" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7AB7FF"/>
+      <stop offset="1" stop-color="#285EAD"/>
+    </linearGradient>
+    <linearGradient id="glowBase" x1="248" y1="14" x2="762" y2="14" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6BAAF4"/>
+      <stop offset="1" stop-color="#224D86"/>
+    </linearGradient>
+  </defs>
+</svg>
