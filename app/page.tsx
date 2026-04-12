@@ -22,6 +22,47 @@ function ContactLink({
   );
 }
 
+function ContactIconLink({
+  href,
+  label,
+  icon,
+}: Readonly<{
+  href: string;
+  label: string;
+  icon: "github" | "linkedin";
+}>) {
+  return (
+    <a
+      aria-label={label}
+      className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/12 bg-white/6 text-white transition-colors duration-200 hover:border-white/24 hover:bg-white/12 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+      title={label}
+    >
+      {icon === "github" ? (
+        <svg
+          aria-hidden="true"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 2C6.48 2 2 6.59 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.5 0-.24-.01-1.04-.01-1.88-2.78.62-3.37-1.22-3.37-1.22-.46-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.33 9.33 0 0 1 12 6.83c.85 0 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.71 1.03 1.62 1.03 2.74 0 3.95-2.35 4.81-4.59 5.07.36.32.68.93.68 1.88 0 1.36-.01 2.46-.01 2.8 0 .27.18.6.69.5A10.24 10.24 0 0 0 22 12.25C22 6.59 17.52 2 12 2Z" />
+        </svg>
+      ) : (
+        <svg
+          aria-hidden="true"
+          className="h-5 w-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M6.94 8.5H3.56V20h3.38V8.5Zm.22-3.56c0-1.07-.8-1.94-1.91-1.94-1.1 0-1.91.87-1.91 1.94 0 1.06.79 1.94 1.88 1.94h.02c1.12 0 1.92-.88 1.92-1.94ZM20.44 13.02c0-3.48-1.86-5.1-4.35-5.1-2 0-2.9 1.12-3.4 1.9V8.5H9.31c.04.88 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.68.12-.92.27-.69.88-1.4 1.9-1.4 1.34 0 1.88 1.05 1.88 2.58V20h3.38v-6.98Z" />
+        </svg>
+      )}
+    </a>
+  );
+}
+
 function SectionHeading({
   index,
   title,
@@ -272,9 +313,10 @@ export default async function Home() {
                   {secondaryContactActions.length ? (
                     <div className="mt-4 flex flex-wrap gap-3">
                       {secondaryContactActions.map((action) => (
-                        <ContactLink
+                        <ContactIconLink
                           key={`contact-${action.label}`}
                           href={action.href}
+                          icon={action.label === "GitHub" ? "github" : "linkedin"}
                           label={action.label}
                         />
                       ))}
@@ -310,37 +352,6 @@ export default async function Home() {
                   </div>
                 ) : null}
 
-                {content.contact.github ? (
-                  <div className={sectionInnerCardClassName}>
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                      GitHub
-                    </p>
-                    <a
-                      className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                      href={content.contact.github}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {content.contact.github}
-                    </a>
-                  </div>
-                ) : null}
-
-                {content.contact.linkedin ? (
-                  <div className={sectionInnerCardClassName}>
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                      LinkedIn
-                    </p>
-                    <a
-                      className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                      href={content.contact.linkedin}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {content.contact.linkedin}
-                    </a>
-                  </div>
-                ) : null}
               </div>
             </div>
           </article>
