@@ -88,7 +88,7 @@ Recent decisions affecting current work:
 | 260412-lto | Complete all open UI TODO.md items: add animations, adapt hero UI to light/dark mode, fix light-mode text in the skills section, and fix light-mode text in the experience section | 2026-04-12 | 2198192 | [260412-lto-complete-all-open-ui-todo-md-items-add-a](./quick/260412-lto-complete-all-open-ui-todo-md-items-add-a/) |
 | 260412-nbj | redesign the GitHub profile README for fellow developers | 2026-04-12 | 335d913 | [260412-nbj-redesign-the-github-profile-readme-for-f](./quick/260412-nbj-redesign-the-github-profile-readme-for-f/) |
 | 260412-p2l | refine the GitHub profile README to be brief, captivating, and graphic-heavy | 2026-04-12 | d70083c | [260412-p2l-refine-the-github-profile-readme-to-be-b](./quick/260412-p2l-refine-the-github-profile-readme-to-be-b/) |
-| 260412-ptc | rewrite README.md for developers; remove HR-style copy; keep skill hexagon graphs | 2026-04-12 | e531988 | [260412-ptc-rewrite-readme-md-for-developers-remove-](./quick/260412-ptc-rewrite-readme-md-for-developers-remove-/) |
+| 260412-q4b | rewrite README.md for developers; moodboard used as reference; inline role radar | 2026-04-12 | 59d95b6 | [260412-q4b-rewrite-readme-md-for-developers-remove-](./quick/260412-q4b-rewrite-readme-md-for-developers-remove-/) |
 
 ## Session Continuity
 
