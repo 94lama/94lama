@@ -796,6 +796,44 @@ Store as `$VERIFICATION_STATUS`.
 
 ---
 
+**Step 6.75: Mark selected TODO.md item complete (only when this quick task came from TODO.md)**
+
+Run this only when `$TODO_MD_SELECTED=true` and executor succeeded.
+
+If `$VALIDATE_MODE` is enabled, run it after verification when results are accepted. If the verifier found gaps and the user chose rework, defer this step until the final successful pass.
+
+Use the stored `TODO.md` line number and selected text as a drift guard. Never guess if the file changed mid-run.
+
+```bash
+TODO_MD_UPDATED=false
+if [ "$TODO_MD_SELECTED" = "true" ] && [ -n "$TODO_MD_SELECTED_LINE" ] && [ -n "$TODO_MD_SELECTED_TEXT" ] && [ -f "TODO.md" ]; then
+  CURRENT_LINE=$(sed -n "${TODO_MD_SELECTED_LINE}p" "TODO.md")
+  EXPECTED_LINE="- [ ] ${TODO_MD_SELECTED_TEXT}"
+  if [ "$CURRENT_LINE" = "$EXPECTED_LINE" ]; then
+    python3 - <<'PY'
+from pathlib import Path
+path = Path('TODO.md')
+line_number = int("""${TODO_MD_SELECTED_LINE}""")
+lines = path.read_text().splitlines(True)
+target = lines[line_number - 1]
+lines[line_number - 1] = target.replace('- [ ]', '- [x]', 1)
+path.write_text(''.join(lines))
+PY
+    TODO_MD_UPDATED=true
+    echo "Marked TODO.md item complete: line number ${TODO_MD_SELECTED_LINE}"
+  else
+    echo "TODO.md changed since selection; skipping completion instead of guessing."
+  fi
+fi
+```
+
+Rules:
+- Manual quick tasks leave `TODO.md` untouched
+- If the stored line number no longer matches the selected text, leave `TODO.md` untouched and continue normally
+- Only flip `- [ ]` to `- [x]` for the exact selected line
+
+---
+
 **Step 7: Update STATE.md**
 
 Update STATE.md with quick task completion record.
@@ -862,6 +900,7 @@ Build file list:
 - If `$DISCUSS_MODE` and context file exists: `${QUICK_DIR}/${quick_id}-CONTEXT.md`
 - If `$RESEARCH_MODE` and research file exists: `${QUICK_DIR}/${quick_id}-RESEARCH.md`
 - If `$VALIDATE_MODE` and verification file exists: `${QUICK_DIR}/${quick_id}-VERIFICATION.md`
+- If `TODO.md` was updated by Step 6.75: `TODO.md` (include it in the final docs commit file list only when it changed)
 
 ```bash
 # Explicitly stage all artifacts before commit — PLAN.md may be untracked
