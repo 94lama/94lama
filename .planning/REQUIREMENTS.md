@@ -18,8 +18,8 @@
 
 ### Experience Sync
 
-- [ ] **EXP-01**: Recruiter can select a map node or category and immediately see related experience entries highlighted.
-- [ ] **EXP-02**: Recruiter can still view the full experience timeline while related entries reorder to the top.
+- [x] **EXP-01**: Recruiter can select a map node or category and immediately see related experience entries highlighted.
+- [x] **EXP-02**: Recruiter can still view the full experience timeline while related entries reorder to the top.
 
 ### Relocation
 
@@ -60,8 +60,8 @@
 | UI-03 | Phase 5 | Pending |
 | MAP-01 | Phase 4 | Pending |
 | MAP-02 | Phase 4 | Pending |
-| EXP-01 | Phase 4 | Pending |
-| EXP-02 | Phase 4 | Pending |
+| EXP-01 | Phase 4 | Complete |
+| EXP-02 | Phase 4 | Complete |
 | RELO-01 | Phase 5 | Pending |
 | CONT-01 | Phase 5 | Pending |
 | CONT-02 | Phase 5 | Pending |

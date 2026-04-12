@@ -40,7 +40,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Lock and test the shared map-to-experience ranking contract.
+- [x] 04-01-PLAN.md — Lock and test the shared map-to-experience ranking contract.
 - [ ] 04-02-PLAN.md — Replace duplicate skills/experience surfaces with a shared coordinator and refined map rendering.
 - [ ] 04-03-PLAN.md — Human-verify the de-centered map and synced full-timeline experience behavior.
 **UI hint**: yes
