@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-12)
 Phase: 04 (knowledge-map-experience-contract) — EXECUTING
 Plan: 3 of 3
 Status: Ready to execute
-Last activity: 2026-04-12
+Last activity: 2026-04-12 - Completed quick task 260412-gm7: put the knowledge map width to full (now it's too small)
 
 Progress: [..........] 0%
 
@@ -70,6 +70,12 @@ Recent decisions affecting current work:
 - Validate skill-to-experience matching fidelity during Phase 4 planning.
 - Validate mobile map usability and authored relocation detail during Phase 5 planning.
 - Confirm iubenda bootstrap config and load order during Phase 6 planning.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260412-gm7 | put the knowledge map width to full (now it's too small) | 2026-04-12 | cdc573f | [260412-gm7-put-the-knowledge-map-width-to-full-now-](./quick/260412-gm7-put-the-knowledge-map-width-to-full-now-/) |
 
 ## Session Continuity
 
