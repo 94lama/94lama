@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-12)
 Phase: 04 (knowledge-map-experience-contract) — EXECUTING
 Plan: 3 of 3
 Status: Ready to execute
-Last activity: 2026-04-12 - Completed quick task 260412-gm7: put the knowledge map width to full (now it's too small)
+Last activity: 2026-04-12 - Completed quick task 260412-grk: transform public/assets/cv.md into json
 
 Progress: [..........] 0%
 
@@ -76,6 +76,7 @@ Recent decisions affecting current work:
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260412-gm7 | put the knowledge map width to full (now it's too small) | 2026-04-12 | cdc573f | [260412-gm7-put-the-knowledge-map-width-to-full-now-](./quick/260412-gm7-put-the-knowledge-map-width-to-full-now-/) |
+| 260412-grk | transform public/assets/cv.md into json | 2026-04-12 | 8995ac3 | [260412-grk-transform-public-assets-cv-md-into-json](./quick/260412-grk-transform-public-assets-cv-md-into-json/) |
 
 ## Session Continuity
 
