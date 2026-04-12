@@ -3,18 +3,18 @@
 </p>
 
 <p align="center">
-  Frontend-focused full-stack developer shipping product UI with <strong>React</strong>, <strong>TypeScript</strong>, and <strong>Python</strong>.
+  Frontend-focused full-stack developer building product UI with <strong>React</strong>, <strong>TypeScript</strong>, and <strong>Python</strong>.
 </p>
 
 <p align="center">
-  I like turning PoCs into production, keeping the frontend sharp, and wiring the backend only as heavy as the product needs.
+  I like taking PoCs to production, keeping the frontend sharp, and keeping the backend as small as the product allows.
 </p>
 
-## Current build mode
+## Working set
 
-- UI-first delivery with React / Next.js
-- Python, Laravel, and serverless when workflows move behind the interface
-- Based in Italy · open to the right EU relocation move
+- React / Next.js / TypeScript for product UI
+- Python / Laravel / OpenWhisk for APIs, workflows, and automation
+- Docker / Linux / CI when delivery details matter
 
 <p align="center">
   <img src="./public/assets/readme/skill-bars.svg" alt="Skill bars for Riccardo La Malfa" width="100%" />
@@ -24,9 +24,14 @@
   <img src="./public/assets/readme/skill-graph.svg" alt="Skill graph for Riccardo La Malfa" width="100%" />
 </p>
 
-## Experience snapshot
+## What I ship
 
-- Shipped across product UI, serverless services, AI extraction flows, and Docker/Linux delivery.
+- Product UI, internal tools, and web apps from PoC to production
+- AI-assisted extraction flows and workflow automation
+- Serverless or containerized delivery when the product needs it
+
+## Recent work
+
 - **Nuvolaris** — Python Developer · 10/2025–Present  
   React/Svelte frontends, Python/OpenWhisk services, AI extraction workflows, production cluster delivery.
 - **Aroma S.r.l.** — Full-Stack Developer · 10/2024–06/2025  
