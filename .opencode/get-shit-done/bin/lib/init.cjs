@@ -445,10 +445,57 @@ function cmdInitNewMilestone(cwd, raw) {
   output(withProjectRoot(cwd, result), raw);
 }
 
+function parseQuickTodoMdItems(cwd) {
+  const todoPath = path.join(cwd, 'TODO.md');
+  const result = {
+    todo_md_exists: fs.existsSync(todoPath),
+    todo_md_path: 'TODO.md',
+    todo_md_item_count: 0,
+    todo_md_items: [],
+  };
+
+  if (!result.todo_md_exists) {
+    return result;
+  }
+
+  try {
+    const lines = fs.readFileSync(todoPath, 'utf-8').split(/\r?\n/);
+    let currentSection = null;
+
+    lines.forEach((line, index) => {
+      const headingMatch = line.match(/^##\s+(.+)$/);
+      if (headingMatch) {
+        currentSection = headingMatch[1].trim();
+        return;
+      }
+
+      const todoMatch = line.match(/^\s*-\s+\[ \]\s+(.+)$/);
+      if (!todoMatch) return;
+
+      const text = todoMatch[1].trim();
+      result.todo_md_items.push({
+        section: currentSection,
+        text,
+        line_number: index + 1,
+        source_line: line,
+      });
+    });
+
+    result.todo_md_item_count = result.todo_md_items.length;
+  } catch {
+    result.todo_md_exists = false;
+    result.todo_md_item_count = 0;
+    result.todo_md_items = [];
+  }
+
+  return result;
+}
+
 function cmdInitQuick(cwd, description, raw) {
   const config = loadConfig(cwd);
   const now = new Date();
   const slug = description ? generateSlugInternal(description)?.substring(0, 40) : null;
+  const todoMetadata = parseQuickTodoMdItems(cwd);
 
   // Generate collision-resistant quick task ID: YYMMDD-xxx
   // xxx = 2-second precision blocks since midnight, encoded as 3-char Base36 (lowercase)
@@ -497,6 +544,12 @@ function cmdInitQuick(cwd, description, raw) {
     // File existence
     roadmap_exists: fs.existsSync(path.join(planningDir(cwd), 'ROADMAP.md')),
     planning_exists: fs.existsSync(planningRoot(cwd)),
+
+    // Repo-root quick backlog metadata
+    todo_md_exists: todoMetadata.todo_md_exists,
+    todo_md_path: todoMetadata.todo_md_path,
+    todo_md_item_count: todoMetadata.todo_md_item_count,
+    todo_md_items: todoMetadata.todo_md_items,
 
   };
 
