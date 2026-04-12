@@ -22,7 +22,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 **Goal:** Refine the shipped recruiter-first portfolio with TODO-driven UI, interaction, footer, and structural improvements while preserving the single-page recruiter flow.
 
 **Target features:**
-- Shift the primary visual language from green to blue and add subtle motion polish.
+- Shift the primary visual language from green to blue and add subtle motion polish while preserving readability in both light mode and dark mode.
 - Replace the standalone skills block with the knowledge map in section `01`, remove the center sphere, and spread nodes more three-dimensionally.
 - Keep the knowledge map and `02 - Experience` synced through shared selection state while preserving full experience visibility.
 - Expand the relocation section and replace contact cards with compact icon-based links while removing duplicated relocation info.
@@ -42,7 +42,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ### Active
 
-- [ ] Recruiters see blue-led visual polish and subtle motion without losing scan speed or readability.
+- [ ] Recruiters see blue-led visual polish and subtle motion without losing scan speed or readability in either light mode or dark mode.
 - [ ] Recruiters can use section `01` knowledge map instead of a separate skills block, with the center sphere removed and nodes spread more spatially.
 - [ ] Knowledge map selection and experience content stay in sync through shared parent-managed state.
 - [ ] Recruiters can scan all experience entries while related items highlight and reorder on selection.
