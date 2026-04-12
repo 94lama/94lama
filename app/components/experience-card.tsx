@@ -19,7 +19,7 @@ export function ExperienceCard({
     <article
       className={`rounded-[1.75rem] border px-5 py-6 transition-colors sm:px-6 sm:py-7 xl:px-8 ${
         isHighlighted
-          ? "border-accent/35 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.92))]"
+          ? "border-accent/35 bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(23,26,34,0.92))]"
           : "border-white/10 bg-surface"
       }`}
     >

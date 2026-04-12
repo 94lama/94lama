@@ -93,7 +93,7 @@ const sectionShellClassName =
   "relative overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(23,26,34,0.88))] px-5 py-6 shadow-[0_35px_120px_-80px_rgba(56,189,248,0.3)] sm:px-6 sm:py-7 xl:px-8";
 
 const sectionGlowClassName =
-  "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.16),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(184,255,32,0.08),transparent_28%)]";
+  "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.1),transparent_28%)]";
 
 const sectionInnerCardClassName =
   "rounded-[1.35rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(12,12,15,0.34))] px-4 py-4 backdrop-blur-sm";
@@ -160,7 +160,7 @@ export default async function Home() {
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                     href={`mailto:${content.contact.email}`}
                   >
-                    Email Riccardo
+                    Email me
                   </a>
                   {secondaryContactActions.length ? (
                     <div className="flex flex-wrap gap-3 xl:justify-end">
@@ -209,7 +209,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(184,255,32,0.03))] p-5">
+              <div className="space-y-3 rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(37,99,235,0.05))] p-5">
                 <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/52">
                   Preferred regions
                 </p>
@@ -308,7 +308,7 @@ export default async function Home() {
                     className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                     href={`mailto:${content.contact.email}`}
                   >
-                    Email Riccardo
+                    Email me
                   </a>
                   {secondaryContactActions.length ? (
                     <div className="mt-4 flex flex-wrap gap-3">
