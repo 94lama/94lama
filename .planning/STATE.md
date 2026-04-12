@@ -4,8 +4,8 @@ milestone: v1.1
 milestone_name: portfolio TODO refresh
 status: planning
 stopped_at: Defining milestone requirements
-last_updated: "2026-04-11T12:14:27Z"
-last_activity: 2026-04-11 - Milestone v1.1 started
+last_updated: "2026-04-12T00:31:31Z"
+last_activity: 2026-04-12 - Completed quick task 260412-0hl: in @app/layout.tsx fix the errors on the reading cookie and privacy tags (DO NOT EDIT THEM)
 progress:
   total_phases: 0
   completed_phases: 0
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 Phase: Not started (defining requirements)
 Plan: -
 Status: Defining requirements
-Last activity: 2026-04-11 - Milestone v1.1 started
+Last activity: 2026-04-12 - Completed quick task 260412-0hl: in @app/layout.tsx fix the errors on the reading cookie and privacy tags (DO NOT EDIT THEM)
 
 Progress: [..........] 0%
 
@@ -84,6 +84,7 @@ Recent decisions affecting current work:
 | 260410-tbn | update the experience items according to the selected point (or selected category) in the knowledge map | 2026-04-10 | 1f71b96, 91314df | [260410-tbn-update-the-experience-items-according-to](./quick/260410-tbn-update-the-experience-items-according-to/) |
 | 260410-trc | increase the opacity of the unselected dots in the map | 2026-04-10 | 69dc5ec | [260410-trc-increase-the-opacity-of-the-unselected-d](./quick/260410-trc-increase-the-opacity-of-the-unselected-d/) |
 | 260410-tzy | put the legend under the map, not inside | 2026-04-10 | 5e400a9 | [260410-tzy-put-the-legend-under-the-map-not-inside](./quick/260410-tzy-put-the-legend-under-the-map-not-inside/) |
+| 260412-0hl | in @app/layout.tsx fix the errors on the reading cookie and privacy tags (DO NOT EDIT THEM) | 2026-04-12 | c47fb6a, 60c3873 | [260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-](./quick/260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-/) |
 
 ## Session Continuity
 
