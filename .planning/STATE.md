@@ -4,8 +4,8 @@ milestone: v1.1
 milestone_name: portfolio TODO refresh
 status: planning
 stopped_at: Defining milestone requirements
-last_updated: "2026-04-12T08:40:45Z"
-last_activity: 2026-04-12 - Completed quick task 260412-bs4: add cookie and privacy policy in @app/layout.tsx from @app/components/cookie-policy.html and @app/components/privacy-policy.html
+last_updated: "2026-04-12T09:18:49Z"
+last_activity: 2026-04-12 - Completed quick task 260412-cmf: implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user
 progress:
   total_phases: 0
   completed_phases: 0
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-11)
 Phase: Not started (defining requirements)
 Plan: -
 Status: Defining requirements
-Last activity: 2026-04-12 - Completed quick task 260412-bs4: add cookie and privacy policy in @app/layout.tsx from @app/components/cookie-policy.html and @app/components/privacy-policy.html
+Last activity: 2026-04-12 - Completed quick task 260412-cmf: implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user
 
 Progress: [..........] 0%
 
@@ -86,6 +86,7 @@ Recent decisions affecting current work:
 | 260410-tzy | put the legend under the map, not inside | 2026-04-10 | 5e400a9 | [260410-tzy-put-the-legend-under-the-map-not-inside](./quick/260410-tzy-put-the-legend-under-the-map-not-inside/) |
 | 260412-0hl | in @app/layout.tsx fix the errors on the reading cookie and privacy tags (DO NOT EDIT THEM) | 2026-04-12 | c47fb6a, 60c3873 | [260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-](./quick/260412-0hl-in-app-layout-tsx-fix-the-errors-on-the-/) |
 | 260412-bs4 | add cookie and privacy policy in @app/layout.tsx from @app/components/cookie-policy.html and @app/components/privacy-policy.html | 2026-04-12 | a44ab99 | [260412-bs4-add-cookie-and-privacy-policy-in-app-lay](./quick/260412-bs4-add-cookie-and-privacy-policy-in-app-lay/) |
+| 260412-cmf | implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user | 2026-04-12 | 515c542, 16f9bdf, c55a1f3 | [260412-cmf-implement-in-the-gsd-workflow-the-use-of](./quick/260412-cmf-implement-in-the-gsd-workflow-the-use-of/) |
 
 ## Session Continuity
 
