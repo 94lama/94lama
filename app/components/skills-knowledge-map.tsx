@@ -1,10 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { Camera, Geometry, Mesh, Program, Renderer, Sphere, Transform, Vec3 } from 'ogl';
+import {
+  Camera,
+  Geometry,
+  Mesh,
+  Program,
+  Renderer,
+  Sphere,
+  Transform,
+  Vec3,
+} from "ogl";
 
-import type { SkillGroup } from '@/src/content/portfolio/types';
+import type { SkillGroup } from "@/src/content/portfolio/types";
 
 const CATEGORY_COLORS = [
   [0.29, 0.63, 0.98],
@@ -16,34 +25,41 @@ const CATEGORY_COLORS = [
 ] as const;
 
 const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
-  Python: ['DevOps'],
-  'Serverless (OpenWhisk)': ['DevOps'],
-  Docker: ['DevOps'],
-  Kubernetes: ['DevOps'],
-  Bash: ['DevOps'],
-  Linux: ['DevOps'],
-  MySQL: ['Backend'],
-  PostgreSQL: ['Backend'],
+  Python: ["DevOps"],
+  "Serverless (OpenWhisk)": ["DevOps"],
+  Docker: ["DevOps"],
+  Kubernetes: ["DevOps"],
+  Bash: ["DevOps"],
+  Linux: ["DevOps"],
+  MySQL: ["Backend"],
+  PostgreSQL: ["Backend"],
 };
 
 const RELATED_SKILL_LINKS: Record<string, string[]> = {
-  React: ['Next.js', 'TypeScript', 'Tailwind', 'Svelte'],
-  'Next.js': ['React', 'TypeScript', 'Tailwind', 'Serverless (OpenWhisk)'],
-  Svelte: ['React', 'TypeScript'],
-  TypeScript: ['React', 'Next.js', 'Svelte', 'Tailwind'],
-  Tailwind: ['React', 'Next.js', 'TypeScript'],
-  Python: ['Django', 'Serverless (OpenWhisk)', 'Docker', 'Linux', 'Bash', 'PostgreSQL'],
-  PHP: ['Laravel', 'MySQL'],
-  Laravel: ['PHP', 'MySQL'],
-  Django: ['Python', 'PostgreSQL'],
-  'Serverless (OpenWhisk)': ['Python', 'Docker', 'Next.js'],
-  Docker: ['Python', 'Linux', 'Bash', 'CI/CD', 'Serverless (OpenWhisk)'],
-  Kubernetes: ['Linux', 'Bash', 'CI/CD', 'Serverless (OpenWhisk)'],
-  'CI/CD': ['Docker', 'Linux', 'Bash'],
-  Linux: ['Docker', 'Bash', 'CI/CD', 'Python'],
-  Bash: ['Linux', 'Docker', 'CI/CD', 'Python'],
-  MySQL: ['PHP', 'Laravel', 'PostgreSQL'],
-  PostgreSQL: ['Python', 'Django', 'MySQL'],
+  React: ["Next.js", "TypeScript", "Tailwind", "Svelte"],
+  "Next.js": ["React", "TypeScript", "Tailwind", "Serverless (OpenWhisk)"],
+  Svelte: ["React", "TypeScript"],
+  TypeScript: ["React", "Next.js", "Svelte", "Tailwind"],
+  Tailwind: ["React", "Next.js", "TypeScript"],
+  Python: [
+    "Django",
+    "Serverless (OpenWhisk)",
+    "Docker",
+    "Linux",
+    "Bash",
+    "PostgreSQL",
+  ],
+  PHP: ["Laravel", "MySQL"],
+  Laravel: ["PHP", "MySQL"],
+  Django: ["Python", "PostgreSQL"],
+  "Serverless (OpenWhisk)": ["Python", "Docker", "Next.js"],
+  Docker: ["Python", "Linux", "Bash", "CI/CD", "Serverless (OpenWhisk)"],
+  Kubernetes: ["Linux", "Bash", "CI/CD", "Serverless (OpenWhisk)"],
+  "CI/CD": ["Docker", "Linux", "Bash"],
+  Linux: ["Docker", "Bash", "CI/CD", "Python"],
+  Bash: ["Linux", "Docker", "CI/CD", "Python"],
+  MySQL: ["PHP", "Laravel", "PostgreSQL"],
+  PostgreSQL: ["Python", "Django", "MySQL"],
 };
 
 const NODE_VERTEX_SHADER = /* glsl */ `
@@ -104,7 +120,7 @@ void main() {
 export type KnowledgeMapSelection = {
   id: string;
   label: string;
-  kind: 'core' | 'category' | 'skill';
+  kind: "core" | "category" | "skill";
   activeIndex: number;
 };
 
@@ -118,7 +134,7 @@ type SkillsKnowledgeMapProps = {
 type GraphNode = {
   id: string;
   label: string;
-  kind: 'core' | 'category' | 'skill';
+  kind: "core" | "category" | "skill";
   groupIndices: number[];
   knowledge?: number;
   color: readonly [number, number, number];
@@ -130,7 +146,7 @@ type GraphEdge = {
   id: string;
   from: string;
   to: string;
-  kind: 'hub' | 'domain' | 'technology';
+  kind: "hub" | "domain" | "technology";
 };
 
 type NodeVisual = {
@@ -215,7 +231,7 @@ function connectNodes(
   edgeIds: Set<string>,
   fromId: string,
   toId: string,
-  kind: GraphEdge['kind'],
+  kind: GraphEdge["kind"],
 ) {
   if (fromId === toId) {
     return;
@@ -236,7 +252,7 @@ function connectNodes(
     toNode.neighbors.push(fromId);
   }
 
-  const edgeId = [fromId, toId].sort().join('::');
+  const edgeId = [fromId, toId].sort().join("::");
 
   if (edgeIds.has(edgeId)) {
     return;
@@ -256,9 +272,9 @@ function createGraph(skillGroups: SkillGroup[]) {
   );
 
   const rootNode: GraphNode = {
-    id: 'core',
-    label: 'Knowledge Graph',
-    kind: 'core',
+    id: "core",
+    label: "Knowledge Graph",
+    kind: "core",
     groupIndices: [],
     color: [0.94, 0.97, 1],
     position: [0, 0, 0],
@@ -273,7 +289,7 @@ function createGraph(skillGroups: SkillGroup[]) {
     const categoryNode: GraphNode = {
       id: `category-${groupIndex}`,
       label: group.category,
-      kind: 'category',
+      kind: "category",
       groupIndices: [groupIndex],
       color: getCategoryColor(groupIndex),
       position: [
@@ -286,7 +302,7 @@ function createGraph(skillGroups: SkillGroup[]) {
 
     nodes.push(categoryNode);
     nodeMap.set(categoryNode.id, categoryNode);
-    connectNodes(nodeMap, edges, edgeIds, rootNode.id, categoryNode.id, 'hub');
+    connectNodes(nodeMap, edges, edgeIds, rootNode.id, categoryNode.id, "hub");
 
     return categoryNode;
   });
@@ -306,14 +322,14 @@ function createGraph(skillGroups: SkillGroup[]) {
       };
 
       record.groupIndices.add(groupIndex);
-      if (typeof entry.knowledge === 'number') {
+      if (typeof entry.knowledge === "number") {
         record.knowledgeValues.push(entry.knowledge);
       }
 
       for (const categoryLabel of CROSS_DOMAIN_MEMBERSHIPS[item] ?? []) {
         const extraGroupIndex = categoryIndexByLabel.get(categoryLabel);
 
-        if (typeof extraGroupIndex === 'number') {
+        if (typeof extraGroupIndex === "number") {
           record.groupIndices.add(extraGroupIndex);
         }
       }
@@ -325,23 +341,30 @@ function createGraph(skillGroups: SkillGroup[]) {
   const skillNodeIds = new Map<string, string>();
 
   Array.from(skillRecords.values()).forEach((record, skillIndex) => {
-    const groupIndices = Array.from(record.groupIndices).sort((left, right) => left - right);
-    const anchorPositions = groupIndices.map((groupIndex) => categoryNodes[groupIndex]?.position ?? [0, 0, 0]);
+    const groupIndices = Array.from(record.groupIndices).sort(
+      (left, right) => left - right,
+    );
+    const anchorPositions = groupIndices.map(
+      (groupIndex) => categoryNodes[groupIndex]?.position ?? [0, 0, 0],
+    );
     const centroid = averageVector(anchorPositions);
     const hash = hashLabel(record.label);
     const angle = (hash % 360) * (Math.PI / 180);
     const orbit = groupIndices.length > 1 ? 1.45 : 2.1;
     const knowledge =
       record.knowledgeValues.length > 0
-        ? record.knowledgeValues.reduce((sum, value) => sum + value, 0) / record.knowledgeValues.length
+        ? record.knowledgeValues.reduce((sum, value) => sum + value, 0) /
+          record.knowledgeValues.length
         : undefined;
     const skillNode: GraphNode = {
       id: `skill-${skillIndex}`,
       label: record.label,
-      kind: 'skill',
+      kind: "skill",
       groupIndices,
       knowledge,
-      color: averageVector(groupIndices.map((groupIndex) => getCategoryColor(groupIndex))),
+      color: averageVector(
+        groupIndices.map((groupIndex) => getCategoryColor(groupIndex)),
+      ),
       position: [
         centroid[0] + Math.cos(angle) * orbit,
         centroid[1] + (((hash >> 3) % 11) - 5) * 0.28,
@@ -355,7 +378,14 @@ function createGraph(skillGroups: SkillGroup[]) {
     skillNodeIds.set(skillNode.label, skillNode.id);
 
     groupIndices.forEach((groupIndex) => {
-      connectNodes(nodeMap, edges, edgeIds, `category-${groupIndex}`, skillNode.id, 'domain');
+      connectNodes(
+        nodeMap,
+        edges,
+        edgeIds,
+        `category-${groupIndex}`,
+        skillNode.id,
+        "domain",
+      );
     });
   });
 
@@ -373,7 +403,7 @@ function createGraph(skillGroups: SkillGroup[]) {
         return;
       }
 
-      connectNodes(nodeMap, edges, edgeIds, fromId, toId, 'technology');
+      connectNodes(nodeMap, edges, edgeIds, fromId, toId, "technology");
     });
   });
 
@@ -389,18 +419,25 @@ function syncHighlight(
     return;
   }
 
-  const selectedNode = nodeMap.get(selectedNodeId) ?? nodeMap.get('core');
+  const selectedNode = nodeMap.get(selectedNodeId) ?? nodeMap.get("core");
   const neighbors = new Set(selectedNode?.neighbors ?? []);
   const baseDimmedNodeAlpha = 0.34;
   const relatedNodeAlpha = 0.82;
 
   for (const visual of scene.nodeVisuals) {
-    const isRendered = visual.data.kind === 'core' ? false : Boolean(visual.mesh);
+    const isRendered =
+      visual.data.kind === "core" ? false : Boolean(visual.mesh);
 
     const isSelected = visual.data.id === selectedNode?.id;
     const isNeighbor = neighbors.has(visual.data.id);
     const isRelated = isSelected || isNeighbor;
-    const emphasis = isSelected ? 1 : isNeighbor ? relatedNodeAlpha : selectedNode ? baseDimmedNodeAlpha : 0.45;
+    const emphasis = isSelected
+      ? 1
+      : isNeighbor
+        ? relatedNodeAlpha
+        : selectedNode
+          ? baseDimmedNodeAlpha
+          : 0.45;
     const scaleBoost = isSelected ? 1.28 : isNeighbor ? 1.08 : 0.92;
     const colorValue = visual.program.uniforms.uColor.value as Float32Array;
 
@@ -412,8 +449,13 @@ function syncHighlight(
       continue;
     }
 
-    visual.program.uniforms.uAlpha.value = visual.data.kind === 'skill' ? emphasis : Math.min(1, emphasis + 0.08);
-    visual.program.uniforms.uGlow.value = isSelected ? 0.68 : isNeighbor ? 0.28 : 0.05;
+    visual.program.uniforms.uAlpha.value =
+      visual.data.kind === "skill" ? emphasis : Math.min(1, emphasis + 0.08);
+    visual.program.uniforms.uGlow.value = isSelected
+      ? 0.68
+      : isNeighbor
+        ? 0.28
+        : 0.05;
     visual.mesh.scale.set(
       visual.baseScale * scaleBoost,
       visual.baseScale * scaleBoost,
@@ -423,35 +465,36 @@ function syncHighlight(
 
   for (const visual of scene.edgeVisuals) {
     const touchesSelected =
-      visual.data.from === selectedNode?.id || visual.data.to === selectedNode?.id;
+      visual.data.from === selectedNode?.id ||
+      visual.data.to === selectedNode?.id;
     const touchesNeighbor =
       neighbors.has(visual.data.from) ||
       neighbors.has(visual.data.to) ||
       (neighbors.has(visual.data.from) && neighbors.has(visual.data.to));
     const colorValue = visual.program.uniforms.uColor.value as Float32Array;
     const baseColor =
-      visual.data.kind === 'hub'
+      visual.data.kind === "hub"
         ? [0.67, 0.71, 0.8]
-        : visual.data.kind === 'domain'
+        : visual.data.kind === "domain"
           ? [0.33, 0.61, 0.96]
           : [0.91, 0.45, 0.82];
     const emphasizedColor =
-      visual.data.kind === 'hub'
+      visual.data.kind === "hub"
         ? [0.84, 0.88, 0.98]
-        : visual.data.kind === 'domain'
+        : visual.data.kind === "domain"
           ? [0.48, 0.76, 1]
           : [1, 0.64, 0.9];
     const alpha = touchesSelected
-      ? visual.data.kind === 'technology'
+      ? visual.data.kind === "technology"
         ? 0.96
         : 0.9
       : touchesNeighbor
-        ? visual.data.kind === 'technology'
+        ? visual.data.kind === "technology"
           ? 0.42
           : 0.28
-        : visual.data.kind === 'technology'
+        : visual.data.kind === "technology"
           ? 0.18
-          : visual.data.kind === 'domain'
+          : visual.data.kind === "domain"
             ? 0.12
             : 0.08;
 
@@ -473,21 +516,28 @@ export function SkillsKnowledgeMap({
 
   const graphData = useMemo(() => createGraph(skillGroups), [skillGroups]);
   const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(0);
-  const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] = useState('core');
+  const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] =
+    useState("core");
   const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
   const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
-  const resolvedSelectedNodeId = graphData.nodeMap.has(selectedNodeId) ? selectedNodeId : 'core';
+  const resolvedSelectedNodeId = graphData.nodeMap.has(selectedNodeId)
+    ? selectedNodeId
+    : "core";
 
-  const selectedNode = graphData.nodeMap.get(resolvedSelectedNodeId) ?? graphData.nodeMap.get('core');
+  const selectedNode =
+    graphData.nodeMap.get(resolvedSelectedNodeId) ??
+    graphData.nodeMap.get("core");
   const activeGroupIndex = selectedNode?.groupIndices[0] ?? activeIndex;
   const activeGroup = skillGroups[activeGroupIndex] ?? skillGroups[0];
   const selectedNeighborNodes = useMemo(() => {
     return (selectedNode?.neighbors ?? [])
       .map((nodeId) => graphData.nodeMap.get(nodeId))
-      .filter((node): node is GraphNode => node !== undefined && node.id !== 'core')
+      .filter(
+        (node): node is GraphNode => node !== undefined && node.id !== "core",
+      )
       .sort((left, right) => {
         if (left.kind !== right.kind) {
-          return left.kind === 'category' ? -1 : 1;
+          return left.kind === "category" ? -1 : 1;
         }
 
         return left.label.localeCompare(right.label);
@@ -497,31 +547,34 @@ export function SkillsKnowledgeMap({
     .map((groupIndex) => skillGroups[groupIndex]?.category)
     .filter(Boolean);
   const selectedKnowledgeLabel =
-    selectedNode?.kind === 'skill' && typeof selectedNode.knowledge === 'number'
+    selectedNode?.kind === "skill" && typeof selectedNode.knowledge === "number"
       ? `${Math.round(selectedNode.knowledge * 5)}/5 knowledge`
       : null;
   const selectedKindLabel =
-    selectedNode?.kind === 'category'
-      ? 'domain'
-      : selectedNode?.kind === 'skill'
-        ? 'technology'
-        : 'overview';
+    selectedNode?.kind === "category"
+      ? "domain"
+      : selectedNode?.kind === "skill"
+        ? "technology"
+        : "overview";
 
   const applySelection = (nodeId: string) => {
     const node = graphData.nodeMap.get(nodeId);
     const nextActiveIndex = node?.groupIndices[0] ?? activeIndex;
     const normalizedSelection: KnowledgeMapSelection = {
-      id: node?.id ?? 'core',
-      label: node?.label ?? 'Knowledge Graph',
-      kind: node?.kind ?? 'core',
-      activeIndex: typeof nextActiveIndex === 'number' ? nextActiveIndex : -1,
+      id: node?.id ?? "core",
+      label: node?.label ?? "Knowledge Graph",
+      kind: node?.kind ?? "core",
+      activeIndex: typeof nextActiveIndex === "number" ? nextActiveIndex : -1,
     };
 
     if (controlledSelectedNodeId === undefined) {
       setUncontrolledSelectedNodeId(normalizedSelection.id);
     }
 
-    if (controlledActiveIndex === undefined && normalizedSelection.activeIndex >= 0) {
+    if (
+      controlledActiveIndex === undefined &&
+      normalizedSelection.activeIndex >= 0
+    ) {
       setUncontrolledActiveIndex(normalizedSelection.activeIndex);
     }
 
@@ -569,11 +622,14 @@ export function SkillsKnowledgeMap({
           uGlow: { value: 0 },
         },
       });
-      const mesh = node.kind === 'core' ? undefined : new Mesh(gl, { geometry: sphereGeometry, program });
+      const mesh =
+        node.kind === "core"
+          ? undefined
+          : new Mesh(gl, { geometry: sphereGeometry, program });
       const baseScale =
-        node.kind === 'core'
+        node.kind === "core"
           ? 0.74
-          : node.kind === 'category'
+          : node.kind === "category"
             ? 0.44
             : 0.16 + (node.knowledge ?? 0.45) * 0.18;
 
@@ -590,13 +646,13 @@ export function SkillsKnowledgeMap({
       const fromNode = graphData.nodeMap.get(edge.from);
       const toNode = graphData.nodeMap.get(edge.to);
       const baseColor =
-        edge.kind === 'hub'
+        edge.kind === "hub"
           ? [0.67, 0.71, 0.8]
-          : edge.kind === 'domain'
+          : edge.kind === "domain"
             ? [0.33, 0.61, 0.96]
             : [0.91, 0.45, 0.82];
       const baseAlpha =
-        edge.kind === 'hub' ? 0.08 : edge.kind === 'domain' ? 0.12 : 0.18;
+        edge.kind === "hub" ? 0.08 : edge.kind === "domain" ? 0.12 : 0.18;
       const geometry = new Geometry(gl, {
         position: {
           size: 3,
@@ -628,7 +684,7 @@ export function SkillsKnowledgeMap({
     });
 
     container.appendChild(gl.canvas);
-    gl.canvas.className = 'h-full w-full touch-none';
+    gl.canvas.className = "h-full w-full touch-none";
 
     const state: SceneState = {
       camera,
@@ -680,7 +736,7 @@ export function SkillsKnowledgeMap({
       const projectedNodes: ProjectedNode[] = [];
 
       for (const visual of nodeVisuals) {
-        if (!visual.mesh || visual.data.kind === 'core') {
+        if (!visual.mesh || visual.data.kind === "core") {
           continue;
         }
 
@@ -697,7 +753,7 @@ export function SkillsKnowledgeMap({
           y: (1 - (projected.y * 0.5 + 0.5)) * height,
           z: projected.z,
           radius:
-            visual.data.kind === 'category'
+            visual.data.kind === "category"
               ? 18
               : 10 + Math.round((visual.data.knowledge ?? 0.45) * 10),
         });
@@ -743,14 +799,17 @@ export function SkillsKnowledgeMap({
         id: node.id,
         label: node.label,
         kind: node.kind,
-        activeIndex: typeof nextActiveIndex === 'number' ? nextActiveIndex : -1,
+        activeIndex: typeof nextActiveIndex === "number" ? nextActiveIndex : -1,
       };
 
       if (controlledSelectedNodeId === undefined) {
         setUncontrolledSelectedNodeId(normalizedSelection.id);
       }
 
-      if (controlledActiveIndex === undefined && normalizedSelection.activeIndex >= 0) {
+      if (
+        controlledActiveIndex === undefined &&
+        normalizedSelection.activeIndex >= 0
+      ) {
         setUncontrolledActiveIndex(normalizedSelection.activeIndex);
       }
 
@@ -823,25 +882,31 @@ export function SkillsKnowledgeMap({
     resize();
     render();
 
-    gl.canvas.addEventListener('pointerdown', onPointerDown);
-    gl.canvas.addEventListener('pointermove', onPointerMove);
-    gl.canvas.addEventListener('pointerup', onPointerUp);
-    gl.canvas.addEventListener('pointercancel', onPointerUp);
+    gl.canvas.addEventListener("pointerdown", onPointerDown);
+    gl.canvas.addEventListener("pointermove", onPointerMove);
+    gl.canvas.addEventListener("pointerup", onPointerUp);
+    gl.canvas.addEventListener("pointercancel", onPointerUp);
 
     return () => {
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
-      gl.canvas.removeEventListener('pointerdown', onPointerDown);
-      gl.canvas.removeEventListener('pointermove', onPointerMove);
-      gl.canvas.removeEventListener('pointerup', onPointerUp);
-      gl.canvas.removeEventListener('pointercancel', onPointerUp);
+      gl.canvas.removeEventListener("pointerdown", onPointerDown);
+      gl.canvas.removeEventListener("pointermove", onPointerMove);
+      gl.canvas.removeEventListener("pointerup", onPointerUp);
+      gl.canvas.removeEventListener("pointercancel", onPointerUp);
       state.dispose();
 
       if (sceneRef.current === state) {
         sceneRef.current = null;
       }
     };
-  }, [activeIndex, controlledActiveIndex, controlledSelectedNodeId, graphData, onSelectionChange]);
+  }, [
+    activeIndex,
+    controlledActiveIndex,
+    controlledSelectedNodeId,
+    graphData,
+    onSelectionChange,
+  ]);
 
   useEffect(() => {
     syncHighlight(sceneRef.current, graphData.nodeMap, resolvedSelectedNodeId);
@@ -857,18 +922,19 @@ export function SkillsKnowledgeMap({
         <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_62%)]" />
         <div className="relative space-y-6">
           <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
               Primary skills surface
-              </p>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white sm:text-3xl">
+            </p>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white sm:text-3xl">
                 Trace the skills behind the experience timeline.
-                </h3>
-                <p className="max-w-xl text-sm leading-7 text-black/65 dark:text-white/65 sm:text-base">
-                Use section 01 as the main skills surface, then move related roles higher in section 02 without losing the full timeline.
-                </p>
-              </div>
+              </h3>
+              <p className="max-w-xl text-sm leading-7 text-black/65 dark:text-white/65 sm:text-base">
+                Use section 01 as the main skills surface, then move related
+                roles higher in section 02 without losing the full timeline.
+              </p>
             </div>
+          </div>
 
           <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 dark:border-white/10 dark:bg-white/4">
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
@@ -877,9 +943,12 @@ export function SkillsKnowledgeMap({
             <div className="mt-2 space-y-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-lg font-semibold text-black dark:text-white">{selectedNode?.label}</p>
+                  <p className="text-lg font-semibold text-black dark:text-white">
+                    {selectedNode?.label}
+                  </p>
                   <p className="text-sm text-black/60 dark:text-white/60">
-                    {selectedNeighborNodes.length} related points ready to inspect from the same page state
+                    {selectedNeighborNodes.length} related points ready to
+                    inspect from the same page state
                   </p>
                 </div>
                 <span className="rounded-full border border-black/10 bg-black/4 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-white/4 dark:text-white/55">
@@ -887,10 +956,10 @@ export function SkillsKnowledgeMap({
                 </span>
               </div>
 
-              {resolvedSelectedNodeId !== 'core' ? (
+              {resolvedSelectedNodeId !== "core" ? (
                 <button
                   type="button"
-                  onClick={() => focusNode('core')}
+                  onClick={() => focusNode("core")}
                   className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 transition-colors hover:border-black/20 dark:border-white/10 dark:bg-black/20 dark:text-white/55 dark:hover:border-white/20"
                 >
                   Reset to overview
@@ -898,7 +967,10 @@ export function SkillsKnowledgeMap({
               ) : null}
 
               <div className="flex flex-wrap gap-2">
-                {(selectedGroupNames.length > 0 ? selectedGroupNames : ['All fields']).map((groupName) => (
+                {(selectedGroupNames.length > 0
+                  ? selectedGroupNames
+                  : ["All fields"]
+                ).map((groupName) => (
                   <span
                     key={groupName}
                     className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-black/20 dark:text-white/55"
@@ -935,9 +1007,9 @@ export function SkillsKnowledgeMap({
                     type="button"
                     onClick={() => focusNode(node.id)}
                     className={`rounded-full border px-3 py-1.5 text-sm shadow-sm transition-colors ${
-                      node.kind === 'category'
-                        ? 'border-black/10 bg-black/4 text-black/75 dark:border-white/10 dark:bg-white/6 dark:text-white/75'
-                        : 'border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75'
+                      node.kind === "category"
+                        ? "border-black/10 bg-black/4 text-black/75 dark:border-white/10 dark:bg-white/6 dark:text-white/75"
+                        : "border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75"
                     }`}
                   >
                     {node.label}
@@ -945,7 +1017,8 @@ export function SkillsKnowledgeMap({
                 ))
               ) : (
                 <p className="text-sm leading-7 text-black/60 dark:text-white/60">
-                  Start from the overview or select a point to inspect the domains and technologies connected to it.
+                  Start from the overview or select a point to inspect the
+                  domains and technologies connected to it.
                 </p>
               )}
             </div>
@@ -963,11 +1036,13 @@ export function SkillsKnowledgeMap({
                   aria-pressed={isActive}
                   className={`rounded-2xl border px-4 py-3 text-left transition-colors duration-300 ${
                     isActive
-                      ? 'border-black/15 bg-black text-white dark:border-white/15 dark:bg-white dark:text-black'
-                      : 'border-black/10 bg-white/70 text-black/75 hover:border-black/20 dark:border-white/10 dark:bg-white/3 dark:text-white/75 dark:hover:border-white/20'
+                      ? "border-black/15 bg-black text-white dark:border-white/15 dark:bg-white dark:text-black"
+                      : "border-black/10 bg-white/70 text-black/75 hover:border-black/20 dark:border-white/10 dark:bg-white/3 dark:text-white/75 dark:hover:border-white/20"
                   }`}
                 >
-                  <span className="block text-sm font-semibold">{group.category}</span>
+                  <span className="block text-sm font-semibold">
+                    {group.category}
+                  </span>
                   <span className="mt-1 block text-xs uppercase tracking-[0.18em] opacity-60">
                     {group.items.length} mapped technologies
                   </span>
@@ -992,43 +1067,42 @@ export function SkillsKnowledgeMap({
             Tap any point to move related experience higher in section 02.
           </div>
         </div>
-      </div>
-
-      <div className="rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/4 sm:px-5 xl:col-start-2">
-        <div className="flex flex-col gap-3 text-[0.68rem] uppercase tracking-[0.22em] text-black/45 dark:text-white/45 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-2">
-            <p>Link legend</p>
-            <div className="flex flex-wrap gap-3 text-[0.62rem]">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(171,181,204)]" />
-                Hub
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(84,156,245)]" />
-                Domain
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(232,115,209)]" />
-                Technology
-              </span>
+        <div className="rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/4 sm:px-5 xl:col-start-2">
+          <div className="flex flex-col gap-3 text-[0.68rem] uppercase tracking-[0.22em] text-black/45 dark:text-white/45 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-2">
+              <p>Link legend</p>
+              <div className="flex flex-wrap gap-3 text-[0.62rem]">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-px w-5 bg-[rgb(171,181,204)]" />
+                  Hub
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-px w-5 bg-[rgb(84,156,245)]" />
+                  Domain
+                </span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-px w-5 bg-[rgb(232,115,209)]" />
+                  Technology
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-2 text-[0.62rem]">
-            <p>Dot size = skill knowledge</p>
-            <div className="flex items-end gap-3">
-              <span className="inline-flex items-end gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-black/50 dark:bg-white/55" />
-                1/5
-              </span>
-              <span className="inline-flex items-end gap-1.5">
-                <span className="h-3.5 w-3.5 rounded-full bg-black/55 dark:bg-white/60" />
-                3/5
-              </span>
-              <span className="inline-flex items-end gap-1.5">
-                <span className="h-5 w-5 rounded-full bg-black/60 dark:bg-white/70" />
-                5/5
-              </span>
+            <div className="space-y-2 text-[0.62rem]">
+              <p>Dot size = skill knowledge</p>
+              <div className="flex items-end gap-3">
+                <span className="inline-flex items-end gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-black/50 dark:bg-white/55" />
+                  1/5
+                </span>
+                <span className="inline-flex items-end gap-1.5">
+                  <span className="h-3.5 w-3.5 rounded-full bg-black/55 dark:bg-white/60" />
+                  3/5
+                </span>
+                <span className="inline-flex items-end gap-1.5">
+                  <span className="h-5 w-5 rounded-full bg-black/60 dark:bg-white/70" />
+                  5/5
+                </span>
+              </div>
             </div>
           </div>
         </div>
