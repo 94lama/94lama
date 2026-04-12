@@ -24,8 +24,8 @@
   </g>
   <text x="78" y="184" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="52" font-weight="700">Riccardo La Malfa</text>
   <text x="78" y="234" fill="#9FCBFF" font-family="Verdana, Geneva, sans-serif" font-size="28">Frontend-focused Full-Stack Developer</text>
-  <text x="78" y="276" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="21">React, TypeScript, Python, serverless delivery, product-minded collaboration.</text>
-  <text x="78" y="328" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="18">Building interfaces that feel crisp, wiring backends that ship, and staying close to real users.</text>
+  <text x="78" y="276" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="21">React, TypeScript, Python, serverless delivery, PoC → production.</text>
+  <text x="78" y="328" fill="#8EAACA" font-family="Verdana, Geneva, sans-serif" font-size="18">UI-first execution up front, practical backend work behind it, and close feedback loops with users.</text>
   <g>
     <rect x="78" y="350" width="148" height="28" rx="14" fill="#103257" stroke="#2B74C8"/>
     <text x="104" y="369" fill="#D8EBFF" font-family="Verdana, Geneva, sans-serif" font-size="14">Open to OSS + product work</text>
@@ -37,8 +37,8 @@
     <text x="982" y="152" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="17">React · Next.js · TypeScript</text>
     <text x="836" y="190" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="17">$ backend --ship</text>
     <text x="980" y="190" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="17">Python · Laravel · OpenWhisk</text>
-    <text x="836" y="228" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="17">$ interests --today</text>
-    <text x="996" y="228" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="17">AI workflows · DX · open source</text>
+    <text x="836" y="228" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="17">$ shipped --domains</text>
+    <text x="996" y="228" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="17">Product UI · AI workflows · serverless</text>
     <text x="836" y="266" fill="#C7D7EA" font-family="Verdana, Geneva, sans-serif" font-size="17">$ mode --team</text>
     <text x="963" y="266" fill="#F2F7FF" font-family="Verdana, Geneva, sans-serif" font-size="17">Prototype fast, tighten details, deploy cleanly</text>
     <rect x="836" y="292" width="104" height="24" rx="12" fill="#0F2741"/>

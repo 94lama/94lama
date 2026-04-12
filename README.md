@@ -16,12 +16,17 @@
 - Python, Laravel, and serverless when workflows move behind the interface
 - Based in Italy · open to the right EU relocation move
 
-![Skill bars](./public/assets/readme/skill-bars.svg)
+<p align="center">
+  <img src="./public/assets/readme/skill-bars.svg" alt="Skill bars for Riccardo La Malfa" width="100%" />
+</p>
 
-![Skill graph](./public/assets/readme/skill-graph.svg)
+<p align="center">
+  <img src="./public/assets/readme/skill-graph.svg" alt="Skill graph for Riccardo La Malfa" width="100%" />
+</p>
 
 ## Experience snapshot
 
+- Shipped across product UI, serverless services, AI extraction flows, and Docker/Linux delivery.
 - **Nuvolaris** — Python Developer · 10/2025–Present  
   React/Svelte frontends, Python/OpenWhisk services, AI extraction workflows, production cluster delivery.
 - **Aroma S.r.l.** — Full-Stack Developer · 10/2024–06/2025  
