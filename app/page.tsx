@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { ExperienceMapController } from "@/app/components/experience-map-controller";
+import { KnowledgeExperienceCoordinator } from "@/app/components/knowledge-experience-coordinator";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
 function ContactLink({
@@ -178,114 +178,10 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12 xl:gap-16">
-          <SectionHeading
-            index="01"
-            title="Skills"
-            description="Grouped for recruiter-speed scanning across frontend, backend, DevOps, and data work."
-          />
-
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {content.skills.map((group, index) => (
-              <article
-                key={group.category}
-                className={`rounded-[1.75rem] border p-5 sm:p-6 ${
-                  index === 0
-                    ? "border-accent/25 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))]"
-                    : "border-white/10 bg-surface"
-                }`}
-              >
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="text-2xl font-semibold tracking-tight text-white">
-                      {group.category}
-                    </h2>
-                  </div>
-
-                  <ul className="space-y-3">
-                    {group.entries.map((entry) => (
-                      <li
-                        key={`${group.category}-${entry.label}`}
-                        className="flex items-center justify-between gap-4 border-t border-white/8 pt-3 text-sm text-white/72"
-                      >
-                        <span>{entry.label}</span>
-                        {typeof entry.knowledge === "number" ? (
-                          <span className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/42">
-                            {Math.round(entry.knowledge * 5)}/5
-                          </span>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-12 xl:gap-16">
-          <SectionHeading
-            index="02"
-            title="Experience"
-            description="The highest-weight credential block after the hero, organized for role, company, timing, and proof points."
-          />
-
-          <div className="space-y-5">
-            {content.experience.map((entry, index) => (
-              <article
-                key={`${entry.role}-${entry.company}-${entry.dateRange}`}
-                className="rounded-[1.75rem] border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8"
-              >
-                <div className="grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)]">
-                  <div className="flex items-start gap-4 lg:flex-col lg:gap-8">
-                    <span className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/12 bg-white/4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-white/48">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-white/42 lg:max-w-40">
-                      {entry.dateRange}
-                    </p>
-                  </div>
-
-                  <div className="space-y-5">
-                    <div className="space-y-3">
-                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                        {entry.company}
-                      </p>
-                      <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-[2.2rem]">
-                        {entry.role}
-                      </h2>
-                    </div>
-
-                    <ul className="space-y-3 text-base leading-7 text-white/74">
-                      {entry.highlights.map((highlight) => (
-                        <li key={highlight} className="flex gap-3">
-                          <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-accent" />
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="space-y-8 rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(23,26,34,0.96),rgba(12,12,15,0.98))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-          <SectionHeading
-            index="02A"
-            title="Interactive Skills And Experience"
-            description="A deeper pass on how the grouped skill areas connect back to the experience timeline without changing the one-page flow."
-          />
-          {/* ExperienceMapSection: controlled selection lifted to parent */}
-          <ExperienceMapController
-            experience={content.experience}
-            skillGroups={content.skills}
-          />
-        </section>
+        <KnowledgeExperienceCoordinator
+          experience={content.experience}
+          skillGroups={content.skills}
+        />
 
         <section className="grid gap-8 xl:grid-cols-2">
           <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
