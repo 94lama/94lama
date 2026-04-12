@@ -14,7 +14,7 @@
 
 - React / Next.js / TypeScript for product UI
 - Python / Laravel / OpenWhisk for APIs, workflows, and automation
-- Docker / Linux / CI when delivery details matter
+- Docker / Linux / CI/CD when delivery details matter
 
 <p align="center">
   <img src="./public/assets/readme/skill-bars.svg" alt="Skill bars for Riccardo La Malfa" width="100%" />
@@ -26,9 +26,9 @@
 
 ## What I ship
 
-- Product UI, internal tools, and web apps from PoC to production
+- Product UI and web apps from PoC to production
 - AI-assisted extraction flows and workflow automation
-- Serverless or containerized delivery when the product needs it
+- Serverless services and containerized delivery when the product needs it
 
 ## Recent work
 
