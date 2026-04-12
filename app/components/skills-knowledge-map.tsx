@@ -18,9 +18,10 @@ const CATEGORY_COLORS = [
 const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
   Python: ['DevOps'],
   'Serverless (OpenWhisk)': ['DevOps'],
-  Docker: ['Backend'],
-  Bash: ['Backend'],
-  Linux: ['Backend'],
+  Docker: ['DevOps'],
+  Kubernetes: ['DevOps'],
+  Bash: ['DevOps'],
+  Linux: ['DevOps'],
   MySQL: ['Backend'],
   PostgreSQL: ['Backend'],
 };
@@ -37,6 +38,7 @@ const RELATED_SKILL_LINKS: Record<string, string[]> = {
   Django: ['Python', 'PostgreSQL'],
   'Serverless (OpenWhisk)': ['Python', 'Docker', 'Next.js'],
   Docker: ['Python', 'Linux', 'Bash', 'CI/CD', 'Serverless (OpenWhisk)'],
+  Kubernetes: ['Linux', 'Bash', 'CI/CD', 'Serverless (OpenWhisk)'],
   'CI/CD': ['Docker', 'Linux', 'Bash'],
   Linux: ['Docker', 'Bash', 'CI/CD', 'Python'],
   Bash: ['Linux', 'Docker', 'CI/CD', 'Python'],
@@ -133,7 +135,7 @@ type GraphEdge = {
 
 type NodeVisual = {
   data: GraphNode;
-  mesh: Mesh;
+  mesh: Mesh | undefined;
   program: Program;
   baseScale: number;
 };
@@ -275,9 +277,9 @@ function createGraph(skillGroups: SkillGroup[]) {
       groupIndices: [groupIndex],
       color: getCategoryColor(groupIndex),
       position: [
-        Math.cos(angle) * 3.75,
-        Math.sin(angle * 2) * 1.1,
-        Math.sin(angle) * 3.1,
+        Math.cos(angle) * 4.8,
+        Math.sin(angle * 2) * 1.45,
+        Math.sin(angle) * 4.2,
       ],
       neighbors: [],
     };
@@ -328,7 +330,7 @@ function createGraph(skillGroups: SkillGroup[]) {
     const centroid = averageVector(anchorPositions);
     const hash = hashLabel(record.label);
     const angle = (hash % 360) * (Math.PI / 180);
-    const orbit = groupIndices.length > 1 ? 1.05 : 1.55;
+    const orbit = groupIndices.length > 1 ? 1.45 : 2.1;
     const knowledge =
       record.knowledgeValues.length > 0
         ? record.knowledgeValues.reduce((sum, value) => sum + value, 0) / record.knowledgeValues.length
@@ -342,8 +344,8 @@ function createGraph(skillGroups: SkillGroup[]) {
       color: averageVector(groupIndices.map((groupIndex) => getCategoryColor(groupIndex))),
       position: [
         centroid[0] + Math.cos(angle) * orbit,
-        centroid[1] + (((hash >> 3) % 9) - 4) * 0.18,
-        centroid[2] + Math.sin(angle) * (groupIndices.length > 1 ? 1.1 : 1.45),
+        centroid[1] + (((hash >> 3) % 11) - 5) * 0.28,
+        centroid[2] + Math.sin(angle) * (groupIndices.length > 1 ? 1.6 : 2.15),
       ],
       neighbors: [],
     };
@@ -393,6 +395,8 @@ function syncHighlight(
   const relatedNodeAlpha = 0.82;
 
   for (const visual of scene.nodeVisuals) {
+    const isRendered = visual.data.kind === 'core' ? false : Boolean(visual.mesh);
+
     const isSelected = visual.data.id === selectedNode?.id;
     const isNeighbor = neighbors.has(visual.data.id);
     const isRelated = isSelected || isNeighbor;
@@ -403,6 +407,10 @@ function syncHighlight(
     colorValue[0] = mix(0.2, visual.data.color[0], isRelated ? 1 : 0.45);
     colorValue[1] = mix(0.22, visual.data.color[1], isRelated ? 1 : 0.45);
     colorValue[2] = mix(0.28, visual.data.color[2], isRelated ? 1 : 0.45);
+
+    if (!isRendered || !visual.mesh) {
+      continue;
+    }
 
     visual.program.uniforms.uAlpha.value = visual.data.kind === 'skill' ? emphasis : Math.min(1, emphasis + 0.08);
     visual.program.uniforms.uGlow.value = isSelected ? 0.68 : isNeighbor ? 0.28 : 0.05;
@@ -497,7 +505,7 @@ export function SkillsKnowledgeMap({
       ? 'domain'
       : selectedNode?.kind === 'skill'
         ? 'technology'
-        : 'hub';
+        : 'overview';
 
   const applySelection = (nodeId: string) => {
     const node = graphData.nodeMap.get(nodeId);
@@ -561,7 +569,7 @@ export function SkillsKnowledgeMap({
           uGlow: { value: 0 },
         },
       });
-      const mesh = new Mesh(gl, { geometry: sphereGeometry, program });
+      const mesh = node.kind === 'core' ? undefined : new Mesh(gl, { geometry: sphereGeometry, program });
       const baseScale =
         node.kind === 'core'
           ? 0.74
@@ -569,9 +577,11 @@ export function SkillsKnowledgeMap({
             ? 0.44
             : 0.16 + (node.knowledge ?? 0.45) * 0.18;
 
-      mesh.position.set(node.position[0], node.position[1], node.position[2]);
-      mesh.scale.set(baseScale, baseScale, baseScale);
-      mesh.setParent(graph);
+      if (mesh) {
+        mesh.position.set(node.position[0], node.position[1], node.position[2]);
+        mesh.scale.set(baseScale, baseScale, baseScale);
+        mesh.setParent(graph);
+      }
 
       return { data: node, mesh, program, baseScale };
     });
@@ -670,6 +680,10 @@ export function SkillsKnowledgeMap({
       const projectedNodes: ProjectedNode[] = [];
 
       for (const visual of nodeVisuals) {
+        if (!visual.mesh || visual.data.kind === 'core') {
+          continue;
+        }
+
         const worldPosition = new Vec3();
         const projected = new Vec3();
 
@@ -683,11 +697,9 @@ export function SkillsKnowledgeMap({
           y: (1 - (projected.y * 0.5 + 0.5)) * height,
           z: projected.z,
           radius:
-            visual.data.kind === 'core'
-              ? 28
-              : visual.data.kind === 'category'
-                ? 18
-                : 10 + Math.round((visual.data.knowledge ?? 0.45) * 10),
+            visual.data.kind === 'category'
+              ? 18
+              : 10 + Math.round((visual.data.knowledge ?? 0.45) * 10),
         });
       }
 
@@ -845,35 +857,45 @@ export function SkillsKnowledgeMap({
         <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_62%)]" />
         <div className="relative space-y-6">
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
-              Knowledge graph
-            </p>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white sm:text-3xl">
-                Professional skills and domains.
-              </h3>
-              <p className="max-w-xl text-sm leading-7 text-black/65 dark:text-white/65 sm:text-base">
-                Rotate the graph in 3D and inspect how frameworks, runtimes, infrastructure, and storage tools connect across the stack.
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
+              Primary skills surface
               </p>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-semibold tracking-tight text-black dark:text-white sm:text-3xl">
+                Trace the skills behind the experience timeline.
+                </h3>
+                <p className="max-w-xl text-sm leading-7 text-black/65 dark:text-white/65 sm:text-base">
+                Use section 01 as the main skills surface, then move related roles higher in section 02 without losing the full timeline.
+                </p>
+              </div>
             </div>
-          </div>
 
           <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 dark:border-white/10 dark:bg-white/4">
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
-              Selected point
+              Current selection
             </p>
             <div className="mt-2 space-y-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-lg font-semibold text-black dark:text-white">{selectedNode?.label}</p>
                   <p className="text-sm text-black/60 dark:text-white/60">
-                    {selectedNeighborNodes.length} directly connected points highlighted
+                    {selectedNeighborNodes.length} related points ready to inspect from the same page state
                   </p>
                 </div>
                 <span className="rounded-full border border-black/10 bg-black/4 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-white/4 dark:text-white/55">
                   {selectedKindLabel}
                 </span>
               </div>
+
+              {resolvedSelectedNodeId !== 'core' ? (
+                <button
+                  type="button"
+                  onClick={() => focusNode('core')}
+                  className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 transition-colors hover:border-black/20 dark:border-white/10 dark:bg-black/20 dark:text-white/55 dark:hover:border-white/20"
+                >
+                  Reset to overview
+                </button>
+              ) : null}
 
               <div className="flex flex-wrap gap-2">
                 {(selectedGroupNames.length > 0 ? selectedGroupNames : ['All fields']).map((groupName) => (
@@ -923,7 +945,7 @@ export function SkillsKnowledgeMap({
                 ))
               ) : (
                 <p className="text-sm leading-7 text-black/60 dark:text-white/60">
-                  Select a point to inspect the domains and technologies directly connected to it.
+                  Start from the overview or select a point to inspect the domains and technologies connected to it.
                 </p>
               )}
             </div>
@@ -967,7 +989,7 @@ export function SkillsKnowledgeMap({
           <div ref={viewportRef} className="absolute inset-0" />
 
           <div className="pointer-events-none absolute inset-x-4 bottom-4 z-10 rounded-2xl border border-black/10 bg-white/60 px-4 py-3 text-xs uppercase tracking-[0.22em] text-black/45 backdrop-blur dark:border-white/10 dark:bg-white/4 dark:text-white/45 sm:inset-x-6 sm:bottom-6">
-            Tap any point to trace its direct links across the graph.
+            Tap any point to move related experience higher in section 02.
           </div>
         </div>
       </div>

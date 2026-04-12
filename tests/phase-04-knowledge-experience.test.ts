@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
 
 import { rankExperienceBySelection } from "../src/content/portfolio/rank-experience-by-selection.ts";
@@ -24,6 +26,10 @@ const skillGroups: SkillGroup[] = [
     ],
   },
 ];
+
+const rootDir = process.cwd();
+const pagePath = path.join(rootDir, "app/page.tsx");
+const mapPath = path.join(rootDir, "app/components/skills-knowledge-map.tsx");
 
 const experience: ExperienceEntry[] = [
   {
@@ -133,4 +139,21 @@ test("unmatched selections fall back to the full timeline with helper copy", () 
   assert.equal(result.entries.length, experience.length);
   assert.equal(result.entries.every((item) => item.isHighlighted === false), true);
   assert.match(result.helperCopy, /full timeline remains visible|full timeline is shown/i);
+});
+
+test("page wiring replaces duplicate sections with the shared coordinator", async () => {
+  const source = await readFile(pagePath, "utf8");
+
+  assert.match(source, /KnowledgeExperienceCoordinator/);
+  assert.doesNotMatch(source, /ExperienceMapController/);
+  assert.doesNotMatch(source, /Interactive Skills And Experience/);
+  assert.doesNotMatch(source, /content\.skills\.map\(/);
+});
+
+test("map component keeps a semantic core selection without a rendered core mesh", async () => {
+  const source = await readFile(mapPath, "utf8");
+
+  assert.match(source, /id: 'core'/);
+  assert.match(source, /node\.kind === 'core' \? undefined : new Mesh/);
+  assert.match(source, /visual\.data\.kind === 'core'\s*\? false/);
 });
