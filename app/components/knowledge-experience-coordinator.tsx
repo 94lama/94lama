@@ -43,7 +43,9 @@ function SectionHeading({
           {title}
         </p>
       </div>
-      <p className="max-w-2xl text-base leading-7 text-white/72">{description}</p>
+      <p className="max-w-2xl text-base leading-7 text-slate-600 dark:text-white/72">
+        {description}
+      </p>
     </div>
   );
 }
