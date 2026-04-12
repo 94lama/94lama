@@ -9,11 +9,19 @@ export function LegalEmbedFooter() {
     <footer className="mt-auto py-6 border-t border-border">
       <div className="max-w-3xl mx-auto px-4 text-sm text-muted-foreground flex justify-center gap-6">
         <a href="https://www.iubenda.com/privacy-policy/76360064" className="iubenda-black iubenda-noiframe iubenda-embed" title="Privacy Policy ">Privacy Policy</a>
-        <Script id="iubenda-privacy-policy" strategy="beforeInteractive">
+        <Script
+          id="iubenda-privacy-policy"
+          strategy="beforeInteractive"
+          type="text/javascript"
+        >
           {privacyPolicyScript}
         </Script>
         <a href="https://www.iubenda.com/privacy-policy/76360064/cookie-policy" className="iubenda-black iubenda-noiframe iubenda-embed" title="Cookie Policy ">Cookie Policy</a>
-        <Script id="iubenda-cookie-policy" strategy="beforeInteractive">
+        <Script
+          id="iubenda-cookie-policy"
+          strategy="beforeInteractive"
+          type="text/javascript"
+        >
           {cookiePolicyScript}
         </Script>
       </div>
