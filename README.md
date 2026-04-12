@@ -13,38 +13,38 @@ I build product UIs and the backend glue that makes them work: typed frontends, 
 
 <figure>
   <!-- Inline SVG: original hand-coded hexagon/radar chart (role strengths applied) -->
-  <svg role="img" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" width="100%" aria-label="Skill hexagon radar">
+  <svg role="img" viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" width="100%" aria-label="Skill hexagon radar">
     <title>Skill hexagon radar — role-based</title>
     <desc>Illustrative radar for roles: Frontend, API/Integration, Backend, DevOps, Data, Architecture.</desc>
 
-    <g transform="translate(120,120)" font-family="Segoe UI, Arial, sans-serif" font-size="11">
+    <g transform="translate(160,130)" font-family="Segoe UI, Arial, sans-serif" font-size="11">
 
-      <!-- grid rings (lighter) -->
-      <circle r="95" fill="none" stroke="#dfeafc" stroke-width="0.8" />
-      <circle r="65" fill="none" stroke="#eef6ff" stroke-width="0.7" />
-      <circle r="35" fill="none" stroke="#f9fbff" stroke-width="0.6" />
+      <!-- grid rings (light and subtle) -->
+      <circle r="95" fill="none" stroke="#eaf2ff" stroke-width="0.4" />
+      <circle r="65" fill="none" stroke="#f3f8ff" stroke-width="0.35" />
+      <circle r="35" fill="none" stroke="#fbfdff" stroke-width="0.3" />
 
-      <!-- axes (subtle) -->
-      <line x1="0" y1="0" x2="0" y2="-95" stroke="#eef6ff" stroke-width="0.6" />
-      <line x1="0" y1="0" x2="82" y2="-47" stroke="#eef6ff" stroke-width="0.6" />
-      <line x1="0" y1="0" x2="82" y2="47" stroke="#eef6ff" stroke-width="0.6" />
-      <line x1="0" y1="0" x2="0" y2="95" stroke="#eef6ff" stroke-width="0.6" />
-      <line x1="0" y1="0" x2="-82" y2="47" stroke="#eef6ff" stroke-width="0.6" />
-      <line x1="0" y1="0" x2="-82" y2="-47" stroke="#eef6ff" stroke-width="0.6" />
+      <!-- axes (very subtle) -->
+      <line x1="0" y1="0" x2="0" y2="-95" stroke="#f3f8ff" stroke-width="0.35" />
+      <line x1="0" y1="0" x2="82" y2="-47" stroke="#f3f8ff" stroke-width="0.35" />
+      <line x1="0" y1="0" x2="82" y2="47" stroke="#f3f8ff" stroke-width="0.35" />
+      <line x1="0" y1="0" x2="0" y2="95" stroke="#f3f8ff" stroke-width="0.35" />
+      <line x1="0" y1="0" x2="-82" y2="47" stroke="#f3f8ff" stroke-width="0.35" />
+      <line x1="0" y1="0" x2="-82" y2="-47" stroke="#f3f8ff" stroke-width="0.35" />
 
-      <!-- role polygon (points computed for ratings above; radius = 95) -->
+      <!-- role polygon (points same radius) -->
       <polygon points="0,-87 68,-39 64,37 0,68 -56,32 -62,-36"
-               fill="rgba(34,110,255,0.14)" stroke="#226eff" stroke-width="1.6" />
+               fill="rgba(34,110,255,0.18)" stroke="#1f6be6" stroke-width="1.4" />
 
-      <!-- role labels (positioned relative to center; visible and readable) -->
-      <text x="0" y="-118" text-anchor="middle" fill="#111" font-size="12">Frontend</text>
-      <text x="105" y="-62" text-anchor="start" fill="#111" font-size="11">API / Integration</text>
-      <text x="105" y="80" text-anchor="start" fill="#111" font-size="11">Backend</text>
-      <text x="0" y="138" text-anchor="middle" fill="#111" font-size="11">DevOps</text>
-      <text x="-105" y="80" text-anchor="end" fill="#111" font-size="11">Data / ML</text>
-      <text x="-105" y="-62" text-anchor="end" fill="#111" font-size="11">Architecture</text>
+      <!-- role labels placed using transforms so they stay within viewBox -->
+      <text transform="translate(0,-118)" text-anchor="middle" fill="#222" font-size="12">Frontend</text>
+      <text transform="translate(115,-62)" text-anchor="start" fill="#222" font-size="11">API / Integration</text>
+      <text transform="translate(115,80)" text-anchor="start" fill="#222" font-size="11">Backend</text>
+      <text transform="translate(0,140)" text-anchor="middle" fill="#222" font-size="11">DevOps</text>
+      <text transform="translate(-115,80)" text-anchor="end" fill="#222" font-size="11">Data / ML</text>
+      <text transform="translate(-115,-62)" text-anchor="end" fill="#222" font-size="11">Architecture</text>
 
-      <circle r="2" fill="#226eff" />
+      <circle r="2" fill="#1f6be6" />
     </g>
 
   </svg>
