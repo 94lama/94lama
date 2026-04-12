@@ -48,6 +48,15 @@ function SectionHeading({
   );
 }
 
+const sectionShellClassName =
+  "relative overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(23,26,34,0.88))] px-5 py-6 shadow-[0_35px_120px_-80px_rgba(56,189,248,0.3)] sm:px-6 sm:py-7 xl:px-8";
+
+const sectionGlowClassName =
+  "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.16),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(184,255,32,0.08),transparent_28%)]";
+
+const sectionInnerCardClassName =
+  "rounded-[1.35rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(12,12,15,0.34))] px-4 py-4 backdrop-blur-sm";
+
 export default async function Home() {
   const content = await getPortfolioContent();
   const secondaryContactActions = [
@@ -184,142 +193,155 @@ export default async function Home() {
         />
 
         <section className="grid gap-8 xl:grid-cols-2">
-          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="03" title="Education" />
-            <ul className="mt-8 space-y-4">
-              {content.education.map((entry) => (
-                <li
-                  key={entry}
-                  className="rounded-[1.25rem] border border-white/8 bg-black/18 px-4 py-4 text-base leading-7 text-white/76"
-                >
-                  {entry}
-                </li>
-              ))}
-            </ul>
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="03" title="Education" />
+              <ul className="mt-8 space-y-4">
+                {content.education.map((entry) => (
+                  <li
+                    key={entry}
+                    className={`${sectionInnerCardClassName} text-base leading-7 text-white/76`}
+                  >
+                    {entry}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </article>
 
-          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="04" title="Languages" />
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {content.languages.map((entry) => (
-                <div
-                  key={entry.label}
-                  className="rounded-[1.25rem] border border-white/8 bg-black/18 px-4 py-4"
-                >
-                  <p className="text-lg font-semibold text-white">{entry.label}</p>
-                  <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/46">
-                    {entry.level}
-                  </p>
-                </div>
-              ))}
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="04" title="Languages" />
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {content.languages.map((entry) => (
+                  <div key={entry.label} className={sectionInnerCardClassName}>
+                    <p className="text-lg font-semibold text-white">{entry.label}</p>
+                    <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/46">
+                      {entry.level}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </article>
         </section>
 
         <section className="grid gap-8 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <article className="rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(184,255,32,0.12),rgba(23,26,34,0.9))] px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="05" title="Relocation" />
-            <div className="mt-8 space-y-6">
-              <p className="max-w-2xl text-lg leading-8 text-white/78">
-                {content.relocation.summary}
-              </p>
-
-              {content.relocation.preferredRegions?.length ? (
-                <div className="flex flex-wrap gap-3">
-                  {content.relocation.preferredRegions.map((region) => (
-                    <span
-                      key={region}
-                      className="rounded-full border border-white/12 bg-white/6 px-4 py-3 text-sm text-white/78"
-                    >
-                      {region}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </article>
-
-          <article className="rounded-4xl border border-white/10 bg-surface px-5 py-6 sm:px-6 sm:py-7 xl:px-8">
-            <SectionHeading index="06" title="Contact" />
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-white/8 bg-black/18 p-5 sm:col-span-2">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Primary CTA
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="05" title="Relocation" />
+              <div className="mt-8 space-y-6">
+                <p className="max-w-2xl text-lg leading-8 text-white/78">
+                  {content.relocation.summary}
                 </p>
-                <a
-                  className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                  href={`mailto:${content.contact.email}`}
-                >
-                  Email Riccardo
-                </a>
-                {secondaryContactActions.length ? (
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    {secondaryContactActions.map((action) => (
-                      <ContactLink key={`contact-${action.label}`} href={action.href} label={action.label} />
+
+                {content.relocation.preferredRegions?.length ? (
+                  <div className="flex flex-wrap gap-3">
+                    {content.relocation.preferredRegions.map((region) => (
+                      <span
+                        key={region}
+                        className="rounded-full border border-white/12 bg-white/8 px-4 py-3 text-sm text-white/78 backdrop-blur-sm"
+                      >
+                        {region}
+                      </span>
                     ))}
                   </div>
                 ) : null}
               </div>
+            </div>
+          </article>
 
-              <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Email
-                </p>
-                <a
-                  className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                  href={`mailto:${content.contact.email}`}
-                >
-                  {content.contact.email}
-                </a>
-              </div>
-
-              <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Location
-                </p>
-                <p className="mt-3 text-base leading-7 text-white/76">{content.contact.location}</p>
-              </div>
-
-              {content.contact.phone ? (
-                <div className="rounded-3xl border border-white/8 bg-black/18 p-5 sm:col-span-2">
+          <article className={sectionShellClassName}>
+            <div className={sectionGlowClassName} />
+            <div className="relative">
+              <SectionHeading index="06" title="Contact" />
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    Phone
+                    Primary CTA
                   </p>
-                  <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                  <a
+                    className="mt-4 inline-flex min-h-11 items-center rounded-full bg-accent px-6 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    href={`mailto:${content.contact.email}`}
+                  >
+                    Email Riccardo
+                  </a>
+                  {secondaryContactActions.length ? (
+                    <div className="mt-4 flex flex-wrap gap-3">
+                      {secondaryContactActions.map((action) => (
+                        <ContactLink
+                          key={`contact-${action.label}`}
+                          href={action.href}
+                          label={action.label}
+                        />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
 
-              {content.contact.github ? (
-                <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
+                <div className={sectionInnerCardClassName}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    GitHub
+                    Email
                   </p>
                   <a
                     className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                    href={content.contact.github}
-                    rel="noreferrer"
-                    target="_blank"
+                    href={`mailto:${content.contact.email}`}
                   >
-                    {content.contact.github}
+                    {content.contact.email}
                   </a>
                 </div>
-              ) : null}
 
-              {content.contact.linkedin ? (
-                <div className="rounded-3xl border border-white/8 bg-black/18 p-5">
+                <div className={sectionInnerCardClassName}>
                   <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
-                    LinkedIn
+                    Location
                   </p>
-                  <a
-                    className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
-                    href={content.contact.linkedin}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {content.contact.linkedin}
-                  </a>
+                  <p className="mt-3 text-base leading-7 text-white/76">{content.contact.location}</p>
                 </div>
-              ) : null}
+
+                {content.contact.phone ? (
+                  <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
+                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                      Phone
+                    </p>
+                    <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                  </div>
+                ) : null}
+
+                {content.contact.github ? (
+                  <div className={sectionInnerCardClassName}>
+                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                      GitHub
+                    </p>
+                    <a
+                      className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
+                      href={content.contact.github}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {content.contact.github}
+                    </a>
+                  </div>
+                ) : null}
+
+                {content.contact.linkedin ? (
+                  <div className={sectionInnerCardClassName}>
+                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                      LinkedIn
+                    </p>
+                    <a
+                      className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
+                      href={content.contact.linkedin}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {content.contact.linkedin}
+                    </a>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </article>
         </section>
