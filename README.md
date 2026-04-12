@@ -19,31 +19,30 @@ I build product UIs and the backend glue that makes them work: typed frontends, 
 
     <g transform="translate(120,120)" font-family="Segoe UI, Arial, sans-serif" font-size="11">
 
-      <!-- grid rings -->
-      <circle r="95" fill="none" stroke="#e9eef8" stroke-width="1"/>
-      <circle r="65" fill="none" stroke="#f4f8ff" stroke-width="1"/>
-      <circle r="35" fill="none" stroke="#fbfdff" stroke-width="1"/>
+      <!-- grid rings (lighter) -->
+      <circle r="95" fill="none" stroke="#dfeafc" stroke-width="0.8" />
+      <circle r="65" fill="none" stroke="#eef6ff" stroke-width="0.7" />
+      <circle r="35" fill="none" stroke="#f9fbff" stroke-width="0.6" />
 
-      <!-- axes -->
-      <line x1="0" y1="0" x2="0" y2="-95" stroke="#f1f5fb" stroke-width="1"/>
-      <line x1="0" y1="0" x2="82" y2="-47" stroke="#f1f5fb" stroke-width="1"/>
-      <line x1="0" y1="0" x2="82" y2="47" stroke="#f1f5fb" stroke-width="1"/>
-      <line x1="0" y1="0" x2="0" y2="95" stroke="#f1f5fb" stroke-width="1"/>
-      <line x1="0" y1="0" x2="-82" y2="47" stroke="#f1f5fb" stroke-width="1"/>
-      <line x1="0" y1="0" x2="-82" y2="-47" stroke="#f1f5fb" stroke-width="1"/>
+      <!-- axes (subtle) -->
+      <line x1="0" y1="0" x2="0" y2="-95" stroke="#eef6ff" stroke-width="0.6" />
+      <line x1="0" y1="0" x2="82" y2="-47" stroke="#eef6ff" stroke-width="0.6" />
+      <line x1="0" y1="0" x2="82" y2="47" stroke="#eef6ff" stroke-width="0.6" />
+      <line x1="0" y1="0" x2="0" y2="95" stroke="#eef6ff" stroke-width="0.6" />
+      <line x1="0" y1="0" x2="-82" y2="47" stroke="#eef6ff" stroke-width="0.6" />
+      <line x1="0" y1="0" x2="-82" y2="-47" stroke="#eef6ff" stroke-width="0.6" />
 
       <!-- role polygon (points computed for ratings above; radius = 95) -->
-      <!-- Points (x,y): Frontend (0,-87) | API (68,-39) | Backend (64,37) | DevOps (0,68) | Data (-56,32) | Architecture (-62,-36) -->
       <polygon points="0,-87 68,-39 64,37 0,68 -56,32 -62,-36"
-               fill="rgba(34,110,255,0.12)" stroke="#226eff" stroke-width="1.6"/>
+               fill="rgba(34,110,255,0.14)" stroke="#226eff" stroke-width="1.6" />
 
-      <!-- role labels -->
-      <text x="0" y="-115" text-anchor="middle" fill="#111">Frontend</text>
-      <text x="208" y="-55" text-anchor="start" fill="#111">API / Integration</text>
-      <text x="208" y="72" text-anchor="start" fill="#111">Backend</text>
-      <text x="0" y="140" text-anchor="middle" fill="#111">DevOps</text>
-      <text x="-208" y="72" text-anchor="end" fill="#111">Data / ML</text>
-      <text x="-208" y="-55" text-anchor="end" fill="#111">Architecture</text>
+      <!-- role labels (positioned relative to center; visible and readable) -->
+      <text x="0" y="-118" text-anchor="middle" fill="#111" font-size="12">Frontend</text>
+      <text x="105" y="-62" text-anchor="start" fill="#111" font-size="11">API / Integration</text>
+      <text x="105" y="80" text-anchor="start" fill="#111" font-size="11">Backend</text>
+      <text x="0" y="138" text-anchor="middle" fill="#111" font-size="11">DevOps</text>
+      <text x="-105" y="80" text-anchor="end" fill="#111" font-size="11">Data / ML</text>
+      <text x="-105" y="-62" text-anchor="end" fill="#111" font-size="11">Architecture</text>
 
       <circle r="2" fill="#226eff" />
     </g>
