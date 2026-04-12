@@ -201,6 +201,16 @@ function getDepthSpread(hash: number, strength: number) {
   return (normalizeHash(hash) - 0.5) * strength;
 }
 
+function getEntranceStyle(prefersReducedMotion: boolean, delay = 0) {
+  if (prefersReducedMotion) {
+    return undefined;
+  }
+
+  return {
+    animation: `fade-in-up 500ms ease-out ${delay}ms both`,
+  };
+}
+
 function averageVector(values: readonly (readonly [number, number, number])[]) {
   if (values.length === 0) {
     return [0, 0, 0] as const;
@@ -530,7 +540,6 @@ export function SkillsKnowledgeMap({
   const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(0);
   const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] =
     useState("core");
-  const [isReady, setIsReady] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
   const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
@@ -596,8 +605,6 @@ export function SkillsKnowledgeMap({
   };
 
   useEffect(() => {
-    setIsReady(true);
-
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const syncPreference = () => {
       setPrefersReducedMotion(mediaQuery.matches);
@@ -981,18 +988,14 @@ export function SkillsKnowledgeMap({
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <div
-        className={`relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] transition-[opacity,transform] duration-500 dark:border-white/10 dark:bg-white/4 sm:p-8 ${
-          isReady
-            ? "translate-y-0 opacity-100"
-            : "translate-y-3 opacity-0"
-        } ${prefersReducedMotion ? "duration-0" : ""}`}
+        className="relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] dark:border-white/10 dark:bg-white/4 sm:p-8"
+        style={getEntranceStyle(prefersReducedMotion)}
       >
         <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_62%)]" />
         <div className="relative space-y-6">
           <div
-            className={`space-y-3 transition-[opacity,transform] duration-500 ${
-              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-            } ${prefersReducedMotion ? "duration-0" : "delay-75"}`}
+            className="space-y-3"
+            style={getEntranceStyle(prefersReducedMotion, 75)}
           >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
               Primary skills surface
@@ -1009,9 +1012,8 @@ export function SkillsKnowledgeMap({
           </div>
 
           <div
-            className={`rounded-[1.4rem] border border-black/10 bg-white/65 p-4 transition-[opacity,transform] duration-500 dark:border-white/10 dark:bg-white/4 ${
-              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-            } ${prefersReducedMotion ? "duration-0" : "delay-150"}`}
+            className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 dark:border-white/10 dark:bg-white/4"
+            style={getEntranceStyle(prefersReducedMotion, 150)}
           >
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
               Current selection
@@ -1064,9 +1066,8 @@ export function SkillsKnowledgeMap({
           </div>
 
           <div
-            className={`space-y-3 transition-[opacity,transform] duration-500 ${
-              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-            } ${prefersReducedMotion ? "duration-0" : "delay-200"}`}
+            className="space-y-3"
+            style={getEntranceStyle(prefersReducedMotion, 200)}
           >
             <div className="flex items-center justify-between gap-3">
               <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
@@ -1105,9 +1106,8 @@ export function SkillsKnowledgeMap({
           </div>
 
           <div
-            className={`grid gap-3 transition-[opacity,transform] duration-500 sm:grid-cols-2 ${
-              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-            } ${prefersReducedMotion ? "duration-0" : "delay-300"}`}
+            className="grid gap-3 sm:grid-cols-2"
+            style={getEntranceStyle(prefersReducedMotion, 300)}
           >
             {skillGroups.map((group, index) => {
               const isActive = index === activeGroupIndex;
@@ -1138,9 +1138,8 @@ export function SkillsKnowledgeMap({
       </div>
 
       <div
-        className={`relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] transition-[opacity,transform] duration-700 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 ${
-          isReady ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-        } ${prefersReducedMotion ? "duration-0" : "delay-100"}`}
+        className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6"
+        style={getEntranceStyle(prefersReducedMotion, 100)}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
         <div className="relative h-96 overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))] sm:h-120">
