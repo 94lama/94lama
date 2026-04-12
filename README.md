@@ -11,7 +11,7 @@ I build product UIs and the backend glue that makes them work: typed frontends, 
 
 ## Skill graph (roles)
 
-![Radar Chart](public/skills-graph.svg)
+![Radar Chart](public/assets/skills-graph.svg)
 
 ## What I ship
 
