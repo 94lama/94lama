@@ -7,6 +7,10 @@ import {
   type KnowledgeMapSelection,
 } from "@/app/components/skills-knowledge-map";
 import { ExperienceTimelineSection } from "@/app/components/experience-timeline-section";
+import {
+  sectionBodyToneClassName,
+  sectionEyebrowToneClassName,
+} from "@/app/components/section-card-styles";
 import { rankExperienceBySelection } from "@/src/content/portfolio/rank-experience-by-selection";
 import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
 
@@ -39,11 +43,13 @@ function SectionHeading({
         <span className="inline-flex min-h-11 items-center rounded-full border border-white/12 bg-accent px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-accent-foreground">
           {index}
         </span>
-        <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.26em] text-muted">
+        <p
+          className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.26em] ${sectionEyebrowToneClassName}`}
+        >
           {title}
         </p>
       </div>
-      <p className="max-w-2xl text-base leading-7 text-slate-600 dark:text-white/72">
+      <p className={`max-w-2xl text-base leading-7 ${sectionBodyToneClassName}`}>
         {description}
       </p>
     </div>

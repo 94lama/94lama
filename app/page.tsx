@@ -1,6 +1,15 @@
 import Image from "next/image";
 
 import { KnowledgeExperienceCoordinator } from "@/app/components/knowledge-experience-coordinator";
+import {
+  sectionBodyToneClassName,
+  sectionCardClassName,
+  sectionChipClassName,
+  sectionEyebrowToneClassName,
+  sectionPanelClassName,
+  sectionPillClassName,
+  sectionTitleToneClassName,
+} from "@/app/components/section-card-styles";
 import { getPortfolioContent } from "@/src/content/portfolio/get-portfolio-content";
 
 function EmailIcon() {
@@ -33,7 +42,7 @@ function ContactLink({
 }>) {
   return (
     <a
-      className="inline-flex min-h-11 items-center justify-center rounded-full border border-black/10 bg-white/80 px-5 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-slate-800 shadow-sm transition-[transform,background-color,border-color,color,opacity] duration-300 hover:-translate-y-0.5 hover:border-black/20 hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent dark:border-white/12 dark:bg-white/4 dark:text-white dark:hover:border-white/24 dark:hover:bg-white/10"
+      className={`${sectionChipClassName} inline-flex min-h-11 items-center justify-center px-5 py-3 text-sm tracking-[0.2em] text-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent dark:text-white`}
       href={href}
       rel="noreferrer"
       target="_blank"
@@ -56,7 +65,7 @@ function ContactIconLink({
   return (
     <a
       aria-label={label}
-      className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/12 bg-white/6 text-white transition-colors duration-200 hover:border-white/24 hover:bg-white/12 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className={`${sectionChipClassName} inline-flex h-12 w-12 items-center justify-center px-0 py-0 text-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent dark:text-white`}
       href={href}
       rel="noreferrer"
       target="_blank"
@@ -100,25 +109,29 @@ function SectionHeading({
         <span className="inline-flex min-h-11 items-center rounded-full border border-white/12 bg-accent px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-accent-foreground">
           {index}
         </span>
-        <p className="font-mono text-[0.72rem] font-semibold uppercase tracking-[0.26em] text-muted">
+        <p
+          className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.26em] ${sectionEyebrowToneClassName}`}
+        >
           {title}
         </p>
       </div>
       {description ? (
-        <p className="max-w-2xl text-base leading-7 text-white/72">{description}</p>
+        <p className={`max-w-2xl text-base leading-7 ${sectionBodyToneClassName}`}>
+          {description}
+        </p>
       ) : null}
     </div>
   );
 }
 
 const sectionShellClassName =
-  "relative overflow-hidden rounded-4xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(23,26,34,0.88))] px-5 py-6 shadow-[0_35px_120px_-80px_rgba(56,189,248,0.3)] sm:px-6 sm:py-7 xl:px-8";
+  `${sectionPanelClassName} px-5 py-6 sm:px-6 sm:py-7 xl:px-8`;
 
 const sectionGlowClassName =
   "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.1),transparent_28%)]";
 
 const sectionInnerCardClassName =
-  "rounded-[1.35rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.07),rgba(12,12,15,0.34))] px-4 py-4 backdrop-blur-sm";
+  `${sectionCardClassName} px-4 py-4`;
 
 export default async function Home() {
   const content = await getPortfolioContent();
@@ -134,7 +147,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-4 py-4 sm:gap-16 sm:px-6 sm:py-6 lg:gap-24 lg:px-8 xl:px-10">
-        <section className="overflow-hidden rounded-4xl border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(241,245,249,0.94))] shadow-[0_40px_120px_-70px_rgba(37,99,235,0.18)] transition-[transform,opacity] duration-500 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-[linear-gradient(135deg,rgba(23,26,34,0.98),rgba(12,12,15,0.94))] dark:shadow-[0_40px_120px_-60px_rgba(0,0,0,0.8)] sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]">
+        <section className={`${sectionPanelClassName} overflow-hidden sm:rounded-[2.5rem] xl:min-h-[calc(100vh-5rem)]`}>
           <div className="grid min-h-full gap-10 px-5 py-6 sm:gap-12 sm:px-8 sm:py-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:px-10 lg:py-10 xl:px-14 xl:py-14">
             <div className="flex flex-col justify-between gap-10 xl:gap-14">
               <div className="space-y-8 sm:space-y-10">
@@ -155,20 +168,24 @@ export default async function Home() {
                     {content.summary}
                   </p>
 
-                  <div className="grid gap-3 rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-[0_24px_70px_-48px_rgba(15,23,42,0.35)] backdrop-blur-sm transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/4 dark:shadow-none sm:max-w-xl sm:grid-cols-2">
+                  <div className={`${sectionCardClassName} grid gap-3 rounded-3xl p-5 sm:max-w-xl sm:grid-cols-2`}>
                     <div className="space-y-2">
-                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-white/46">
+                      <p
+                        className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                      >
                         Based in
                       </p>
-                      <p className="text-base font-medium text-slate-900 dark:text-white sm:text-lg">
+                      <p className={`text-base font-medium ${sectionTitleToneClassName} sm:text-lg`}>
                         {content.contact.location}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-white/46">
+                      <p
+                        className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                      >
                         Relocation
                       </p>
-                      <p className="text-base font-medium text-slate-900 dark:text-white sm:text-lg">
+                      <p className={`text-base font-medium ${sectionTitleToneClassName} sm:text-lg`}>
                         {content.relocation.summary}
                       </p>
                     </div>
@@ -199,14 +216,16 @@ export default async function Home() {
               </div>
             </div>
 
-            <aside className="flex h-full flex-col justify-between gap-6 rounded-4xl border border-slate-200/90 bg-white/78 p-5 shadow-[0_28px_90px_-60px_rgba(15,23,42,0.35)] backdrop-blur-sm transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-white/5 dark:shadow-none sm:p-6 xl:p-8">
+            <aside className={`${sectionPanelClassName} flex h-full flex-col justify-between gap-6 p-5 sm:p-6 xl:p-8`}>
               <div className="space-y-6">
                 {content.hero.photo ? (
                   <div className="space-y-3">
-                    <p className="font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-slate-500 dark:text-white/44">
+                    <p
+                      className={`font-mono text-[0.7rem] font-semibold uppercase tracking-[0.28em] ${sectionEyebrowToneClassName}`}
+                    >
                       Profile
                     </p>
-                    <div className="relative aspect-4/5 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100/90 transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-black/20">
+                    <div className={`${sectionCardClassName} relative aspect-4/5 overflow-hidden rounded-3xl bg-slate-100/90`}>
                       <Image
                         alt={content.hero.photo.alt}
                         className="object-contain translate-y-15 transition-[transform,opacity] duration-500 motion-safe:hover:scale-[1.01]"
@@ -219,32 +238,35 @@ export default async function Home() {
                   </div>
                 ) : null}
 
-                <div className="space-y-3 rounded-3xl border border-slate-200 bg-white/82 p-5 transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-black/20">
-                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-white/42">
+                <div className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
+                  <p
+                    className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                  >
                     Contact line
                   </p>
                   <a
-                    className="block break-all text-lg font-medium text-slate-900 underline decoration-slate-300 underline-offset-4 transition-[opacity,transform,color] duration-300 hover:decoration-accent dark:text-white dark:decoration-white/20"
+                    className={`block break-all text-lg font-medium underline decoration-slate-300 underline-offset-4 transition-[opacity,transform,color] duration-300 hover:decoration-accent dark:decoration-white/20 ${sectionTitleToneClassName}`}
                     href={`mailto:${content.contact.email}`}
                   >
                     {content.contact.email}
                   </a>
                   {content.contact.phone ? (
-                    <p className="text-base text-slate-600 dark:text-white/70">{content.contact.phone}</p>
+                    <p className={`text-base ${sectionBodyToneClassName}`}>
+                      {content.contact.phone}
+                    </p>
                   ) : null}
                 </div>
               </div>
 
-              <div className="space-y-3 rounded-3xl border border-sky-200/80 bg-[linear-gradient(180deg,rgba(96,165,250,0.16),rgba(255,255,255,0.84))] p-5 transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(37,99,235,0.05))]">
-                <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-slate-600 dark:text-white/52">
+              <div className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
+                <p
+                  className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                >
                   Preferred regions
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {(content.relocation.preferredRegions ?? []).map((region) => (
-                    <span
-                      key={region}
-                      className="rounded-full border border-sky-200 bg-white/80 px-3 py-2 text-sm text-slate-700 transition-[transform,opacity] duration-300 motion-safe:hover:-translate-y-0.5 dark:border-white/12 dark:bg-white/6 dark:text-white/78"
-                    >
+                    <span key={region} className={sectionPillClassName}>
                       {region}
                     </span>
                   ))}
@@ -268,7 +290,7 @@ export default async function Home() {
                 {content.education.map((entry) => (
                   <li
                     key={entry}
-                    className={`${sectionInnerCardClassName} text-base leading-7 text-white/76`}
+                    className={`${sectionInnerCardClassName} ${sectionBodyToneClassName} text-base leading-7`}
                   >
                     {entry}
                   </li>
@@ -284,8 +306,12 @@ export default async function Home() {
               <div className="mt-8 grid gap-4 sm:grid-cols-3">
                 {content.languages.map((entry) => (
                   <div key={entry.label} className={sectionInnerCardClassName}>
-                    <p className="text-lg font-semibold text-white">{entry.label}</p>
-                    <p className="mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/46">
+                    <p className={`text-lg font-semibold ${sectionTitleToneClassName}`}>
+                      {entry.label}
+                    </p>
+                    <p
+                      className={`mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
+                    >
                       {entry.level}
                     </p>
                   </div>
@@ -301,7 +327,7 @@ export default async function Home() {
             <div className="relative">
               <SectionHeading index="05" title="Relocation" />
               <div className="mt-8 space-y-6">
-                <p className="max-w-2xl text-lg leading-8 text-white/78">
+                <p className={`max-w-2xl text-lg leading-8 ${sectionBodyToneClassName}`}>
                   {content.relocation.summary}
                 </p>
 
@@ -309,10 +335,14 @@ export default async function Home() {
                   <div className="grid gap-4 lg:grid-cols-3">
                     {content.relocation.support.map((entry) => (
                       <div key={entry.label} className={sectionInnerCardClassName}>
-                        <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/42">
+                        <p
+                          className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
+                        >
                           {entry.label}
                         </p>
-                        <p className="mt-3 text-base leading-7 text-white/76">{entry.value}</p>
+                        <p className={`mt-3 text-base leading-7 ${sectionBodyToneClassName}`}>
+                          {entry.value}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -321,10 +351,7 @@ export default async function Home() {
                 {content.relocation.preferredRegions?.length ? (
                   <div className="flex flex-wrap gap-3">
                     {content.relocation.preferredRegions.map((region) => (
-                      <span
-                        key={region}
-                        className="rounded-full border border-white/12 bg-white/8 px-4 py-3 text-sm text-white/78 backdrop-blur-sm"
-                      >
+                      <span key={region} className={sectionPillClassName}>
                         {region}
                       </span>
                     ))}
@@ -333,10 +360,12 @@ export default async function Home() {
 
                 {content.relocation.priorities?.length ? (
                   <div className={sectionInnerCardClassName}>
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-white/42">
+                    <p
+                      className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
+                    >
                       Relocation priorities
                     </p>
-                    <ul className="mt-4 space-y-3 text-base leading-7 text-white/76">
+                    <ul className={`mt-4 space-y-3 text-base leading-7 ${sectionBodyToneClassName}`}>
                       {content.relocation.priorities.map((priority) => (
                         <li key={priority} className="flex gap-3">
                           <span className="mt-2 h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
@@ -356,7 +385,9 @@ export default async function Home() {
               <SectionHeading index="06" title="Contact" />
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
-                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                  <p
+                    className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                  >
                     Primary CTA
                   </p>
                   <a
@@ -384,11 +415,13 @@ export default async function Home() {
                 </div>
 
                 <div className={sectionInnerCardClassName}>
-                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                  <p
+                    className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                  >
                     Email
                   </p>
                   <a
-                    className="mt-3 block break-all text-base leading-7 text-white underline decoration-white/18 underline-offset-4 transition hover:decoration-accent"
+                    className={`mt-3 block break-all text-base leading-7 underline decoration-slate-300 underline-offset-4 transition hover:decoration-accent dark:decoration-white/18 ${sectionTitleToneClassName}`}
                     href={`mailto:${content.contact.email}`}
                   >
                     {content.contact.email}
@@ -396,18 +429,26 @@ export default async function Home() {
                 </div>
 
                 <div className={sectionInnerCardClassName}>
-                  <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                  <p
+                    className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                  >
                     Location
                   </p>
-                  <p className="mt-3 text-base leading-7 text-white/76">{content.contact.location}</p>
+                  <p className={`mt-3 text-base leading-7 ${sectionBodyToneClassName}`}>
+                    {content.contact.location}
+                  </p>
                 </div>
 
                 {content.contact.phone ? (
                   <div className={`${sectionInnerCardClassName} sm:col-span-2`}>
-                    <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-white/42">
+                    <p
+                      className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
+                    >
                       Phone
                     </p>
-                    <p className="mt-3 text-base leading-7 text-white/76">{content.contact.phone}</p>
+                    <p className={`mt-3 text-base leading-7 ${sectionBodyToneClassName}`}>
+                      {content.contact.phone}
+                    </p>
                   </div>
                 ) : null}
 
