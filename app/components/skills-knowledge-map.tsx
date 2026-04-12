@@ -193,6 +193,14 @@ function getCategoryColor(index: number) {
   return CATEGORY_COLORS[index % CATEGORY_COLORS.length];
 }
 
+function normalizeHash(value: number) {
+  return ((value % 1000) + 1000) % 1000 / 1000;
+}
+
+function getDepthSpread(hash: number, strength: number) {
+  return (normalizeHash(hash) - 0.5) * strength;
+}
+
 function averageVector(values: readonly (readonly [number, number, number])[]) {
   if (values.length === 0) {
     return [0, 0, 0] as const;
@@ -286,6 +294,7 @@ function createGraph(skillGroups: SkillGroup[]) {
 
   const categoryNodes = skillGroups.map((group, groupIndex) => {
     const angle = (groupIndex / Math.max(skillGroups.length, 1)) * Math.PI * 2;
+    const layerOffset = groupIndex % 2 === 0 ? 1.15 : -1.05;
     const categoryNode: GraphNode = {
       id: `category-${groupIndex}`,
       label: group.category,
@@ -293,9 +302,9 @@ function createGraph(skillGroups: SkillGroup[]) {
       groupIndices: [groupIndex],
       color: getCategoryColor(groupIndex),
       position: [
-        Math.cos(angle) * 4.8,
-        Math.sin(angle * 2) * 1.45,
-        Math.sin(angle) * 4.2,
+        Math.cos(angle) * 5.4,
+        Math.sin(angle * 1.7) * 1.8 + layerOffset,
+        Math.sin(angle) * 5.2 + Math.cos(angle * 2.3) * 1.35,
       ],
       neighbors: [],
     };
@@ -350,12 +359,15 @@ function createGraph(skillGroups: SkillGroup[]) {
     const centroid = averageVector(anchorPositions);
     const hash = hashLabel(record.label);
     const angle = (hash % 360) * (Math.PI / 180);
-    const orbit = groupIndices.length > 1 ? 1.45 : 2.1;
+    const orbit = groupIndices.length > 1 ? 1.9 : 2.8;
     const knowledge =
       record.knowledgeValues.length > 0
         ? record.knowledgeValues.reduce((sum, value) => sum + value, 0) /
           record.knowledgeValues.length
         : undefined;
+    const verticalOffset = getDepthSpread(hash >> 3, 2.8);
+    const depthOffset = getDepthSpread(hash >> 6, 4.4);
+    const lateralOffset = getDepthSpread(hash >> 9, 1.4);
     const skillNode: GraphNode = {
       id: `skill-${skillIndex}`,
       label: record.label,
@@ -366,9 +378,9 @@ function createGraph(skillGroups: SkillGroup[]) {
         groupIndices.map((groupIndex) => getCategoryColor(groupIndex)),
       ),
       position: [
-        centroid[0] + Math.cos(angle) * orbit,
-        centroid[1] + (((hash >> 3) % 11) - 5) * 0.28,
-        centroid[2] + Math.sin(angle) * (groupIndices.length > 1 ? 1.6 : 2.15),
+        centroid[0] + Math.cos(angle) * orbit + lateralOffset,
+        centroid[1] + Math.sin(angle * 1.8) * 0.9 + verticalOffset,
+        centroid[2] + Math.sin(angle) * (groupIndices.length > 1 ? 2.4 : 3.1) + depthOffset,
       ],
       neighbors: [],
     };
@@ -518,6 +530,8 @@ export function SkillsKnowledgeMap({
   const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(0);
   const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] =
     useState("core");
+  const [isReady, setIsReady] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
   const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
   const resolvedSelectedNodeId = graphData.nodeMap.has(selectedNodeId)
@@ -580,6 +594,22 @@ export function SkillsKnowledgeMap({
 
     onSelectionChange?.(normalizedSelection);
   };
+
+  useEffect(() => {
+    setIsReady(true);
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => {
+      setPrefersReducedMotion(mediaQuery.matches);
+    };
+
+    syncPreference();
+    mediaQuery.addEventListener("change", syncPreference);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncPreference);
+    };
+  }, []);
 
   useEffect(() => {
     const container = viewportRef.current;
@@ -717,6 +747,7 @@ export function SkillsKnowledgeMap({
     let startRotationX = 0;
     let startRotationY = 0;
     let pointerId = -1;
+    let startTime = 0;
 
     const resize = () => {
       const nextWidth = container.clientWidth;
@@ -860,10 +891,16 @@ export function SkillsKnowledgeMap({
       }
     };
 
-    const render = () => {
+    const render = (time: number) => {
       animationFrame = window.requestAnimationFrame(render);
 
-      if (!isDragging) {
+      if (!startTime) {
+        startTime = time;
+      }
+
+      const elapsed = (time - startTime) / 1000;
+
+      if (!isDragging && !prefersReducedMotion) {
         targetRotationY += 0.0018;
       }
 
@@ -871,6 +908,30 @@ export function SkillsKnowledgeMap({
       currentRotationY = mix(currentRotationY, targetRotationY, 0.09);
       graph.rotation.x = currentRotationX;
       graph.rotation.y = currentRotationY;
+
+      for (const visual of nodeVisuals) {
+        if (!visual.mesh) {
+          continue;
+        }
+
+        const [x, y, z] = visual.data.position;
+
+        if (prefersReducedMotion) {
+          visual.mesh.position.set(x, y, z);
+          continue;
+        }
+
+        const hash = hashLabel(visual.data.id);
+        const bobPhase = normalizeHash(hash) * Math.PI * 2;
+        const drift = visual.data.kind === "category" ? 0.08 : 0.14;
+        const lateral = visual.data.kind === "category" ? 0.05 : 0.08;
+
+        visual.mesh.position.set(
+          x + Math.cos(elapsed * 0.5 + bobPhase) * lateral,
+          y + Math.sin(elapsed * 0.8 + bobPhase) * drift,
+          z + Math.sin(elapsed * 0.45 + bobPhase) * lateral,
+        );
+      }
 
       renderer.render({ scene, camera, sort: false, frustumCull: false });
       updateProjectedNodes();
@@ -880,7 +941,7 @@ export function SkillsKnowledgeMap({
     resizeObserver.observe(container);
 
     resize();
-    render();
+    render(0);
 
     gl.canvas.addEventListener("pointerdown", onPointerDown);
     gl.canvas.addEventListener("pointermove", onPointerMove);
@@ -906,6 +967,7 @@ export function SkillsKnowledgeMap({
     controlledSelectedNodeId,
     graphData,
     onSelectionChange,
+    prefersReducedMotion,
   ]);
 
   useEffect(() => {
@@ -918,10 +980,20 @@ export function SkillsKnowledgeMap({
 
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-      <div className="relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] dark:border-white/10 dark:bg-white/4 sm:p-8">
+      <div
+        className={`relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] transition-[opacity,transform] duration-500 dark:border-white/10 dark:bg-white/4 sm:p-8 ${
+          isReady
+            ? "translate-y-0 opacity-100"
+            : "translate-y-3 opacity-0"
+        } ${prefersReducedMotion ? "duration-0" : ""}`}
+      >
         <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_62%)]" />
         <div className="relative space-y-6">
-          <div className="space-y-3">
+          <div
+            className={`space-y-3 transition-[opacity,transform] duration-500 ${
+              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+            } ${prefersReducedMotion ? "duration-0" : "delay-75"}`}
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-black/45 dark:text-white/45">
               Primary skills surface
             </p>
@@ -936,7 +1008,11 @@ export function SkillsKnowledgeMap({
             </div>
           </div>
 
-          <div className="rounded-[1.4rem] border border-black/10 bg-white/65 p-4 dark:border-white/10 dark:bg-white/4">
+          <div
+            className={`rounded-[1.4rem] border border-black/10 bg-white/65 p-4 transition-[opacity,transform] duration-500 dark:border-white/10 dark:bg-white/4 ${
+              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+            } ${prefersReducedMotion ? "duration-0" : "delay-150"}`}
+          >
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
               Current selection
             </p>
@@ -973,13 +1049,13 @@ export function SkillsKnowledgeMap({
                 ).map((groupName) => (
                   <span
                     key={groupName}
-                    className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-black/20 dark:text-white/55"
+                    className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 transition-[opacity,transform] duration-300 dark:border-white/10 dark:bg-black/20 dark:text-white/55"
                   >
                     {groupName}
                   </span>
                 ))}
                 {selectedKnowledgeLabel ? (
-                  <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 dark:border-white/10 dark:bg-black/20 dark:text-white/55">
+                  <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-black/55 transition-[opacity,transform] duration-300 dark:border-white/10 dark:bg-black/20 dark:text-white/55">
                     {selectedKnowledgeLabel}
                   </span>
                 ) : null}
@@ -987,7 +1063,11 @@ export function SkillsKnowledgeMap({
             </div>
           </div>
 
-          <div className="space-y-3">
+          <div
+            className={`space-y-3 transition-[opacity,transform] duration-500 ${
+              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+            } ${prefersReducedMotion ? "duration-0" : "delay-200"}`}
+          >
             <div className="flex items-center justify-between gap-3">
               <p className="text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45">
                 Connected points
@@ -1006,10 +1086,10 @@ export function SkillsKnowledgeMap({
                     key={node.id}
                     type="button"
                     onClick={() => focusNode(node.id)}
-                    className={`rounded-full border px-3 py-1.5 text-sm shadow-sm transition-colors ${
-                      node.kind === "category"
-                        ? "border-black/10 bg-black/4 text-black/75 dark:border-white/10 dark:bg-white/6 dark:text-white/75"
-                        : "border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75"
+                      className={`cursor-pointer rounded-full border px-3 py-1.5 text-sm shadow-sm transition-[opacity,transform,colors] duration-200 hover:-translate-y-0.5 ${
+                        node.kind === "category"
+                          ? "border-black/10 bg-black/4 text-black/75 dark:border-white/10 dark:bg-white/6 dark:text-white/75"
+                          : "border-black/10 bg-white text-black/75 dark:border-white/10 dark:bg-black/20 dark:text-white/75"
                     }`}
                   >
                     {node.label}
@@ -1024,7 +1104,11 @@ export function SkillsKnowledgeMap({
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div
+            className={`grid gap-3 transition-[opacity,transform] duration-500 sm:grid-cols-2 ${
+              isReady ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+            } ${prefersReducedMotion ? "duration-0" : "delay-300"}`}
+          >
             {skillGroups.map((group, index) => {
               const isActive = index === activeGroupIndex;
 
@@ -1034,7 +1118,7 @@ export function SkillsKnowledgeMap({
                   type="button"
                   onClick={() => focusNode(`category-${index}`)}
                   aria-pressed={isActive}
-                  className={`rounded-2xl border px-4 py-3 text-left transition-colors duration-300 ${
+                  className={`cursor-pointer rounded-2xl border px-4 py-3 text-left transition-[opacity,transform,colors] duration-300 hover:-translate-y-0.5 ${
                     isActive
                       ? "border-black/15 bg-black text-white dark:border-white/15 dark:bg-white dark:text-black"
                       : "border-black/10 bg-white/70 text-black/75 hover:border-black/20 dark:border-white/10 dark:bg-white/3 dark:text-white/75 dark:hover:border-white/20"
@@ -1053,9 +1137,19 @@ export function SkillsKnowledgeMap({
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6">
+      <div
+        className={`relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] transition-[opacity,transform] duration-700 dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 ${
+          isReady ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+        } ${prefersReducedMotion ? "duration-0" : "delay-100"}`}
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
         <div className="relative h-96 overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))] sm:h-120">
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute inset-10 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.12),transparent_62%)] transition-opacity duration-500 dark:bg-[radial-gradient(circle,rgba(96,165,250,0.18),transparent_62%)] ${
+              resolvedSelectedNodeId === "core" ? "opacity-45" : "opacity-75"
+            } ${prefersReducedMotion ? "duration-0" : ""}`}
+          />
           <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between px-5 py-4 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-black/45 dark:text-white/45 sm:px-6 sm:py-5">
             <span>3D knowledge map</span>
             <span>Drag to rotate</span>
