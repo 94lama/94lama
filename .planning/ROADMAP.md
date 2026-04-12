@@ -37,7 +37,12 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   2. Recruiter can inspect a cleaner knowledge map with the center sphere removed and nodes spaced clearly enough to scan.
   3. Recruiter can select a map node or category and immediately see related experience entries highlighted from the same page state.
   4. Recruiter can still scan the full experience timeline while related entries reorder to the top instead of hiding nonmatching entries.
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Lock and test the shared map-to-experience ranking contract.
+- [ ] 04-02-PLAN.md — Replace duplicate skills/experience surfaces with a shared coordinator and refined map rendering.
+- [ ] 04-03-PLAN.md — Human-verify the de-centered map and synced full-timeline experience behavior.
 **UI hint**: yes
 
 ### Phase 5: Recruiter Clarity Polish
