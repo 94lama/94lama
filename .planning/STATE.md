@@ -1,11 +1,11 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.1
-milestone_name: portfolio TODO refresh
+milestone_name: TODO refresh
 status: planning
 stopped_at: Defining milestone requirements
 last_updated: "2026-04-12T09:18:49Z"
-last_activity: 2026-04-12 - Completed quick task 260412-cmf: implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user
+last_activity: 2026-04-12 - Milestone v1.1 started
 progress:
   total_phases: 0
   completed_phases: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-11)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Define requirements and roadmap for milestone v1.1 portfolio TODO refresh
+**Current focus:** Define requirements and roadmap for milestone v1.1 TODO refresh
 
 ## Current Position
 
 Phase: Not started (defining requirements)
 Plan: -
 Status: Defining requirements
-Last activity: 2026-04-12 - Completed quick task 260412-cmf: implement in the gsd workflow the use of @TODO.md to manage the list of modification requested by the user
+Last activity: 2026-04-12 - Milestone v1.1 started
 
 Progress: [..........] 0%
 

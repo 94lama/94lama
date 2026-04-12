@@ -11,23 +11,23 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 ## Current State
 
 - Latest shipped milestone: `v1.0 MVP` on 2026-04-11.
-- Current planned milestone: `v1.1 portfolio TODO refresh`.
+- Current planned milestone: `v1.1 TODO refresh`.
 - The shipped app is a bold recruiter-focused one-page portfolio built on Next.js 16, React 19, Tailwind 4, and OGL.
 - Shared content flows from `public/assets/cv.md` through a typed parser/loader into the server-rendered page.
 - The page includes a content-driven hero photo, grouped skills, experience, education, languages, relocation details, the interactive experience map, and clear email/GitHub/LinkedIn contact actions.
-- v1.1 focuses on tightening portfolio presentation and section interaction without changing the single-page recruiter-first structure.
+- v1.1 focuses on visual polish, map-driven navigation, footer consent, and maintainable atomized composition without changing the single-page recruiter-first structure.
 
-## Current Milestone: v1.1 portfolio TODO refresh
+## Current Milestone: v1.1 TODO refresh
 
-**Goal:** Refine the shipped recruiter-first portfolio with stronger visual polish, tighter knowledge-map-to-experience behavior, and cleaner supporting sections.
+**Goal:** Refine the shipped recruiter-first portfolio with TODO-driven UI, interaction, footer, and structural improvements while preserving the single-page recruiter flow.
 
 **Target features:**
 - Shift the primary visual language from green to blue and add subtle motion polish.
-- Replace the standalone skills block with an upgraded knowledge map in section `01`, remove the center sphere, and spread nodes more three-dimensionally.
-- Lift `skills` and `selectedPoint` into the parent component so the knowledge map and `02 - Experience` share selection state.
-- Keep all experience visible but highlight and reorder related items when a map point or category is selected.
-- Expand the relocation section with timing and preference details.
-- Replace contact cards with icon-based links and remove duplicated relocation info from contact.
+- Replace the standalone skills block with the knowledge map in section `01`, remove the center sphere, and spread nodes more three-dimensionally.
+- Keep the knowledge map and `02 - Experience` synced through shared selection state while preserving full experience visibility.
+- Expand the relocation section and replace contact cards with compact icon-based links while removing duplicated relocation info.
+- Prompt cookie/privacy consent at app bootstrap.
+- Favor atomized component composition for the refactor instead of an OOP rewrite.
 
 ## Requirements
 
@@ -43,17 +43,19 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 ### Active
 
 - [ ] Recruiters see blue-led visual polish and subtle motion without losing scan speed or readability.
-- [ ] Recruiters can use section `01` knowledge map instead of a separate skills block to understand skills spatially.
+- [ ] Recruiters can use section `01` knowledge map instead of a separate skills block, with the center sphere removed and nodes spread more spatially.
 - [ ] Knowledge map selection and experience content stay in sync through shared parent-managed state.
 - [ ] Recruiters can scan all experience entries while related items highlight and reorder on selection.
 - [ ] Recruiters get clearer relocation timing and preference details in the dedicated section.
 - [ ] Recruiters can use compact icon-based contact links without duplicated relocation content in contact.
+- [ ] Recruiters are prompted for cookie/privacy consent at app bootstrap.
 
 ### Out of Scope
 
 - Featured project showcase in this milestone - deferred so v1.1 stays focused on presentation refinements.
 - Direct CV view/download in this milestone - deferred until the updated recruiter-first page flow settles.
 - Alternative portfolio UI variants in this milestone - deferred until the v1.1 structure and interactions are validated.
+- Full OOP component orchestration rewrite in this milestone - deferred because v1.1 should stay incremental and use atomized composition inside the existing React app.
 - Multi-page information architecture until the single-page recruiter flow no longer serves the core value.
 - Client-style case-study depth until the recruiter-first narrative is expanded deliberately.
 
@@ -66,6 +68,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 - Future milestones should preserve quick comprehension and contact clarity while expanding content breadth carefully.
 - `TODO.md` now defines the immediate v1.1 UI and interaction refresh scope.
 - The knowledge map should move up in the page and work as a companion control for the main experience section rather than living beside a duplicate experience block.
+- The current TODO scope also includes footer consent prompting and an internal preference for atomized composition over a separate OOP layer.
 
 ## Constraints
 
@@ -77,6 +80,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 - **Interaction model**: Keep `skills` and `selectedPoint` in a shared parent so the map and experience section cannot drift.
 - **Experience visibility**: Highlighting and reordering are allowed, but all experience items should remain visible during map interaction.
 - **Motion**: Use subtle polish instead of heavy page-wide animation that slows recruiter scan speed.
+- **Architecture**: Favor atomized component composition within the existing React tree — avoid introducing a parallel OOP management layer for v1.1.
 
 ## Key Decisions
 
@@ -91,6 +95,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 | Make the knowledge map replace the standalone skills block in section `01` | The user wants skill navigation to feel central rather than isolated in a separate block | — Pending |
 | Drive `02 - Experience` from shared parent-managed map selection state | Sync keeps interaction consistent across both sections and supports highlight plus reorder behavior | — Pending |
 | Shift accents from green to blue and keep motion subtle | Refresh visual tone without sacrificing readability or recruiter scan speed | — Pending |
+| Favor atomized component composition over an OOP rewrite for v1.1 | Keeps the refactor incremental and aligned with the existing React/Next architecture | — Pending |
 
 ## Evolution
 
@@ -110,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 after milestone v1.1 definition*
+*Last updated: 2026-04-12 after milestone v1.1 initialization*
