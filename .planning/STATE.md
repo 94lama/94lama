@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: TODO refresh
 status: executing
-stopped_at: Completed 04-02-PLAN.md
-last_updated: "2026-04-12T10:44:38.573Z"
+stopped_at: Completed quick task 260412-k0k
+last_updated: "2026-04-12T14:39:10Z"
 last_activity: 2026-04-12
 progress:
   total_phases: 3
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-12)
 Phase: 04 (knowledge-map-experience-contract) — EXECUTING
 Plan: 3 of 3
 Status: Ready to execute
-Last activity: 2026-04-12 - Completed quick task 260412-hzh: commit all changes
+Last activity: 2026-04-12 - Completed quick task 260412-k0k: add `<script type="text/javascript" src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"></script>` to the header of `app/layout.tsx`
 
 Progress: [..........] 0%
 
@@ -81,9 +81,11 @@ Recent decisions affecting current work:
 | 260412-hky | change the link in 06 - contact to icons | 2026-04-12 | bb99dfa | [260412-hky-change-the-link-in-06-contact-to-icons](./quick/260412-hky-change-the-link-in-06-contact-to-icons/) |
 | 260412-hvf | change accent from green to blue | 2026-04-12 | b0fb6de | [260412-hvf-change-accent-from-green-to-blue](./quick/260412-hvf-change-accent-from-green-to-blue/) |
 | 260412-hzh | commit all changes | 2026-04-12 | b738492 | [260412-hzh-commit-all-changes](./quick/260412-hzh-commit-all-changes/) |
+| 260412-jzg | move privacy and cookie from @app/layout.tsx to a new footer component | 2026-04-12 | 785127d | [260412-jzg-move-privacy-and-cookie-from-app-layout-](./quick/260412-jzg-move-privacy-and-cookie-from-app-layout-/) |
+| 260412-k0k | add `<script type="text/javascript" src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"></script>` to the header of `app/layout.tsx` | 2026-04-12 | 1d3acba | [260412-k0k-add-script-type-text-javascript-src-http](./quick/260412-k0k-add-script-type-text-javascript-src-http/) |
 
 ## Session Continuity
 
-Last session: 2026-04-12T10:44:38.570Z
-Stopped at: Completed 04-02-PLAN.md
+Last session: 2026-04-12T14:39:10Z
+Stopped at: Completed quick task 260412-k0k
 Resume file: None
