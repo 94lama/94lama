@@ -37,12 +37,12 @@ I build product UIs and the backend glue that makes them work: typed frontends, 
                fill="rgba(34,110,255,0.18)" stroke="#1f6be6" stroke-width="1.4" />
 
       <!-- role labels placed using transforms so they stay within viewBox -->
-      <text transform="translate(0,-118)" text-anchor="middle" fill="#222" font-size="12">Frontend</text>
-      <text transform="translate(115,-62)" text-anchor="start" fill="#222" font-size="11">API / Integration</text>
-      <text transform="translate(115,80)" text-anchor="start" fill="#222" font-size="11">Backend</text>
-      <text transform="translate(0,140)" text-anchor="middle" fill="#222" font-size="11">DevOps</text>
-      <text transform="translate(-115,80)" text-anchor="end" fill="#222" font-size="11">Data / ML</text>
-      <text transform="translate(-115,-62)" text-anchor="end" fill="#222" font-size="11">Architecture</text>
+      <text transform="translate(0,-118)" text-anchor="middle" fill="#fff" font-size="12">Frontend</text>
+      <text transform="translate(115,-62)" text-anchor="start" fill="#fff" font-size="11">API / Integration</text>
+      <text transform="translate(115,80)" text-anchor="start" fill="#fff" font-size="11">Backend</text>
+      <text transform="translate(0,140)" text-anchor="middle" fill="#fff" font-size="11">DevOps</text>
+      <text transform="translate(-115,80)" text-anchor="end" fill="#fff" font-size="11">Data / ML</text>
+      <text transform="translate(-115,-62)" text-anchor="end" fill="#fff" font-size="11">Architecture</text>
 
       <circle r="2" fill="#1f6be6" />
     </g>
