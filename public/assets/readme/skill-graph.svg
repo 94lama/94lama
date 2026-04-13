@@ -1,4 +1,4 @@
-<svg width="100%" viewBox="0 0 1280 760" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<svg width="1280" height="760" viewBox="0 0 1280 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Riccardo La Malfa stack graph</title>
   <desc id="desc">GitHub-safe network graph of categories and tools sourced from public/assets/cv.json.</desc>
   <rect width="1280" height="760" rx="28" fill="#08111F"/>
