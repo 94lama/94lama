@@ -17,8 +17,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Riccardo La Malfa | Frontend-Focused Full-Stack Developer",
-  description:
-    "Recruiter-focused portfolio for Riccardo La Malfa, covering summary, skills, experience, relocation, and contact details.",
+  description: "Recruiter-focused portfolio for Riccardo La Malfa, covering summary, skills, experience, relocation, and contact details.",
+  icons: {
+    icon: "/assets/readme/icon.svg",
+  },
 };
 
 export default function RootLayout({
