@@ -10,7 +10,7 @@ I build product UIs and the backend glue that makes them work: typed frontends, 
 
 ## Skill graph (roles)
 
-![Radar Chart](public/assets/skills-graph.svg)
+<img src="/public/assets/readme/skill-graph.svg" alt="Skill graph" style="width:100%" />
 
 ## What I ship
 
