@@ -63,12 +63,26 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| COMP-01 | Phase 5 | Pending |
+| COMP-02 | Phase 5 | Pending |
+| COMP-03 | Phase 5 | Pending |
+| REND-01 | Phase 5 | Pending |
+| REND-02 | Phase 5 | Pending |
+| REND-03 | Phase 5 | Pending |
+| MAP-03 | Phase 6 | Pending |
+| MAP-04 | Phase 6 | Pending |
+| MAP-05 | Phase 6 | Pending |
+| MAP-06 | Phase 6 | Pending |
+| QUAL-01 | Phase 4 | Pending |
+| QUAL-02 | Phase 4 | Pending |
+| QUAL-03 | Phase 7 | Pending |
+| QUAL-04 | Phase 7 | Pending |
 
 **Coverage:**
 - Milestone requirements: 14 total
-- Mapped to phases: 0
-- Unmapped: 14 ⚠
+- Mapped to phases: 14
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after milestone v1.1 scope definition*
+*Last updated: 2026-04-13 after roadmap creation for milestone v1.1*
