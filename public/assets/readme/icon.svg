@@ -1,31 +1,42 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Simple, GitHub-safe SVG icon: a stylized llama between angle brackets -->
+<!-- Llama icon between angle brackets (improved silhouette) -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="120" height="64" role="img" aria-label="Llama icon between angle brackets">
   <title>Icon: Llama between &lt; &gt;</title>
   <desc>Stylized llama silhouette placed between left and right angle brackets.</desc>
 
   <!-- Left angle bracket -->
-  <path d="M38 10 L12 32 L38 54" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M36 8 L10 32 L36 56" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
 
   <!-- Right angle bracket -->
-  <path d="M82 10 L108 32 L82 54" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M84 8 L110 32 L84 56" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
 
-  <!-- Llama (simple, geometric silhouette) -->
-  <g id="llama" transform="translate(0,0)" fill="#0f172a">
+  <!-- Llama silhouette: body, neck, head, ears, legs, tail -->
+  <g id="llama" fill="#0f172a" stroke="none">
     <!-- body -->
-    <ellipse cx="60" cy="36" rx="16" ry="10" />
-    <!-- head -->
-    <circle cx="74" cy="22" r="6" />
-    <!-- ear -->
-    <polygon points="76,16 74,10 70,16" />
-    <!-- eye -->
-    <circle cx="76.2" cy="21.6" r="0.9" fill="#ffffff" />
-    <!-- legs -->
+    <ellipse cx="60" cy="36" rx="20" ry="12" />
+
+    <!-- neck (slightly angled) -->
+    <path d="M68 28 L74 18 L78 18 L76 30 L70 34 Z" />
+
+    <!-- head and snout -->
+    <ellipse cx="82" cy="16" rx="6" ry="5" />
+    <rect x="86" y="17" width="4" height="2" rx="1" />
+
+    <!-- ears (distinct, pointed) -->
+    <polygon points="80,10 82,6 84,10" />
+    <polygon points="76,10 78,6 80,10" />
+
+    <!-- legs (three visible) -->
     <rect x="50" y="44" width="4" height="10" rx="1" />
     <rect x="58" y="44" width="4" height="10" rx="1" />
     <rect x="66" y="44" width="4" height="10" rx="1" />
-    <!-- tail -->
-    <path d="M46 34 q-6 2 -8 8" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+
+    <!-- tail tuft -->
+    <path d="M46 34 q-6 3 -8 9" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+
+    <!-- eye -->
+    <circle cx="82.5" cy="15.5" r="0.9" fill="#ffffff" />
   </g>
 
 </svg>
