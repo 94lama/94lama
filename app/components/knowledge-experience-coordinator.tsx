@@ -7,10 +7,7 @@ import {
   type KnowledgeMapSelection,
 } from "@/app/components/skills-knowledge-map";
 import { ExperienceTimelineSection } from "@/app/components/experience-timeline-section";
-import {
-  sectionBodyToneClassName,
-  sectionEyebrowToneClassName,
-} from "@/app/components/section-card-styles";
+import { SectionHeading } from "@/app/components/section-heading";
 import { rankExperienceBySelection } from "@/src/content/portfolio/rank-experience-by-selection";
 import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
 
@@ -26,34 +23,6 @@ function createRootSelection(skillGroups: SkillGroup[]): KnowledgeMapSelection {
     kind: "core",
     activeIndex: skillGroups[0] ? 0 : -1,
   };
-}
-
-function SectionHeading({
-  index,
-  title,
-  description,
-}: Readonly<{
-  index: string;
-  title: string;
-  description: string;
-}>) {
-  return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-3">
-        <span className="inline-flex min-h-11 items-center rounded-full border border-white/12 bg-accent px-3 py-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-accent-foreground">
-          {index}
-        </span>
-        <p
-          className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.26em] ${sectionEyebrowToneClassName}`}
-        >
-          {title}
-        </p>
-      </div>
-      <p className={`max-w-2xl text-base leading-7 ${sectionBodyToneClassName}`}>
-        {description}
-      </p>
-    </div>
-  );
 }
 
 export function KnowledgeExperienceCoordinator({

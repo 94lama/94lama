@@ -10,23 +10,24 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ## Current State
 
-- Latest shipped milestone: `v1.0 MVP` on 2026-04-11.
-- Current planned milestone: `v1.1 implement atomization of components`.
+- Latest shipped milestone: `v1.1 implement atomization of components` on 2026-04-13.
+- Current planned milestone: not defined yet.
 - The live app is a recruiter-focused one-page portfolio built on Next.js 16, React 19, Tailwind 4, and OGL.
 - Shared portfolio content is currently loaded from `public/assets/cv.json` into the server-rendered page through typed portfolio models.
 - The page includes a hero, knowledge-map-driven skill navigation, synced experience timeline, education, languages, relocation, contact actions, legal footer links, and layout-level consent and analytics wiring.
-- The codebase still mixes inline page-level UI in `app/page.tsx` with extracted components, and `app/components/skills-knowledge-map.tsx` remains the main monolithic interactive hotspot.
+- The page now renders through extracted server sections plus shared atomic primitives, while `app/page.tsx` stays a thin server composition root.
+- The knowledge-map hotspot is now decomposed across model, selection, runtime, UI-panel, and viewport boundaries.
 
-## Current Milestone: v1.1 implement atomization of components
+## Latest Milestone: v1.1 implement atomization of components
 
-**Goal:** Rebuild the current portfolio around atomic components across the entire rendered app while keeping the current UI and behavior effectively the same.
+**Outcome:** Shipped a full internal atomization refactor that preserved recruiter-facing UI and behavior while improving maintainability and verification depth.
 
 **Target features:**
 - Recompose the full rendered portfolio surface from reusable atomic components instead of leaving large page-level sections inline.
-- Push atomization into the knowledge-map area too, including splitting the current OGL renderer internals into smaller modules where practical.
-- Keep the recruiter-facing layout, copy flow, contact paths, and map-to-experience behavior effectively unchanged during the refactor.
+- Push atomization into the knowledge-map area too, including splitting the OGL renderer internals into smaller modules.
+- Keep the recruiter-facing layout, copy flow, contact paths, and map-to-experience behavior effectively unchanged.
 - Keep `app/page.tsx` as a thin server composition root and preserve narrow client islands for interactive behavior.
-- Add `.planning/ARCHITECTURE.md` summarizing the current pages, components, and data flow as the architectural baseline for the refactor.
+- Ship architecture, regression, and parity documentation alongside the refactor.
 
 ## Requirements
 
@@ -41,12 +42,7 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ### Active
 
-- [ ] The full rendered app is composed from reusable atomic components instead of large inline page blocks.
-- [ ] Shared atoms and small composition primitives are reused consistently across hero, section shells, metadata rows, contact actions, list cards, and footer/legal surfaces.
-- [ ] The knowledge map is split into smaller modules for graph data, rendering lifecycle, interaction handling, and presentational UI without changing recruiter-facing behavior.
-- [ ] Server and client boundaries stay explicit: the page remains server-first and interactive state stays isolated to narrow client components.
-- [ ] The refactor preserves the current UI, copy hierarchy, interactions, legal bootstrap flow, and recruiter scan speed.
-- [ ] `.planning/ARCHITECTURE.md` captures the current pages and components before the refactor begins.
+- [ ] Define the next milestone after v1.1.
 
 ### Out of Scope
 
@@ -62,12 +58,12 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 - The app is a shipped content-driven portfolio rather than a starter template.
 - `public/assets/cv.json` is the current maintained content source consumed at runtime.
 - `src/content/portfolio/parse-cv.ts` still exists as a content-shaping utility, but the live page currently reads structured JSON through `getPortfolioContent()`.
-- `app/page.tsx` is still responsible for the hero, education, languages, relocation, and contact sections, plus several local UI helpers.
-- `KnowledgeExperienceCoordinator` is the main client island for shared skill-map and experience selection state.
-- `SkillsKnowledgeMap` currently combines graph construction, OGL renderer setup, pointer interaction, highlight syncing, and side-panel UI in one file.
+- `app/page.tsx` now acts as a thin server composition root over extracted sections.
+- `KnowledgeExperienceCoordinator` remains the main client island for shared skill-map and experience selection state.
+- `SkillsKnowledgeMap` is now a thin orchestration entrypoint over `knowledge-map/model.ts`, `selection.ts`, `runtime.ts`, `knowledge-map-panels.tsx`, and `viewport.tsx`.
 - `section-card-styles.ts` centralizes visual tokens for the numbered sections.
 - `app/layout.tsx` owns the root shell, fonts, metadata, Iubenda bootstrap, GTM scripts, and `LegalFooter`.
-- Tests currently cover contact validation and knowledge-map ranking and wiring behavior, but not the full page composition structure.
+- Tests now cover contact validation, composition/wiring regressions, knowledge-map split invariants, and Playwright parity for initial render plus map interaction.
 
 ## Constraints
 
@@ -89,11 +85,12 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 | Keep `public/assets/cv.json` as the current runtime content source | The live app already reads structured portfolio data directly | ✓ Good - shipped in v1.0 |
 | Preserve the interactive knowledge map as supporting recruiter context | It adds depth without breaking the one-page narrative | ✓ Good - shipped in v1.0 |
 | Keep email primary while sourcing GitHub and LinkedIn from authored content | Contact paths should stay obvious without hardcoded profile URLs | ✓ Good - shipped in v1.0 |
-| Replace the unshipped `v1.1 TODO refresh` plan with an architecture-first `v1.1` | The current priority is maintainability and safer future iteration, not new surface changes | - Pending |
-| Use atomic component architecture across the full rendered app | The page is functional but still too monolithic for safe iteration | - Pending |
-| Split the knowledge map into smaller modules instead of leaving one large interactive file | The current file mixes graph data, rendering, interaction, and UI responsibilities | - Pending |
-| Treat OOP as a supporting tool, not a strict rewrite doctrine | The user wants cleaner structure without forcing class-heavy patterns where they add friction | - Pending |
-| Add `.planning/ARCHITECTURE.md` as a baseline before refactoring | The milestone needs an explicit inventory of pages and components before the structure changes | - Pending |
+| Replace the unshipped `v1.1 TODO refresh` plan with an architecture-first `v1.1` | The current priority is maintainability and safer future iteration, not new surface changes | ✓ Good - shipped in v1.1 |
+| Use atomic component architecture across the full rendered app | The page is functional but still too monolithic for safe iteration | ✓ Good - shipped in v1.1 |
+| Split the knowledge map into smaller modules instead of leaving one large interactive file | The current file mixes graph data, rendering, interaction, and UI responsibilities | ✓ Good - shipped in v1.1 |
+| Treat OOP as a supporting tool, not a strict rewrite doctrine | The user wants cleaner structure without forcing class-heavy patterns where they add friction | ✓ Good - shipped in v1.1 |
+| Add `.planning/ARCHITECTURE.md` as a baseline before refactoring | The milestone needs an explicit inventory of pages and components before the structure changes | ✓ Good - shipped in v1.1 |
+| Run Playwright against a dedicated production port | Reusing an existing local server can produce false parity failures unrelated to shipped behavior | ✓ Good - shipped in v1.1 |
 
 ## Evolution
 
@@ -113,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 after milestone v1.1 redefinition*
+*Last updated: 2026-04-13 after milestone v1.1 shipment*

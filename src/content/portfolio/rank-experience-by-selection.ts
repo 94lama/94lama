@@ -1,11 +1,5 @@
+import type { KnowledgeMapSelection } from "./knowledge-map-selection.ts";
 import type { ExperienceEntry, SkillGroup } from "./types.ts";
-
-export type KnowledgeMapSelection = {
-  id: string;
-  label: string;
-  kind: "core" | "category" | "skill";
-  activeIndex: number;
-};
 
 export type RankedExperienceEntry = {
   entry: ExperienceEntry;

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: implement atomization of components
-status: ready_to_plan
-stopped_at: Roadmap written for phases 4-7
-last_updated: "2026-04-13T00:00:00+00:00"
-last_activity: "2026-04-13 - Created roadmap for v1.1 component atomization milestone"
+status: milestone_shipped
+stopped_at: Milestone v1.1 shipped and archived
+last_updated: "2026-04-13T23:59:00+00:00"
+last_activity: "2026-04-13 - Shipped v1.1 component atomization milestone"
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 7
   total_plans: 7
-  completed_plans: 7
-  percent: 43
+  completed_plans: 11
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-13)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Phase 4 - Architecture Baseline & Refactor Guardrails
+**Current focus:** Milestone complete - waiting for next milestone definition
 
 ## Current Position
 
-Phase: 4 of 7 (Architecture Baseline & Refactor Guardrails)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-04-13 - Created roadmap for v1.1 component atomization milestone
+Phase: 7 of 7 (Parity Hardening & Release Signoff)
+Plan: 1 of 1 in current phase
+Status: Milestone shipped
+Last activity: 2026-04-13 - Shipped v1.1 component atomization milestone
 
-Progress: [####......] 43%
+Progress: [##########] 100%
 
 ## Performance Metrics
 
@@ -57,19 +57,18 @@ Recent decisions affecting current work:
 - Decompose static sections before the knowledge-map hotspot.
 - Split the knowledge map across model, OGL runtime, and UI boundaries.
 - Finish with parity hardening, Playwright coverage, and QA signoff.
+- Run Playwright against a dedicated production server port to avoid false failures caused by reused dev servers.
 
 ### Pending Todos
 
-None yet.
+None.
 
 ### Blockers/Concerns
 
-- `.planning/ARCHITECTURE.md` and regression baselines must land before deeper extraction.
-- Avoid server/client boundary creep while atomizing shared components.
-- Preserve map selection, highlight sync, and full-timeline visibility during decomposition.
+- None at milestone close.
 
 ## Session Continuity
 
-Last session: 2026-04-13 00:00 UTC
-Stopped at: Roadmap created for milestone v1.1 phases 4-7
+Last session: 2026-04-13 23:59 UTC
+Stopped at: Milestone v1.1 shipped and archived
 Resume file: None

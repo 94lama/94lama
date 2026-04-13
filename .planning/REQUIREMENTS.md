@@ -7,29 +7,29 @@
 
 ### Composition
 
-- [ ] **COMP-01**: Recruiter can view the hero, education, languages, relocation, and contact sections from extracted section components without changes to section order, copy flow, or visible semantics.
-- [ ] **COMP-02**: Recruiter can experience consistent section shells, headings, metadata rows, contact actions, and legal/contact surface styling through shared atomic UI primitives without visible drift.
-- [ ] **COMP-03**: Maintainer can assemble the full portfolio page from extracted section components in a thin `app/page.tsx` composition root that loads portfolio content once.
+- [x] **COMP-01**: Recruiter can view the hero, education, languages, relocation, and contact sections from extracted section components without changes to section order, copy flow, or visible semantics.
+- [x] **COMP-02**: Recruiter can experience consistent section shells, headings, metadata rows, contact actions, and legal/contact surface styling through shared atomic UI primitives without visible drift.
+- [x] **COMP-03**: Maintainer can assemble the full portfolio page from extracted section components in a thin `app/page.tsx` composition root that loads portfolio content once.
 
 ### Rendering and Indexability
 
-- [ ] **REND-01**: Recruiter can access the main portfolio shell and primary contact path from the initial server-rendered page without waiting for non-essential interactive code.
-- [ ] **REND-02**: Search engine can index the recruiter-facing hero, experience, education, relocation, and contact content from the server-rendered document.
-- [ ] **REND-03**: Maintainer can keep static sections server-first and isolate interactive map behavior to a narrow client island with explicit server/client ownership guards where needed.
+- [x] **REND-01**: Recruiter can access the main portfolio shell and primary contact path from the initial server-rendered page without waiting for non-essential interactive code.
+- [x] **REND-02**: Search engine can index the recruiter-facing hero, experience, education, relocation, and contact content from the server-rendered document.
+- [x] **REND-03**: Maintainer can keep static sections server-first and isolate interactive map behavior to a narrow client island with explicit server/client ownership guards where needed.
 
 ### Knowledge Map Architecture
 
-- [ ] **MAP-03**: Maintainer can edit knowledge-map graph constants, graph construction, and selection normalization in pure modules separate from React and OGL runtime code.
-- [ ] **MAP-04**: Maintainer can edit OGL scene setup, shaders, animation, picking, highlighting, and cleanup in dedicated runtime modules without changing recruiter-visible map behavior.
-- [ ] **MAP-05**: Maintainer can edit knowledge-map panels, legend, controls, and canvas shell in separate UI components without mixing them with renderer lifecycle code.
-- [ ] **MAP-06**: Recruiter can still use the current knowledge-map and experience interaction model, including overview reset, selection highlighting, and full-timeline visibility, after the refactor.
+- [x] **MAP-03**: Maintainer can edit knowledge-map graph constants, graph construction, and selection normalization in pure modules separate from React and OGL runtime code.
+- [x] **MAP-04**: Maintainer can edit OGL scene setup, shaders, animation, picking, highlighting, and cleanup in dedicated runtime modules without changing recruiter-visible map behavior.
+- [x] **MAP-05**: Maintainer can edit knowledge-map panels, legend, controls, and canvas shell in separate UI components without mixing them with renderer lifecycle code.
+- [x] **MAP-06**: Recruiter can still use the current knowledge-map and experience interaction model, including overview reset, selection highlighting, and full-timeline visibility, after the refactor.
 
 ### Verification and Documentation
 
-- [ ] **QUAL-01**: Maintainer can review `.planning/ARCHITECTURE.md` for a current inventory of pages, components, boundaries, and data flow before and after the refactor.
-- [ ] **QUAL-02**: Maintainer can run automated regression checks for page composition, CTA visibility and wiring, and map-to-experience invariants during the refactor.
-- [ ] **QUAL-03**: Maintainer can run Playwright parity checks for key recruiter-visible flows, including initial page render and map-to-experience interaction.
-- [ ] **QUAL-04**: Maintainer can follow an explicit QA checklist covering map interaction parity, accessibility, responsive parity, and layout-level legal and analytics wiring before signoff.
+- [x] **QUAL-01**: Maintainer can review `.planning/ARCHITECTURE.md` for a current inventory of pages, components, boundaries, and data flow before and after the refactor.
+- [x] **QUAL-02**: Maintainer can run automated regression checks for page composition, CTA visibility and wiring, and map-to-experience invariants during the refactor.
+- [x] **QUAL-03**: Maintainer can run Playwright parity checks for key recruiter-visible flows, including initial page render and map-to-experience interaction.
+- [x] **QUAL-04**: Maintainer can follow an explicit QA checklist covering map interaction parity, accessibility, responsive parity, and layout-level legal and analytics wiring before signoff.
 
 ## Future Requirements
 
@@ -63,20 +63,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMP-01 | Phase 5 | Pending |
-| COMP-02 | Phase 5 | Pending |
-| COMP-03 | Phase 5 | Pending |
-| REND-01 | Phase 5 | Pending |
-| REND-02 | Phase 5 | Pending |
-| REND-03 | Phase 5 | Pending |
-| MAP-03 | Phase 6 | Pending |
-| MAP-04 | Phase 6 | Pending |
-| MAP-05 | Phase 6 | Pending |
-| MAP-06 | Phase 6 | Pending |
-| QUAL-01 | Phase 4 | Pending |
-| QUAL-02 | Phase 4 | Pending |
-| QUAL-03 | Phase 7 | Pending |
-| QUAL-04 | Phase 7 | Pending |
+| COMP-01 | Phase 5 | Completed 2026-04-13 |
+| COMP-02 | Phase 5 | Completed 2026-04-13 |
+| COMP-03 | Phase 5 | Completed 2026-04-13 |
+| REND-01 | Phase 5 | Completed 2026-04-13 |
+| REND-02 | Phase 5 | Completed 2026-04-13 |
+| REND-03 | Phase 5 | Completed 2026-04-13 |
+| MAP-03 | Phase 6 | Completed 2026-04-13 |
+| MAP-04 | Phase 6 | Completed 2026-04-13 |
+| MAP-05 | Phase 6 | Completed 2026-04-13 |
+| MAP-06 | Phase 6 | Completed 2026-04-13 |
+| QUAL-01 | Phase 4 | Completed 2026-04-13 |
+| QUAL-02 | Phase 4 | Completed 2026-04-13 |
+| QUAL-03 | Phase 7 | Completed 2026-04-13 |
+| QUAL-04 | Phase 7 | Completed 2026-04-13 |
 
 **Coverage:**
 - Milestone requirements: 14 total
@@ -85,4 +85,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after roadmap creation for milestone v1.1*
+*Last updated: 2026-04-13 after milestone v1.1 shipment*

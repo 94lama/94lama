@@ -7,7 +7,7 @@ v1.1 is an architecture-first refactor of the shipped recruiter-facing portfolio
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-3 shipped 2026-04-11
-- 🚧 **v1.1 implement atomization of components** — Phases 4-7 planned
+- ✅ **v1.1 implement atomization of components** — Phases 4-7 shipped 2026-04-13
 
 ## Phases
 
@@ -18,14 +18,14 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 
 </details>
 
-### 🚧 v1.1 implement atomization of components (In Progress)
+### ✅ v1.1 implement atomization of components (Shipped 2026-04-13)
 
 **Milestone Goal:** Atomize the full rendered app without changing recruiter-facing UI or behavior, keep the page server-first and SEO-safe, split the knowledge-map feature across model/OGL/UI layers, and ship with documentation plus regression confidence.
 
-- [ ] **Phase 4: Architecture Baseline & Refactor Guardrails** - Capture the current architecture and lock regression guardrails before structural extraction starts.
-- [ ] **Phase 5: Server-First Static Surface Atomization** - Extract reusable atoms and static sections while keeping `app/page.tsx` thin, server-rendered, and indexable.
-- [ ] **Phase 6: Knowledge Map Feature Decomposition** - Split the knowledge-map hotspot into model, OGL runtime, and UI layers without changing recruiter-visible behavior.
-- [ ] **Phase 7: Parity Hardening & Release Signoff** - Prove recruiter-visible parity with Playwright and QA before the milestone ships.
+- [x] **Phase 4: Architecture Baseline & Refactor Guardrails** - Captured the current architecture and locked regression guardrails before structural extraction.
+- [x] **Phase 5: Server-First Static Surface Atomization** - Extracted reusable atoms and static sections while keeping `app/page.tsx` thin, server-rendered, and indexable.
+- [x] **Phase 6: Knowledge Map Feature Decomposition** - Split the knowledge-map hotspot into model, OGL runtime, and UI layers without changing recruiter-visible behavior.
+- [x] **Phase 7: Parity Hardening & Release Signoff** - Proved recruiter-visible parity with Playwright and QA before shipping the milestone.
 
 ## Phase Details
 
@@ -37,7 +37,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   1. Maintainer can review `.planning/ARCHITECTURE.md` for a current inventory of pages, components, data flow, and server/client boundaries before and after the refactor.
   2. Maintainer can run automated regression checks that catch page composition drift, CTA visibility/wiring regressions, and map-to-experience invariant breaks during later phases.
   3. Maintainer can use the documented baseline and regression suite as the acceptance guardrail for every later extraction step.
-**Plans**: TBD
+**Plans**: `04-01-PLAN.md`
 
 ### Phase 5: Server-First Static Surface Atomization
 **Goal**: Recruiters get the same static portfolio experience from reusable atomic components while the page stays server-first, fast to scan, and SEO-safe.
@@ -49,7 +49,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   3. Recruiter can view the hero, education, languages, relocation, and contact sections from extracted section components without changes to section order, copy flow, or visible semantics.
   4. Recruiter sees consistent section shells, headings, metadata rows, contact actions, and legal/contact surfaces through shared atomic UI primitives without visible drift.
   5. Maintainer can assemble the page from a thin server-first `app/page.tsx` that loads portfolio content once and keeps interactive state isolated to a narrow client island with explicit ownership guards.
-**Plans**: TBD
+**Plans**: `05-01-PLAN.md`
 **UI hint**: yes
 
 ### Phase 6: Knowledge Map Feature Decomposition
@@ -61,7 +61,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   2. Maintainer can edit OGL scene setup, shaders, animation, picking, highlighting, and cleanup in dedicated runtime modules without mixing them into presentational UI files.
   3. Maintainer can edit knowledge-map panels, legend, controls, and canvas shell in separate UI components without mixing them with renderer lifecycle code.
   4. Recruiter can still use overview reset, selection highlighting, and full-timeline experience visibility with the same recruiter-facing interaction model as before the refactor.
-**Plans**: TBD
+**Plans**: `06-01-PLAN.md`
 **UI hint**: yes
 
 ### Phase 7: Parity Hardening & Release Signoff
@@ -72,14 +72,14 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   1. Maintainer can run Playwright parity checks for initial page render, primary recruiter contact visibility, and map-to-experience interaction.
   2. Maintainer can follow an explicit QA checklist covering map interaction parity, accessibility smoke checks, responsive parity, and layout-level legal and analytics wiring.
   3. Recruiter-facing UI and interaction behavior remain effectively unchanged across final parity verification on desktop and mobile checkpoints.
-**Plans**: TBD
+**Plans**: `07-01-PLAN.md`
 **UI hint**: yes
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 4. Architecture Baseline & Refactor Guardrails | 0/TBD | Not started | - |
-| 5. Server-First Static Surface Atomization | 0/TBD | Not started | - |
-| 6. Knowledge Map Feature Decomposition | 0/TBD | Not started | - |
-| 7. Parity Hardening & Release Signoff | 0/TBD | Not started | - |
+| 4. Architecture Baseline & Refactor Guardrails | 1/1 | Shipped | 2026-04-13 |
+| 5. Server-First Static Surface Atomization | 1/1 | Shipped | 2026-04-13 |
+| 6. Knowledge Map Feature Decomposition | 1/1 | Shipped | 2026-04-13 |
+| 7. Parity Hardening & Release Signoff | 1/1 | Shipped | 2026-04-13 |
