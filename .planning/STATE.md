@@ -5,7 +5,7 @@ milestone_name: TODO refresh
 status: executing
 stopped_at: Completed quick task 260412-ptc
 last_updated: "2026-04-12T18:41:41+00:00"
-last_activity: "2026-04-13 - Completed quick task 260413-kva: adjust public/assets/readme/icon.svg color to match accent from app/globals.css"
+last_activity: "2026-04-13 - Completed quick task 260413-l1i: simplify public/assets/readme/icon.svg for sharper favicon rendering at small sizes"
 progress:
   total_phases: 3
   completed_phases: 0
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-12)
 Phase: 04 (knowledge-map-experience-contract) — EXECUTING
 Plan: 3 of 3
 Status: Ready to execute
-Last activity: 2026-04-13 - Completed quick task 260413-kva: adjust public/assets/readme/icon.svg color to match accent from app/globals.css
+Last activity: 2026-04-13 - Completed quick task 260413-l1i: simplify public/assets/readme/icon.svg for sharper favicon rendering at small sizes
 
 Progress: [..........] 0%
 
@@ -91,6 +91,7 @@ Recent decisions affecting current work:
 | 260412-q4b | rewrite README.md for developers; moodboard used as reference; inline role radar | 2026-04-12 | 82b7a13 | [260412-q4b-rewrite-readme-md-for-developers-remove-](./quick/260412-q4b-rewrite-readme-md-for-developers-remove-/) |
 | 260413-klf | use public/assets/readme/icon.svg as favicon | 2026-04-13 | 200bb83 | [260413-klf-use-public-assets-readme-icon-svg-as-fav](./quick/260413-klf-use-public-assets-readme-icon-svg-as-fav/) |
 | 260413-kva | adjust public/assets/readme/icon.svg color to match accent from app/globals.css | 2026-04-13 | 379d7df | [260413-kva-adjust-public-assets-readme-icon-svg-col](./quick/260413-kva-adjust-public-assets-readme-icon-svg-col/) |
+| 260413-l1i | simplify public/assets/readme/icon.svg for sharper favicon rendering at small sizes | 2026-04-13 | a4aa1ea | [260413-l1i-simplify-public-assets-readme-icon-svg-f](./quick/260413-l1i-simplify-public-assets-readme-icon-svg-f/) |
 
 ## Session Continuity
 
