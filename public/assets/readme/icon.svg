@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Simple, GitHub-safe SVG icon: a stylized llama between angle brackets -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" width="120" height="64" role="img" aria-label="Llama icon between angle brackets">
+  <title>Icon: Llama between &lt; &gt;</title>
+  <desc>Stylized llama silhouette placed between left and right angle brackets.</desc>
+
+  <!-- Left angle bracket -->
+  <path d="M38 10 L12 32 L38 54" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Right angle bracket -->
+  <path d="M82 10 L108 32 L82 54" fill="none" stroke="#1f6be6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Llama (simple, geometric silhouette) -->
+  <g id="llama" transform="translate(0,0)" fill="#0f172a">
+    <!-- body -->
+    <ellipse cx="60" cy="36" rx="16" ry="10" />
+    <!-- head -->
+    <circle cx="74" cy="22" r="6" />
+    <!-- ear -->
+    <polygon points="76,16 74,10 70,16" />
+    <!-- eye -->
+    <circle cx="76.2" cy="21.6" r="0.9" fill="#ffffff" />
+    <!-- legs -->
+    <rect x="50" y="44" width="4" height="10" rx="1" />
+    <rect x="58" y="44" width="4" height="10" rx="1" />
+    <rect x="66" y="44" width="4" height="10" rx="1" />
+    <!-- tail -->
+    <path d="M46 34 q-6 2 -8 8" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  </g>
+
+</svg>
