@@ -5,7 +5,7 @@ milestone_name: implement atomization of components
 status: defining_requirements
 stopped_at: Milestone v1.1 started
 last_updated: "2026-04-13T15:19:45+00:00"
-last_activity: "2026-04-13 - Milestone v1.1 started: replacing the unshipped TODO refresh plan with architecture-first atomization scope"
+last_activity: "2026-04-13 - Completed quick task 260413-m3q: generate PNG fallback for public/assets/readme/icon.svg and wire it as favicon fallback"
 progress:
   total_phases: 0
   completed_phases: 0
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-04-13)
 Phase: Not started (defining requirements)
 Plan: -
 Status: Defining requirements
-Last activity: 2026-04-13 - Milestone v1.1 started
+Last activity: 2026-04-13 - Completed quick task 260413-m3q: generate PNG fallback for public/assets/readme/icon.svg and wire it as favicon fallback
 
 Progress: [..........] 0%
 
@@ -66,6 +66,12 @@ Recent decisions affecting current work:
 - Avoid UI or behavior drift while decomposing `app/page.tsx`.
 - Split `skills-knowledge-map.tsx` without regressing pointer interaction, highlight sync, or reduced-motion handling.
 - Keep client boundaries narrow so the page can stay server-first after atomization.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260413-m3q | generate PNG fallback for public/assets/readme/icon.svg and wire it as favicon fallback | 2026-04-13 | ceaf7d2 | [260413-m3q-generate-png-fallback-for-public-assets-](./quick/260413-m3q-generate-png-fallback-for-public-assets-/) |
 
 ## Session Continuity
 
