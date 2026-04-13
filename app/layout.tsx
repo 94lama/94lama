@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   title: "Riccardo La Malfa | Frontend-Focused Full-Stack Developer",
   description: "Recruiter-focused portfolio for Riccardo La Malfa, covering summary, skills, experience, relocation, and contact details.",
   icons: {
-    icon: "/assets/readme/icon.svg",
+    icon: [
+      { url: "/assets/readme/icon.svg", type: "image/svg+xml" },
+      { url: "/assets/icon.png", type: "image/png", sizes: "1024x1024" },
+    ],
+    shortcut: "/assets/icon.png",
   },
 };
 
