@@ -185,8 +185,9 @@
   },
   "active": "3c8e163d7cb97247",
   "lastOpenFiles": [
-    "scripts/update-skill-radar.js",
     "DEVCONTAINER.md",
-    "README.md"
+    "README.md",
+    "TODO.md",
+    "scripts/update-skill-radar.js"
   ]
 }
