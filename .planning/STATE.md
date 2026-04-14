@@ -1,42 +1,41 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.1
-milestone_name: TODO refresh
-status: executing
-stopped_at: Completed quick task 260412-ptc
-last_updated: "2026-04-12T18:41:41+00:00"
-last_activity: "2026-04-12 - Completed quick task 260412-ptc: rewrite README.md for developers; remove HR-style copy; keep skill hexagon graphs"
+milestone_name: implement atomization of components
+status: milestone_shipped
+stopped_at: Milestone v1.1 shipped and archived
+last_updated: "2026-04-13T23:59:00+00:00"
+last_activity: "2026-04-13 - Shipped v1.1 component atomization milestone"
 progress:
-  total_phases: 3
-  completed_phases: 0
-  total_plans: 3
-  completed_plans: 2
-  percent: 67
+  total_phases: 7
+  completed_phases: 7
+  total_plans: 7
+  completed_plans: 11
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-12)
+See: .planning/PROJECT.md (updated 2026-04-13)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Phase 04 — knowledge-map-experience-contract
+**Current focus:** Milestone complete - waiting for next milestone definition
 
 ## Current Position
 
-Phase: 04 (knowledge-map-experience-contract) — EXECUTING
-Plan: 3 of 3
-Status: Ready to execute
-Last activity: 2026-04-12 - Completed quick task 260412-ptc: rewrite README.md for developers; remove HR-style copy; keep skill hexagon graphs
+Phase: 7 of 7 (Parity Hardening & Release Signoff)
+Plan: 1 of 1 in current phase
+Status: Milestone shipped
+Last activity: 2026-04-13 - Shipped v1.1 component atomization milestone
 
-Progress: [..........] 0%
+Progress: [##########] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-
-- Total plans completed: 0
+- Total plans completed: 7
 - Average duration: -
 - Total execution time: -
 
@@ -44,11 +43,7 @@ Progress: [..........] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
-
-| Phase 04 P01 | 3 min | 2 tasks | 5 files |
-| Phase 04 P02 | 1 min | 3 tasks | 6 files |
-| Phase quick P260412-lto | 18m | 4 tasks | 6 files |
+| 1-3 (v1.0) | 7 | - | - |
 
 ## Accumulated Context
 
@@ -57,41 +52,23 @@ Progress: [..........] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- v1.1: Keep the recruiter-first experience as a single page.
-- v1.1: Lock the shared map/experience interaction contract before heavier UI polish.
-- v1.1: Keep consent bootstrap isolated to its own later phase.
-- v1.1: Favor atomized composition over an OOP rewrite.
+- Keep the full recruiter-facing UI and interaction behavior effectively unchanged during the refactor.
+- Keep `app/page.tsx` thin and server-first; avoid global clientification.
+- Decompose static sections before the knowledge-map hotspot.
+- Split the knowledge map across model, OGL runtime, and UI boundaries.
+- Finish with parity hardening, Playwright coverage, and QA signoff.
+- Run Playwright against a dedicated production server port to avoid false failures caused by reused dev servers.
 
 ### Pending Todos
 
-- None.
+None.
 
 ### Blockers/Concerns
 
-- Validate skill-to-experience matching fidelity during Phase 4 planning.
-- Validate mobile map usability and authored relocation detail during Phase 5 planning.
-- Confirm iubenda bootstrap config and load order during Phase 6 planning.
-
-### Quick Tasks Completed
-
-| # | Description | Date | Commit | Directory |
-|---|-------------|------|--------|-----------|
-| 260412-gm7 | put the knowledge map width to full (now it's too small) | 2026-04-12 | cdc573f | [260412-gm7-put-the-knowledge-map-width-to-full-now-](./quick/260412-gm7-put-the-knowledge-map-width-to-full-now-/) |
-| 260412-grk | transform public/assets/cv.md into json | 2026-04-12 | 8995ac3 | [260412-grk-transform-public-assets-cv-md-into-json](./quick/260412-grk-transform-public-assets-cv-md-into-json/) |
-| 260412-gub | unify the ui of the sections (use the knowledge map as reference) | 2026-04-12 | 75859bb | [260412-gub-unify-the-ui-of-the-sections-use-the-kno](./quick/260412-gub-unify-the-ui-of-the-sections-use-the-kno/) |
-| 260412-hky | change the link in 06 - contact to icons | 2026-04-12 | bb99dfa | [260412-hky-change-the-link-in-06-contact-to-icons](./quick/260412-hky-change-the-link-in-06-contact-to-icons/) |
-| 260412-hvf | change accent from green to blue | 2026-04-12 | b0fb6de | [260412-hvf-change-accent-from-green-to-blue](./quick/260412-hvf-change-accent-from-green-to-blue/) |
-| 260412-hzh | commit all changes | 2026-04-12 | b738492 | [260412-hzh-commit-all-changes](./quick/260412-hzh-commit-all-changes/) |
-| 260412-jzg | move privacy and cookie from @app/layout.tsx to a new footer component | 2026-04-12 | 785127d | [260412-jzg-move-privacy-and-cookie-from-app-layout-](./quick/260412-jzg-move-privacy-and-cookie-from-app-layout-/) |
-| 260412-k0k | add `<script type="text/javascript" src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"></script>` to the header of `app/layout.tsx` | 2026-04-12 | 1d3acba | [260412-k0k-add-script-type-text-javascript-src-http](./quick/260412-k0k-add-script-type-text-javascript-src-http/) |
-| 260412-koo | fix all UI issues marked in `TODO.md`. update the todo list aftercompleting | 2026-04-12 | d60d90f | [260412-koo-fix-all-ui-issues-marked-in-todo-md-upda](./quick/260412-koo-fix-all-ui-issues-marked-in-todo-md-upda/) |
-| 260412-lto | Complete all open UI TODO.md items: add animations, adapt hero UI to light/dark mode, fix light-mode text in the skills section, and fix light-mode text in the experience section | 2026-04-12 | 2198192 | [260412-lto-complete-all-open-ui-todo-md-items-add-a](./quick/260412-lto-complete-all-open-ui-todo-md-items-add-a/) |
-| 260412-nbj | redesign the GitHub profile README for fellow developers | 2026-04-12 | 335d913 | [260412-nbj-redesign-the-github-profile-readme-for-f](./quick/260412-nbj-redesign-the-github-profile-readme-for-f/) |
-| 260412-p2l | refine the GitHub profile README to be brief, captivating, and graphic-heavy | 2026-04-12 | d70083c | [260412-p2l-refine-the-github-profile-readme-to-be-b](./quick/260412-p2l-refine-the-github-profile-readme-to-be-b/) |
-| 260412-q4b | rewrite README.md for developers; moodboard used as reference; inline role radar | 2026-04-12 | 82b7a13 | [260412-q4b-rewrite-readme-md-for-developers-remove-](./quick/260412-q4b-rewrite-readme-md-for-developers-remove-/) |
+- None at milestone close.
 
 ## Session Continuity
 
-Last session: 2026-04-12T18:41:41+00:00
-Stopped at: Completed quick task 260412-ptc
+Last session: 2026-04-13 23:59 UTC
+Stopped at: Milestone v1.1 shipped and archived
 Resume file: None

@@ -35,6 +35,40 @@
 
 ---
 
+## Milestone: v1.1 — implement atomization of components
+
+**Shipped:** 2026-04-13
+**Phases:** 4 | **Plans:** 4 | **Sessions:** 1
+
+### What Was Built
+- A thin server-first `app/page.tsx` that composes the portfolio from extracted section components.
+- Shared section and contact atoms reused across the recruiter-facing page surface.
+- A decomposed knowledge-map feature with explicit model, selection, runtime, panel, and viewport layers.
+- Playwright parity coverage plus an explicit QA checklist for release signoff.
+
+### What Worked
+- Starting with architecture and regression guardrails made the later refactor safer and easier to verify.
+- Keeping the client island narrow preserved server-first rendering while still allowing the interactive map to evolve internally.
+- Running Playwright against a dedicated production port removed false negatives caused by reused local servers.
+
+### What Was Inefficient
+- The phase directories for 4-7 were missing even though the roadmap already referenced them, so some planning scaffolding had to be created during execution.
+- The initial Playwright failure looked like an app bug but was actually test-environment nondeterminism from server reuse.
+
+### Patterns Established
+- For App Router refactors, keep `app/page.tsx` server-first and move only true interaction hotspots behind client boundaries.
+- When end-to-end parity matters, use deterministic production-server startup instead of reusing whatever is already running locally.
+
+### Key Lessons
+1. Architecture-first milestones benefit from shipping docs and guardrail tests before deeper extraction.
+2. E2E reliability is part of product confidence; dedicated test infrastructure decisions can matter as much as selectors.
+
+### Cost Observations
+- Sessions: 1
+- Notable: Most risk was concentrated in release verification and test determinism, not in the component extraction itself.
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -42,14 +76,17 @@
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
 | v1.0 | 3 | 3 | Established typed content-pipeline planning plus UAT-backed frontend verification |
+| v1.1 | 1 | 4 | Established architecture-first refactor workflow with parity automation and deterministic Playwright setup |
 
 ### Cumulative Quality
 
 | Milestone | Tests | Coverage | Zero-Dep Additions |
 |-----------|-------|----------|-------------------|
 | v1.0 | lint, build, test:phase-03, UAT | Nyquist-compliant across 3 phases | 2 |
+| v1.1 | lint, build, test, test:e2e | Nyquist-compliant across 4 phases | 2 |
 
 ### Top Lessons (Verified Across Milestones)
 
 1. Start with one maintained content source when future presentation variants are expected.
 2. Treat manual visual verification as a first-class artifact for frontend-heavy milestones.
+3. Keep Playwright isolated from ambient local server state when release parity is part of the milestone bar.

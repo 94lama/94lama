@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:phase-03": "node --test --experimental-strip-types tests/phase-03-contact-validation.test.ts"
+    "test": "node --test --experimental-strip-types tests/phase-03-contact-validation.test.ts tests/phase-04-knowledge-experience.test.ts",
+    "test:phase-03": "node --test --experimental-strip-types tests/phase-03-contact-validation.test.ts",
+    "test:phase-04": "node --test --experimental-strip-types tests/phase-04-knowledge-experience.test.ts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@next/third-parties": "^16.2.3",
@@ -17,12 +20,14 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "server-only": "^0.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

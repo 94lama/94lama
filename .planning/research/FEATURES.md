@@ -1,157 +1,152 @@
-# Feature Landscape — v1.1 TODO Refresh
+# Feature Research
 
-**Domain:** recruiter-facing one-page portfolio refresh  
-**Scope:** new milestone features only  
-**Researched:** 2026-04-12  
-**Overall confidence:** MEDIUM-HIGH
+**Domain:** Atomic component refactor milestone for an existing recruiter-focused Next.js portfolio app
+**Researched:** 2026-04-13
+**Confidence:** HIGH
 
-## What polished portfolio behavior looks like for this milestone
+## Feature Landscape
 
-For a recruiter-first portfolio, polish should improve first-impression quality **without adding interpretation cost**. The best versions of these features make the page feel more intentional, faster to scan, and easier to trust.
+### Table Stakes (Users Expect These)
 
-The key rule for this milestone: **interaction should reveal relevance, not hide information**. The knowledge map can become the visual entry point for skills, but the experience timeline still needs to remain fully visible so recruiters never lose the core evidence block.
+Features users assume exist for a safe architecture refactor. Missing these = the milestone is not trustworthy even if the code looks cleaner.
 
-The recommended v1.1 pattern is: **blue-led visual refresh + restrained motion + knowledge-map-as-navigation + synced experience highlighting/reordering + cleaner relocation/contact utilities + compliant consent bootstrap**.
+| Feature | Why Expected | Complexity | Notes |
+|---------|--------------|------------|-------|
+| Full-surface atomic decomposition | The milestone goal is to remove large inline page blocks across the whole rendered app, not just tidy one or two sections | HIGH | Must cover hero, section shells, metadata rows, contact/legal surfaces, and the knowledge-map surface; `app/page.tsx` should become a thin server composition root |
+| Explicit server/client boundaries | In Next.js App Router, pages/layouts are server-first by default and interactivity should stay in narrow client islands | HIGH | Preserve `KnowledgeExperienceCoordinator` as a narrow client boundary or equivalent; avoid pushing `use client` upward because it enlarges the client bundle and weakens refactor safety |
+| Behavior and UI parity | This milestone is a refactor, so recruiters should experience the same scan speed, copy flow, and interactions before and after | HIGH | Preserve section order, content hierarchy, CTA visibility, knowledge-map selection/highlighting, and full-timeline experience visibility |
+| Knowledge-map modularization without product change | The current hotspot is the map area, so refactor success requires splitting renderer internals as well, not only static sections | HIGH | Separate graph data/modeling, OGL lifecycle, interaction logic, and presentational UI; keep current interaction model and OGL stack |
+| Architectural documentation of pages/components/data flow | The milestone explicitly requires architectural documentation as a baseline and handoff artifact | MEDIUM | Document page composition, component boundaries, data flow from `cv.json`, and where client-only logic lives |
+| Refactor regression safeguards | A refactor without guardrails is hard to trust and easy to regress silently | MEDIUM | Add or expand tests around composition wiring, map-to-experience behavior, and key recruiter-visible flows; prefer integration/E2E coverage for async/server-heavy paths per current Next.js guidance |
+| Reuse of shared atoms and small composition primitives | Atomization is only real if repeated UI patterns are actually consolidated | MEDIUM | Extract shared headings, action links, metadata rows, section shells, list/card primitives, and legal/contact primitives where repetition already exists |
+| Accessibility and responsive parity | Refactors must not degrade baseline usability on mobile/desktop or break keyboard/screen-reader expectations | MEDIUM | Keep semantics, focus behavior, tap targets, heading structure, and current responsive scanability intact |
 
-## Table Stakes
+### Differentiators (Competitive Advantage)
 
-Features users will expect once this refresh exists. Missing them makes the refresh feel unfinished or harder to use.
-
-| Feature | Expected Behavior in a Polished Portfolio | Complexity | Notes |
-|---------|-------------------------------------------|------------|-------|
-| Blue-led visual refresh | Replace green accents with a blue system across CTA, chips, focus states, active map nodes, and highlight treatments; preserve strong contrast and fast section scanning. | Low | This is visual-system work, not a redesign of layout hierarchy. |
-| Subtle motion polish | Use small hover, fade, and position transitions to clarify interactivity and depth; motion should support focus, not become a hero effect. Respect `prefers-reduced-motion`. | Low-Med | Best done with CSS transitions/animations on opacity/transform, not heavy page-wide JS animation. |
-| Knowledge map replaces standalone skills section | Section `01` should present the map as the primary skills surface, with a short explainer and visible legend/help copy. Users should understand “click a node to see related experience.” | Med | The map becomes a navigation aid, not a decorative extra. |
-| Map selection syncs with experience | Selecting a node/category should immediately update the experience section state so the page feels coherent. | Med | Shared parent-managed state is the right model and already aligns with project constraints. |
-| Experience remains fully visible | All experience entries stay on screen; relevant entries highlight and rise in order, while unrelated entries stay readable but de-emphasized. | Med | Better recruiter UX than hard filtering, which can hide proof and create dead ends. |
-| Richer relocation details | Relocation section should answer practical recruiter questions: where, when, preferences, and degree of openness. | Low-Med | Important because current CV data is brief and recruiters use this as a screening input. |
-| Compact icon-based contact links | Contact should collapse to compact actions for email/GitHub/LinkedIn with clear hover/focus states and visible or accessible labels. | Low | Icon-only is acceptable only if naming remains explicit for accessibility. |
-| Bootstrap cookie consent prompt | If the site uses third-party services/cookies, prompt at app bootstrap with a real consent mechanism, not just footer policy links. | Med | Current footer embeds policies, but policy links are not the same as consent collection. |
-
-## Differentiators
-
-Features that make this refresh feel more polished than a generic portfolio.
+Features that make this milestone more valuable than a generic “component cleanup”.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| Knowledge map as the first skills surface | Turns skills from a static list into a memorable recruiter-friendly navigation model while keeping the page single-page and evidence-led. | Med | Strong differentiator because it supports the narrative instead of adding a gimmick section later. |
-| Selection-driven experience reordering | Helps recruiters connect a chosen skill cluster to proof faster without losing the complete timeline. | Med | Better than filtering-only and better aligned with recruiter scan behavior. |
-| More spatial, de-centered map layout | Removing the center sphere and spreading nodes gives the map a cleaner, less toy-like 3D feel. | Med | Useful if it improves legibility and hit targets; not valuable if it reduces readability. |
-| Cleaner contact utility bar | Icon-based contact actions reduce visual bulk and make the bottom of the page feel more product-like and deliberate. | Low | Works best when paired with strong tooltips/labels and one primary email CTA. |
-| Relocation detail framed as decision support | Adding timing/preferences makes relocation content answer recruiter objections proactively. | Low | This is small in build effort but high in hiring relevance. |
+| Refactor plan organized by requirement areas | Makes milestone requirements easier to write, estimate, and validate than a vague “adopt atomic design” goal | LOW | Organize around composition, boundaries, behavior preservation, documentation, testing, and safeguards |
+| Map internals decomposed into stable submodules | Reduces the highest-risk hotspot first, making future map iteration safer without changing recruiter-facing behavior | HIGH | Best place for selective OOP if lifecycle or scene orchestration benefits from it naturally |
+| Thin composition root with section-level contracts | Makes future milestones safer because page composition becomes mostly declarative and sections have clearer input contracts | MEDIUM | Good outcome: `app/page.tsx` mainly loads content and assembles section components |
+| Refactor-safe parity definition | Success is measured by preserved recruiter outcomes, not just “more files” or prettier component names | MEDIUM | Define acceptance around same content flow, same interactions, same contact conversion path, same legal bootstrap behavior |
+| Architecture docs that explain why boundaries exist | Helps future contributors avoid re-monolithizing the app and accelerates later roadmap work | LOW | Include component inventory, responsibility boundaries, and rationale for client islands |
+| Incremental extraction strategy | Lets the team ship the refactor without a risky ground-up rewrite | MEDIUM | Prefer stepwise extractions with behavior checks after each boundary move |
 
-## Anti-Features
+### Anti-Features (Commonly Requested, Often Problematic)
 
-Things to explicitly avoid in this milestone.
+Features that seem attractive during a refactor but would make this milestone less safe or less focused.
 
-| Anti-Feature | Why Avoid | What to Do Instead |
-|--------------|-----------|-------------------|
-| Heavy cinematic animation | Slows scan speed and makes the portfolio feel self-indulgent. | Use subtle transform/opacity motion and limit motion to affordance and depth cues. |
-| Hard-filtering experience to only matches | Recruiters can miss important timeline context and think experience is thin. | Keep all entries visible; highlight and reorder matches. |
-| Keeping both skills list and knowledge map | Duplicates information and weakens the purpose of the map. | Let the map fully replace the standalone skills section. |
-| Icon-only links without accessible naming | Hurts clarity and accessibility, especially for screen readers and low-confidence users. | Add visible labels, tooltips, or strong `aria-label`s with distinct names. |
-| Repeating relocation info in multiple sections | Creates noise and makes the page feel less curated. | Keep relocation depth in the dedicated section; keep contact focused on contact actions. |
-| Cookie “banner” that is only a legal link | Looks compliant without actually collecting/recording consent. | Use a real CMP/bootstrap prompt if consent is required. |
-| OOP management-layer rewrite | Too much structural churn for a presentation-focused milestone. | Refactor into atomized React components with shared state at the correct parent boundary. |
+| Feature | Why Requested | Why Problematic | Alternative |
+|---------|---------------|-----------------|-------------|
+| Visual redesign during the refactor | Refactors often tempt “while we are here” UI cleanup | Blurs success criteria, creates parity disputes, and hides structural regressions behind visual change | Freeze the current UI and treat visual changes as a later milestone |
+| Broad product expansion | New sections or recruiter features can feel efficient to bundle with architecture work | Mixes feature risk with refactor risk and makes regressions harder to isolate | Keep scope on internal decomposition and documentation only |
+| Global clientification (`use client` too high in the tree) | Feels simpler when extracting interactive components | Increases bundle size, weakens server-first architecture, and spreads client-only constraints across static sections | Keep client islands narrow and pass serializable props from server components |
+| Class-heavy OOP rewrite across the app | Can sound “more architectural” during a refactor milestone | Adds ceremony, fights React/Next composition patterns, and risks rewriting good functional code for no recruiter-facing value | Use OOP only for natural fit areas such as renderer orchestration or lifecycle wrappers |
+| Premature design-system/package extraction | Shared atoms can invite turning the portfolio into a generalized component library | Over-abstraction slows delivery and creates components optimized for hypothetical reuse instead of current app needs | Extract only primitives already repeated in this app |
+| Replacing OGL or changing the map interaction model | The map is the hotspot, so replacement can look like a clean slate | Changes behavior and risk profile at the same time; violates milestone scope | Keep OGL and current interaction semantics, just decompose internals |
+| Data-source migration away from `public/assets/cv.json` | Refactors often trigger content architecture ambitions | Adds unrelated migration work and new failure modes without helping atomic decomposition directly | Keep current runtime source unless a later workflow milestone justifies change |
+| Snapshot-only test strategy | Fast to add during UI refactors | Catches markup churn poorly and does not validate recruiter-visible behavior well enough | Favor targeted integration/E2E assertions plus selective unit tests |
 
-## Expected Behavior by Feature
+## Feature Dependencies
 
-### 1. Blue-led visual refresh
-- Blue becomes the primary accent for CTA, active states, selected map nodes, bullets, and focus outlines.
-- Neutrals and typography hierarchy stay stable so recruiters do not need to re-learn the page.
-- The refresh should feel cooler and more technical, not louder.
+```
+[Behavior and UI parity]
+    └──requires──> [Refactor regression safeguards]
 
-### 2. Subtle motion
-- Hover: slight lift/glow on CTAs and interactive chips.
-- Enter/update: soft opacity/translate transitions for reordered experience items and section polish.
-- Map: motion should emphasize state change and depth, not constant distraction.
-- Reduced-motion mode should tone down or disable non-essential movement.
+[Full-surface atomic decomposition]
+    ├──requires──> [Reuse of shared atoms and small composition primitives]
+    ├──requires──> [Explicit server/client boundaries]
+    └──requires──> [Knowledge-map modularization without product change]
 
-### 3. Knowledge map in section `01`
-- The map should occupy the old skills slot.
-- The purpose should be obvious within a few seconds: browse skill clusters, then inspect related experience.
-- Remove the center sphere if it reads as decorative rather than informative.
-- Spread nodes enough to improve separability and reduce clutter.
+[Architectural documentation of pages/components/data flow]
+    └──requires──> [Thin composition root with section-level contracts]
 
-### 4. Syncing map selection with experience
-- Selection state should live above both the map and the experience list.
-- Category selection highlights a cluster; node selection sharpens to a specific skill.
-- The experience section should respond immediately with matching emphasis and ordering.
-- Empty matches should gracefully fall back to the full list with explanatory helper copy.
+[Map internals decomposed into stable submodules]
+    └──requires──> [Behavior and UI parity]
 
-### 5. Richer relocation details
-- Add practical signals such as preferred regions, openness level, and rough availability/timing if available from authored content.
-- Keep tone factual and concise; avoid long lifestyle copy.
-- Relocation should help qualification, not read like a personal essay.
+[Incremental extraction strategy] ──enhances──> [Behavior and UI parity]
 
-### 6. Icon-based contact links
-- Keep email as the clearest primary CTA.
-- Secondary links can become compact icons/buttons for GitHub and LinkedIn.
-- Each action needs clear accessible naming; visible tooltips/labels are a plus.
-- Do not repeat location/relocation content here.
-
-### 7. Bootstrap cookie consent
-- Consent prompt appears at app bootstrap, not buried in footer navigation.
-- It should present real choices and link to privacy/cookie policy.
-- If using iubenda, use its CMP/banner flow; current footer embeds alone are insufficient for consent UX.
-
-## Dependencies
-
-```text
-Blue-led visual refresh → Contact icon styling, map active-state styling, experience highlight styling
-Subtle motion → Experience reorder/highlight polish, contact interactions, consent entry/exit transitions
-Knowledge map replaces skills section → Shared map/experience state → Experience highlight/reorder behavior
-Knowledge map spatial refactor → Better map legibility → Better selection UX
-Richer relocation content → Contact simplification (remove duplicated relocation info)
-Cookie/privacy policy links in footer → Bootstrap consent prompt (same legal system, different UX responsibility)
-Atomized component composition → Safer refactor of map, experience, contact, relocation, and consent pieces
+[Visual redesign during the refactor] ──conflicts──> [Behavior and UI parity]
+[Global clientification] ──conflicts──> [Explicit server/client boundaries]
 ```
 
-## MVP Recommendation for v1.1
+### Dependency Notes
 
-Prioritize:
-1. **Map/experience restructuring** — move the knowledge map into section `01`, remove duplicate skills block behavior, keep full experience visible with highlight/reorder.
-2. **Blue visual system + subtle motion** — apply once the interaction structure is settled so styling targets are stable.
-3. **Relocation/contact cleanup** — enrich relocation, compress contact to icon-based utilities, remove duplication.
-4. **Cookie consent bootstrap** — add real consent prompting after confirming the required integration path.
+- **Behavior and UI parity requires refactor regression safeguards:** parity is not credible unless the milestone has checks for the known recruiter-visible flows and map wiring.
+- **Full-surface atomic decomposition requires shared atoms/primitives:** otherwise the refactor just moves markup into more files without improving reuse or boundaries.
+- **Full-surface atomic decomposition requires explicit server/client boundaries:** atomic extraction must not collapse the App Router server-first model into a client-heavy tree.
+- **Full-surface atomic decomposition requires knowledge-map modularization:** the milestone is incomplete if the largest interactive hotspot remains monolithic.
+- **Architectural documentation requires thin composition contracts:** docs become durable when responsibilities and inputs are explicit instead of buried in one page file.
+- **Incremental extraction enhances parity:** smaller boundary moves make it easier to detect regressions early and keep behavior stable.
+- **Visual redesign conflicts with parity:** any meaningful UI change makes “same behavior and scan speed” much harder to verify.
+- **Global clientification conflicts with explicit server/client boundaries:** it undermines one of the milestone’s core architectural goals.
 
-Defer:
-- Any deeper navigation model beyond single-page recruiter flow.
-- Advanced filter logic that hides nonmatching experience items.
-- Large-scale component architecture rewrite.
-- Decorative motion experiments that do not improve comprehension.
+## MVP Definition
 
-## Complexity Notes
+### Launch With (v1.1)
 
-| Feature Area | Complexity | Why |
-|--------------|------------|-----|
-| Color refresh | Low | Mostly token/class updates with some contrast checking. |
-| Motion polish | Low-Med | Easy to overdo; needs accessibility and restraint. |
-| Map replacing skills | Med | Requires section restructuring and clearer UX copy. |
-| Map/experience sync | Med | State/model already exists, but behavior should shift from filtering toward highlight/reorder. |
-| Spatial map changes | Med | 3D layout tweaks can affect readability and hit testing. |
-| Relocation expansion | Low-Med | Mostly content-model and presentation changes. |
-| Icon contact links | Low | UI simplification with accessibility requirements. |
-| Consent bootstrap | Med | Legal/compliance integration is straightforward only if the CMP path is already chosen. |
+Minimum successful refactor milestone — what must ship for the milestone to count as done.
 
-## Recommendation Summary
+- [ ] Full-surface atomic decomposition — the rendered app is composed from extracted reusable components instead of large inline page blocks
+- [ ] Knowledge-map modularization — graph data, renderer lifecycle, interaction handling, and presentational UI are split into clearer modules without changing recruiter-facing behavior
+- [ ] Preserved server/client boundaries — `app/page.tsx` remains server-first and interactive state stays isolated to narrow client components
+- [ ] Behavior parity safeguards — tests and/or checks validate map-to-experience behavior, contact-path visibility, and core page composition wiring
+- [ ] Architecture documentation — pages, components, boundaries, and data flow are documented for future milestones
 
-This milestone should behave like a **clarity upgrade**, not a feature pile-on. The strongest recruiter-facing result is:
+### Add After Validation (v1.1.x)
 
-- **map-first skills discovery**,
-- **experience-proof synchronization without hiding the timeline**,
-- **cleaner blue visual language with restrained motion**,
-- **more decision-useful relocation details**,
-- **compact but explicit contact actions**,
-- and **real consent prompting at bootstrap if consent is required**.
+Useful follow-ons once the safe refactor is complete.
+
+- [ ] Visual regression automation — add if manual parity review becomes too fragile or repetitive
+- [ ] Storybook or isolated component workbench — add if section/atom iteration becomes frequent enough to justify the maintenance cost
+- [ ] Additional structural linting or import-boundary rules — add if contributors start drifting across server/client or section boundaries again
+
+### Future Consideration (v2+)
+
+Important ideas, but not part of this milestone’s safe success definition.
+
+- [ ] Design-system packaging beyond this app — defer until real cross-project reuse exists
+- [ ] Content-source/workflow redesign — defer until authoring pain clearly outweighs migration cost
+- [ ] Recruiter-facing interaction or information-architecture changes — defer until product goals change, not while validating the refactor
+
+## Feature Prioritization Matrix
+
+| Feature | User Value | Implementation Cost | Priority |
+|---------|------------|---------------------|----------|
+| Behavior and UI parity | HIGH | HIGH | P1 |
+| Full-surface atomic decomposition | HIGH | HIGH | P1 |
+| Explicit server/client boundaries | HIGH | HIGH | P1 |
+| Knowledge-map modularization | HIGH | HIGH | P1 |
+| Architectural documentation | MEDIUM | MEDIUM | P1 |
+| Refactor regression safeguards | HIGH | MEDIUM | P1 |
+| Reuse of shared atoms/primitives | MEDIUM | MEDIUM | P1 |
+| Incremental extraction strategy | MEDIUM | LOW | P2 |
+| Visual regression automation | MEDIUM | MEDIUM | P2 |
+| Storybook/component workbench | LOW | MEDIUM | P3 |
+
+**Priority key:**
+- P1: Must have for milestone success
+- P2: Should have if time allows after core refactor safety is in place
+- P3: Nice to have, future consideration
+
+## Competitor Feature Analysis
+
+| Feature | Competitor A | Competitor B | Our Approach |
+|---------|--------------|--------------|--------------|
+| Atomic decomposition | Typical “split files by section” refactor | Full design-system rewrite | Decompose by real reuse and responsibility boundaries across the current app |
+| Interactive hotspot cleanup | Leave canvas/renderer code monolithic | Rewrite interaction model entirely | Keep current behavior, but split graph data, renderer lifecycle, interaction logic, and UI |
+| Server/client separation | Often blurred during refactors | Sometimes over-engineered with wrappers everywhere | Keep a thin server composition root and narrow client islands aligned with Next.js guidance |
+| Refactor validation | Manual spot checks only | Heavy snapshot coverage | Validate recruiter-visible flows with targeted integration/E2E checks and selective unit coverage |
 
 ## Sources
 
-- Project context: `/workspaces/94lama/.planning/PROJECT.md`
-- Milestone scope: `/workspaces/94lama/TODO.md`
-- Existing page and component behavior: `/workspaces/94lama/app/page.tsx`, `/workspaces/94lama/app/components/experience-map-section.tsx`, `/workspaces/94lama/app/components/legal-embed-footer.tsx`
-- Current content model: `/workspaces/94lama/public/assets/cv.md`, `/workspaces/94lama/src/content/portfolio/types.ts`
-- MDN, Using CSS animations: https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Animations/Using (HIGH)
-- MDN, `prefers-reduced-motion`: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion (HIGH)
-- W3C APG, accessible names and descriptions: https://www.w3.org/WAI/ARIA/apg/practices/names-and-descriptions/ (HIGH)
-- iubenda Cookie Solution overview: https://www.iubenda.com/en/cookie-solution (MEDIUM; product page, but aligns with current embedded iubenda policy setup)
+- Project scope and milestone requirements: `/workspaces/94lama/.planning/PROJECT.md` — HIGH
+- Current architectural baseline: `/workspaces/94lama/.planning/ARCHITECTURE.md` — HIGH
+- Next.js 16 docs, Server and Client Components: https://nextjs.org/docs/app/getting-started/server-and-client-components (last updated 2026-04-08) — HIGH
+- Next.js 16 docs, Testing: https://nextjs.org/docs/app/guides/testing (last updated 2026-04-08) — HIGH
+
+---
+*Feature research for: atomic component refactor milestone on existing recruiter portfolio app*
+*Researched: 2026-04-13*

@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A recruiter-focused portfolio webapp for Riccardo La Malfa. It presents his frontend-focused full-stack profile, experience, and core skills in a bold one-page format designed to make a strong first impression quickly. The content stays reusable so future milestones can refine presentation and interaction without rewriting the underlying information.
+A recruiter-focused portfolio webapp for Riccardo La Malfa. It presents his frontend-focused full-stack profile, experience, and contact paths in a bold one-page format designed to make a strong first impression quickly. The content stays reusable so future milestones can change structure and presentation without rewriting the underlying portfolio data.
 
 ## Core Value
 
@@ -10,92 +10,87 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ## Current State
 
-- Latest shipped milestone: `v1.0 MVP` on 2026-04-11.
-- Current planned milestone: `v1.1 TODO refresh`.
-- The shipped app is a bold recruiter-focused one-page portfolio built on Next.js 16, React 19, Tailwind 4, and OGL.
-- Shared content flows from `public/assets/cv.md` through a typed parser/loader into the server-rendered page.
-- The page includes a content-driven hero photo, grouped skills, experience, education, languages, relocation details, the interactive experience map, and clear email/GitHub/LinkedIn contact actions.
-- v1.1 focuses on visual polish, map-driven navigation, footer consent, and maintainable atomized composition without changing the single-page recruiter-first structure.
+- Latest shipped milestone: `v1.1 implement atomization of components` on 2026-04-13.
+- Current planned milestone: not defined yet.
+- The live app is a recruiter-focused one-page portfolio built on Next.js 16, React 19, Tailwind 4, and OGL.
+- Shared portfolio content is currently loaded from `public/assets/cv.json` into the server-rendered page through typed portfolio models.
+- The page includes a hero, knowledge-map-driven skill navigation, synced experience timeline, education, languages, relocation, contact actions, legal footer links, and layout-level consent and analytics wiring.
+- The page now renders through extracted server sections plus shared atomic primitives, while `app/page.tsx` stays a thin server composition root.
+- The knowledge-map hotspot is now decomposed across model, selection, runtime, UI-panel, and viewport boundaries.
 
-## Current Milestone: v1.1 TODO refresh
+## Latest Milestone: v1.1 implement atomization of components
 
-**Goal:** Refine the shipped recruiter-first portfolio with TODO-driven UI, interaction, footer, and structural improvements while preserving the single-page recruiter flow.
+**Outcome:** Shipped a full internal atomization refactor that preserved recruiter-facing UI and behavior while improving maintainability and verification depth.
 
 **Target features:**
-- Shift the primary visual language from green to blue and add subtle motion polish while preserving readability in both light mode and dark mode.
-- Replace the standalone skills block with the knowledge map in section `01`, remove the center sphere, and spread nodes more three-dimensionally.
-- Keep the knowledge map and `02 - Experience` synced through shared selection state while preserving full experience visibility.
-- Expand the relocation section and replace contact cards with compact icon-based links while removing duplicated relocation info.
-- Prompt cookie/privacy consent at app bootstrap.
-- Favor atomized component composition for the refactor instead of an OOP rewrite.
+- Recompose the full rendered portfolio surface from reusable atomic components instead of leaving large page-level sections inline.
+- Push atomization into the knowledge-map area too, including splitting the OGL renderer internals into smaller modules.
+- Keep the recruiter-facing layout, copy flow, contact paths, and map-to-experience behavior effectively unchanged.
+- Keep `app/page.tsx` as a thin server composition root and preserve narrow client islands for interactive behavior.
+- Ship architecture, regression, and parity documentation alongside the refactor.
 
 ## Requirements
 
 ### Validated
 
-- ✓ Shared portfolio content loads from `public/assets/cv.md` through a typed server-side parser/loader — v1.0
-- ✓ The landing page renders recruiter-facing content from the shared source instead of starter-template copy — v1.0
-- ✓ Recruiters can understand Riccardo's positioning, summary, location, relocation status, and photo from a single page — v1.0
-- ✓ Recruiters can scan core skills, experience, education, and languages without leaving the landing page — v1.0
-- ✓ Recruiters can contact Riccardo through clear email, GitHub, and LinkedIn actions — v1.0
-- ✓ The portfolio stays usable on mobile and desktop while preserving a recruiter-first narrative — v1.0
+- ✓ Shared portfolio content loads from `public/assets/cv.json` through typed portfolio models - v1.0
+- ✓ The landing page renders recruiter-facing content from the shared source instead of starter-template copy - v1.0
+- ✓ Recruiters can understand Riccardo's positioning, summary, location, relocation status, and photo from a single page - v1.0
+- ✓ Recruiters can scan core skills, experience, education, and languages without leaving the landing page - v1.0
+- ✓ Recruiters can contact Riccardo through clear email, GitHub, and LinkedIn actions - v1.0
+- ✓ The portfolio stays usable on mobile and desktop while preserving a recruiter-first narrative - v1.0
 
 ### Active
 
-- [ ] Recruiters see blue-led visual polish and subtle motion without losing scan speed or readability in either light mode or dark mode.
-- [ ] Recruiters can use section `01` knowledge map instead of a separate skills block, with the center sphere removed and nodes spread more spatially.
-- [ ] Knowledge map selection and experience content stay in sync through shared parent-managed state.
-- [ ] Recruiters can scan all experience entries while related items highlight and reorder on selection.
-- [ ] Recruiters get clearer relocation timing and preference details in the dedicated section.
-- [ ] Recruiters can use compact icon-based contact links without duplicated relocation content in contact.
-- [ ] Recruiters are prompted for cookie/privacy consent at app bootstrap.
+- [ ] Define the next milestone after v1.1.
 
 ### Out of Scope
 
-- Featured project showcase in this milestone - deferred so v1.1 stays focused on presentation refinements.
-- Direct CV view/download in this milestone - deferred until the updated recruiter-first page flow settles.
-- Alternative portfolio UI variants in this milestone - deferred until the v1.1 structure and interactions are validated.
-- Full OOP component orchestration rewrite in this milestone - deferred because v1.1 should stay incremental and use atomized composition inside the existing React app.
-- Multi-page information architecture until the single-page recruiter flow no longer serves the core value.
-- Client-style case-study depth until the recruiter-first narrative is expanded deliberately.
+- New recruiter-facing sections in this milestone - architecture refactor comes before feature expansion.
+- Visual redesign or interaction redesign in this milestone - the UI should stay effectively the same while the internals change.
+- Strict class-heavy OOP across the entire app - use OOP only where it clearly improves structure.
+- Replacing OGL or the current knowledge-map interaction model - refactor the implementation, not the product behavior.
+- Changing the single-page information architecture until the recruiter flow itself needs to change.
+- Changing the maintained portfolio content source away from `public/assets/cv.json` without a stronger workflow reason.
 
 ## Context
 
-- The app is now a shipped content-driven portfolio rather than a Next.js starter template.
-- `public/assets/cv.md` remains the single maintained source of truth for portfolio content.
-- `README.md` is outdated and also serves as the GitHub profile README, so portfolio copy should not be coupled to it.
-- The validated audience is recruiters and hiring managers rather than clients.
-- Future milestones should preserve quick comprehension and contact clarity while expanding content breadth carefully.
-- `TODO.md` now defines the immediate v1.1 UI and interaction refresh scope.
-- The knowledge map should move up in the page and work as a companion control for the main experience section rather than living beside a duplicate experience block.
-- The current TODO scope also includes footer consent prompting and an internal preference for atomized composition over a separate OOP layer.
+- The app is a shipped content-driven portfolio rather than a starter template.
+- `public/assets/cv.json` is the current maintained content source consumed at runtime.
+- `src/content/portfolio/parse-cv.ts` still exists as a content-shaping utility, but the live page currently reads structured JSON through `getPortfolioContent()`.
+- `app/page.tsx` now acts as a thin server composition root over extracted sections.
+- `KnowledgeExperienceCoordinator` remains the main client island for shared skill-map and experience selection state.
+- `SkillsKnowledgeMap` is now a thin orchestration entrypoint over `knowledge-map/model.ts`, `selection.ts`, `runtime.ts`, `knowledge-map-panels.tsx`, and `viewport.tsx`.
+- `section-card-styles.ts` centralizes visual tokens for the numbered sections.
+- `app/layout.tsx` owns the root shell, fonts, metadata, Iubenda bootstrap, GTM scripts, and `LegalFooter`.
+- Tests now cover contact validation, composition/wiring regressions, knowledge-map split invariants, and Playwright parity for initial render plus map interaction.
 
 ## Constraints
 
 - **Tech stack**: Stay within the existing Next.js 16, React 19, Tailwind 4, and OGL app.
-- **Scope discipline**: Keep future milestones tight and shippable.
-- **Brand**: Maintain an intentional, non-starter visual language.
-- **Content source**: Keep `public/assets/cv.md` as the maintained portfolio source unless a better workflow is clearly justified.
-- **Contact data flow**: Keep email, GitHub, and LinkedIn sourced from authored content instead of hardcoded page constants.
-- **Interaction model**: Keep `skills` and `selectedPoint` in a shared parent so the map and experience section cannot drift.
-- **Experience visibility**: Highlighting and reordering are allowed, but all experience items should remain visible during map interaction.
-- **Motion**: Use subtle polish instead of heavy page-wide animation that slows recruiter scan speed.
-- **Architecture**: Favor atomized component composition within the existing React tree — avoid introducing a parallel OOP management layer for v1.1.
+- **UI parity**: Keep the current recruiter-facing UI and behavior effectively unchanged during the refactor.
+- **Scope**: Refactor the entire rendered app in this milestone, not only one section.
+- **Server/client boundary**: Keep `app/page.tsx` server-first and avoid spreading client-only state through the whole tree.
+- **Content source**: Keep `public/assets/cv.json` as the maintained runtime content source unless a stronger workflow is chosen deliberately.
+- **Map behavior**: Preserve current knowledge-map selection, highlighting, and full-timeline experience visibility.
+- **Architecture style**: Use atomic component architecture as the primary goal; apply OOP only where it naturally helps.
+- **Quality bar**: Maintain responsive behavior, accessibility, and recruiter scan speed while restructuring internals.
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Start with a one-page recruiter portfolio | Keeps the first release focused on positioning and contact conversion | ✓ Good — shipped in v1.0 |
-| Use `public/assets/cv.md` as the portfolio content source | The README is outdated and serves a different purpose | ✓ Good — shipped in v1.0 |
-| Preserve the interactive experience map as supporting content | It adds depth without breaking the recruiter-first narrative | ✓ Good — shipped in v1.0 |
-| Keep email primary while sourcing GitHub and LinkedIn from authored content | Contact paths should stay obvious without hardcoded URLs | ✓ Good — shipped in v1.0 |
-| Defer project showcase and direct CV download | They added scope without improving the core recruiter flow enough for v1.0 | ⚠ Revisit next milestone |
-| Prepare content for future UI variants without building a switcher now | The user wants multiple UIs eventually, but not at the cost of first-release focus | ✓ Good — foundation shipped, variants still deferred |
-| Make the knowledge map replace the standalone skills block in section `01` | The user wants skill navigation to feel central rather than isolated in a separate block | — Pending |
-| Drive `02 - Experience` from shared parent-managed map selection state | Sync keeps interaction consistent across both sections and supports highlight plus reorder behavior | — Pending |
-| Shift accents from green to blue and keep motion subtle | Refresh visual tone without sacrificing readability or recruiter scan speed | — Pending |
-| Favor atomized component composition over an OOP rewrite for v1.1 | Keeps the refactor incremental and aligned with the existing React/Next architecture | — Pending |
+| Start with a one-page recruiter portfolio | Keeps the first release focused on positioning and contact conversion | ✓ Good - shipped in v1.0 |
+| Use structured portfolio content instead of starter-template copy | Shared content keeps the portfolio maintainable and reusable | ✓ Good - shipped in v1.0 |
+| Keep `public/assets/cv.json` as the current runtime content source | The live app already reads structured portfolio data directly | ✓ Good - shipped in v1.0 |
+| Preserve the interactive knowledge map as supporting recruiter context | It adds depth without breaking the one-page narrative | ✓ Good - shipped in v1.0 |
+| Keep email primary while sourcing GitHub and LinkedIn from authored content | Contact paths should stay obvious without hardcoded profile URLs | ✓ Good - shipped in v1.0 |
+| Replace the unshipped `v1.1 TODO refresh` plan with an architecture-first `v1.1` | The current priority is maintainability and safer future iteration, not new surface changes | ✓ Good - shipped in v1.1 |
+| Use atomic component architecture across the full rendered app | The page is functional but still too monolithic for safe iteration | ✓ Good - shipped in v1.1 |
+| Split the knowledge map into smaller modules instead of leaving one large interactive file | The current file mixes graph data, rendering, interaction, and UI responsibilities | ✓ Good - shipped in v1.1 |
+| Treat OOP as a supporting tool, not a strict rewrite doctrine | The user wants cleaner structure without forcing class-heavy patterns where they add friction | ✓ Good - shipped in v1.1 |
+| Add `.planning/ARCHITECTURE.md` as a baseline before refactoring | The milestone needs an explicit inventory of pages and components before the structure changes | ✓ Good - shipped in v1.1 |
+| Run Playwright against a dedicated production port | Reusing an existing local server can produce false parity failures unrelated to shipped behavior | ✓ Good - shipped in v1.1 |
 
 ## Evolution
 
@@ -115,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-12 after milestone v1.1 initialization*
+*Last updated: 2026-04-13 after milestone v1.1 shipment*

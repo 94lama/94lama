@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Update the skill radar polygon points in README.md and public SVG
 // based on public/assets/cv.json content.
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
 

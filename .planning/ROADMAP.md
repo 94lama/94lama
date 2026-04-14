@@ -2,12 +2,12 @@
 
 ## Overview
 
-v1.1 is a focused refresh of the shipped recruiter-first single-page portfolio. The roadmap keeps the single-page flow intact, establishes the shared knowledge-map/experience interaction contract before heavier UI polish, then finishes with isolated consent bootstrap work.
+v1.1 is an architecture-first refactor of the shipped recruiter-facing portfolio. The roadmap keeps the current UI and interaction behavior effectively unchanged while rebuilding the rendered app around reusable atomic components, a thin server-first `app/page.tsx`, an explicitly bounded knowledge-map client island, and parity safeguards strong enough to ship the refactor safely.
 
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-3 shipped 2026-04-11
-- 🚧 **v1.1 TODO refresh** — Phases 4-6 planned
+- ✅ **v1.1 implement atomization of components** — Phases 4-7 shipped 2026-04-13
 
 ## Phases
 
@@ -18,61 +18,68 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 
 </details>
 
-### 🚧 v1.1 TODO refresh (In Progress)
+### ✅ v1.1 implement atomization of components (Shipped 2026-04-13)
 
-**Milestone Goal:** Refine the shipped recruiter-first portfolio with map-first interaction, readable blue-led polish, clearer recruiter utility sections, and isolated consent bootstrap while preserving atomized composition and the single-page flow.
+**Milestone Goal:** Atomize the full rendered app without changing recruiter-facing UI or behavior, keep the page server-first and SEO-safe, split the knowledge-map feature across model/OGL/UI layers, and ship with documentation plus regression confidence.
 
-- [ ] **Phase 4: Knowledge Map & Experience Contract** - Establish the shared map-to-experience interaction model and replace the duplicate skills surface.
-- [ ] **Phase 5: Recruiter Clarity Polish** - Improve visual readability, motion restraint, relocation clarity, and compact contact actions.
-- [ ] **Phase 6: Consent Bootstrap Integration** - Add a single bootstrap consent path after the structural refresh is stable.
+- [x] **Phase 4: Architecture Baseline & Refactor Guardrails** - Captured the current architecture and locked regression guardrails before structural extraction.
+- [x] **Phase 5: Server-First Static Surface Atomization** - Extracted reusable atoms and static sections while keeping `app/page.tsx` thin, server-rendered, and indexable.
+- [x] **Phase 6: Knowledge Map Feature Decomposition** - Split the knowledge-map hotspot into model, OGL runtime, and UI layers without changing recruiter-visible behavior.
+- [x] **Phase 7: Parity Hardening & Release Signoff** - Proved recruiter-visible parity with Playwright and QA before shipping the milestone.
 
 ## Phase Details
 
-### Phase 4: Knowledge Map & Experience Contract
-**Goal**: Recruiters can use one shared knowledge-map interaction model to navigate skills and immediately understand relevant experience without losing the full timeline.
+### Phase 4: Architecture Baseline & Refactor Guardrails
+**Goal**: Maintainer has a trusted architectural baseline and regression safety net before the refactor starts moving the rendered app apart.
 **Depends on**: Phase 3
-**Requirements**: MAP-01, MAP-02, EXP-01, EXP-02
+**Requirements**: QUAL-01, QUAL-02
 **Success Criteria** (what must be TRUE):
-  1. Recruiter can use section `01` knowledge map as the primary skills surface instead of a separate skills block.
-  2. Recruiter can inspect a cleaner knowledge map with the center sphere removed and nodes spaced clearly enough to scan.
-  3. Recruiter can select a map node or category and immediately see related experience entries highlighted from the same page state.
-  4. Recruiter can still scan the full experience timeline while related entries reorder to the top instead of hiding nonmatching entries.
-**Plans**: 3 plans
+  1. Maintainer can review `.planning/ARCHITECTURE.md` for a current inventory of pages, components, data flow, and server/client boundaries before and after the refactor.
+  2. Maintainer can run automated regression checks that catch page composition drift, CTA visibility/wiring regressions, and map-to-experience invariant breaks during later phases.
+  3. Maintainer can use the documented baseline and regression suite as the acceptance guardrail for every later extraction step.
+**Plans**: `04-01-PLAN.md`
 
-Plans:
-- [x] 04-01-PLAN.md — Lock and test the shared map-to-experience ranking contract.
-- [x] 04-02-PLAN.md — Replace duplicate skills/experience surfaces with a shared coordinator and refined map rendering.
-- [ ] 04-03-PLAN.md — Human-verify the de-centered map and synced full-timeline experience behavior.
-**UI hint**: yes
-
-### Phase 5: Recruiter Clarity Polish
-**Goal**: Recruiters can scan a more legible and polished single-page portfolio in light mode or dark mode, with clearer relocation details and cleaner contact actions.
+### Phase 5: Server-First Static Surface Atomization
+**Goal**: Recruiters get the same static portfolio experience from reusable atomic components while the page stays server-first, fast to scan, and SEO-safe.
 **Depends on**: Phase 4
-**Requirements**: UI-01, UI-02, UI-03, RELO-01, CONT-01, CONT-02
+**Requirements**: COMP-01, COMP-02, COMP-03, REND-01, REND-02, REND-03
 **Success Criteria** (what must be TRUE):
-  1. Recruiter can scan the page with blue-led accents and strong contrast without losing readability in either light mode or dark mode.
-  2. Recruiter gets subtle motion cues on interactive elements and state changes without page-wide animation slowing scan speed.
-  3. Users who prefer reduced motion can use the same page flow without non-essential animation.
-  4. Recruiter can read clearer relocation timing and preference details in the dedicated relocation section.
-  5. Recruiter can use compact icon-based GitHub and LinkedIn actions while email stays primary and relocation details are not duplicated in contact.
-**Plans**: TBD
+  1. Recruiter can access the main portfolio shell and primary contact path from the initial server-rendered page without waiting for non-essential interactive code.
+  2. Search engine and maintainer inspection can see hero, experience, education, relocation, and contact content in the server-rendered document.
+  3. Recruiter can view the hero, education, languages, relocation, and contact sections from extracted section components without changes to section order, copy flow, or visible semantics.
+  4. Recruiter sees consistent section shells, headings, metadata rows, contact actions, and legal/contact surfaces through shared atomic UI primitives without visible drift.
+  5. Maintainer can assemble the page from a thin server-first `app/page.tsx` that loads portfolio content once and keeps interactive state isolated to a narrow client island with explicit ownership guards.
+**Plans**: `05-01-PLAN.md`
 **UI hint**: yes
 
-### Phase 6: Consent Bootstrap Integration
-**Goal**: Visitors get the required cookie/privacy consent prompt at app bootstrap without disrupting the recruiter-first single-page experience.
+### Phase 6: Knowledge Map Feature Decomposition
+**Goal**: Maintainer can evolve the knowledge-map hotspot through clean model, runtime, and UI boundaries while recruiters experience the same map-driven journey.
 **Depends on**: Phase 5
-**Requirements**: CONS-01
+**Requirements**: MAP-03, MAP-04, MAP-05, MAP-06
 **Success Criteria** (what must be TRUE):
-  1. Visitor is prompted for cookie/privacy consent on initial app load when consent is required.
-  2. Visitor sees one working consent flow, without duplicate banners or broken legal preference actions.
-  3. Visitor can continue using the same single-page portfolio after consent handling without losing access to policy links.
-**Plans**: TBD
+  1. Maintainer can edit graph constants, graph construction, and selection normalization in pure knowledge-map modules without touching React or OGL runtime code.
+  2. Maintainer can edit OGL scene setup, shaders, animation, picking, highlighting, and cleanup in dedicated runtime modules without mixing them into presentational UI files.
+  3. Maintainer can edit knowledge-map panels, legend, controls, and canvas shell in separate UI components without mixing them with renderer lifecycle code.
+  4. Recruiter can still use overview reset, selection highlighting, and full-timeline experience visibility with the same recruiter-facing interaction model as before the refactor.
+**Plans**: `06-01-PLAN.md`
+**UI hint**: yes
+
+### Phase 7: Parity Hardening & Release Signoff
+**Goal**: Maintainer can prove the refactor preserved recruiter-facing behavior, accessibility, responsive parity, and layout integrations well enough to release.
+**Depends on**: Phase 6
+**Requirements**: QUAL-03, QUAL-04
+**Success Criteria** (what must be TRUE):
+  1. Maintainer can run Playwright parity checks for initial page render, primary recruiter contact visibility, and map-to-experience interaction.
+  2. Maintainer can follow an explicit QA checklist covering map interaction parity, accessibility smoke checks, responsive parity, and layout-level legal and analytics wiring.
+  3. Recruiter-facing UI and interaction behavior remain effectively unchanged across final parity verification on desktop and mobile checkpoints.
+**Plans**: `07-01-PLAN.md`
 **UI hint**: yes
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 4. Knowledge Map & Experience Contract | 0/0 | Not started | - |
-| 5. Recruiter Clarity Polish | 0/0 | Not started | - |
-| 6. Consent Bootstrap Integration | 0/0 | Not started | - |
+| 4. Architecture Baseline & Refactor Guardrails | 1/1 | Shipped | 2026-04-13 |
+| 5. Server-First Static Surface Atomization | 1/1 | Shipped | 2026-04-13 |
+| 6. Knowledge Map Feature Decomposition | 1/1 | Shipped | 2026-04-13 |
+| 7. Parity Hardening & Release Signoff | 1/1 | Shipped | 2026-04-13 |

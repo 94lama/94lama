@@ -1,155 +1,164 @@
 # Project Research Summary
 
 **Project:** Riccardo La Malfa Portfolio
-**Domain:** recruiter-facing one-page portfolio refresh
-**Researched:** 2026-04-12
+**Domain:** Brownfield recruiter-focused Next.js portfolio refactor
+**Researched:** 2026-04-13
 **Confidence:** HIGH
 
 ## Executive Summary
 
-This milestone is a focused portfolio clarity upgrade, not a product expansion. The research consistently points to a recruiter-first single-page experience built with the existing stack: keep Next.js, React, Tailwind, and OGL; move the knowledge map into the primary skills slot; sync it with the experience timeline; and improve visual polish through blue-led theme tokens, restrained motion, clearer relocation details, and compact contact actions.
+This milestone is not a product expansion; it is an architecture-first refactor of a shipped one-page recruiter portfolio. The research is consistent across stack, feature, architecture, and pitfalls: keep the runtime stack largely unchanged, keep the UI and interaction model effectively unchanged, and restructure the app around a thin server composition root plus a narrow client island for the knowledge-map/timeline feature. Experts would treat this as a boundary-and-module cleanup, not a redesign or framework migration.
 
-The recommended approach is incremental and architecture-led. Keep `app/page.tsx` server-first, introduce one small client coordinator for shared map/experience state, and centralize consent bootstrapping in layout rather than footer logic. The strongest v1.1 outcome is a map-first navigation model that reveals relevant evidence without hiding the full experience timeline.
+The recommended approach is to atomize the full rendered surface in layers: first extract shared atoms and molecules, then move page sections into server organisms, then thin `app/page.tsx` to composition only, and finally split the knowledge-map hotspot by responsibility into model, OGL runtime, controller hooks, and presentational UI. The safest way to ship this brownfield milestone is incremental extraction with parity checks after each boundary move, using TypeScript contracts, server/client discipline, and targeted integration/E2E verification for recruiter-visible flows.
 
-The main risks are joinery risks, not styling risks: brittle skill-to-experience matching, duplicated selection state, hidden assumptions around the removed center node, and duplicated iubenda bootstrapping. Mitigate them by locking the shared interaction/data contract first, keeping one parent-owned selection model, preserving a non-visual default state, and using one consent bootstrap path.
+The main risks are architectural drift rather than missing functionality: accidental client-boundary creep, styling drift during atomization, selection-contract drift between the map and timeline, and OGL lifecycle regressions that cause remounts or leaks. Mitigation is concrete: keep static sections server-side, preserve the existing interaction contract, centralize selection semantics, isolate OGL init/update/dispose behind one lifecycle seam, and avoid bundling any redesign, new sections, data-source migration, global state, or renderer replacement into this milestone.
 
 ## Key Findings
 
 ### Recommended Stack
 
-Research strongly recommends staying on the current stack and solving this milestone through refactoring, theming, and state cleanup rather than new dependencies. The scope is small enough that Tailwind tokens/utilities, React lifted state, and the existing OGL graph cover the needed work.
+The stack guidance is unusually clear: do not change the product stack unless a tool directly reduces refactor risk. Next.js 16, React 19, Tailwind 4, OGL, and strict TypeScript are already the right fit for this milestone because the goal is better composition and module boundaries, not new runtime capabilities.
+
+The only meaningful additions recommended by research are defensive ones: `@playwright/test` for UI-parity and interaction regression checks, plus optional `server-only` / `client-only` markers to enforce boundary-sensitive imports. Do not add a new design system, global state library, Storybook, React Compiler rollout, or a new rendering engine in v1.1.
 
 **Core technologies:**
-- **Next.js 16.2.3**: app composition and SSR shell — keep server-first boundaries narrow.
-- **React 19.2.4**: shared selection state and small client islands — lifted state is sufficient; no global store needed.
-- **Tailwind 4**: blue theme refresh and subtle motion — token-first theming and `motion-safe` utilities fit the milestone.
-- **OGL 1.0.11**: knowledge map rendering — reuse the existing graph and adjust layout/highlighting instead of swapping engines.
-- **iubenda (existing integration)**: consent and legal UX — extend the current setup rather than adding another CMP.
-
-**Critical version requirements:** keep the current Next.js/App Router patterns intact, use Tailwind 4 motion/state utilities, and preserve the existing OGL and iubenda integration paths.
+- **Next.js 16.2.3**: server-first App Router composition — supports keeping `app/page.tsx` thin and pushing `'use client'` down to the knowledge-map island.
+- **React 19.2.4**: atomic component composition — favors pure components and local state over architectural overreach.
+- **Tailwind CSS 4.x**: visual-parity refactor support — lets the app preserve existing utility output while extracting reusable UI primitives.
+- **OGL 1.0.11**: existing interactive renderer — should be modularized, not replaced.
+- **TypeScript 5.x**: extraction safety — protects prop contracts, graph models, and server/client serialization boundaries.
 
 ### Expected Features
 
-The must-have behavior is a polished recruiter flow that improves relevance without increasing interpretation cost. The knowledge map should become the primary skills surface, but the experience timeline must remain fully visible and only highlight/reorder relevant entries.
+For this project, “features” are really success criteria for a safe refactor. The milestone must atomize the entire rendered surface, preserve current recruiter-facing behavior, keep server/client boundaries explicit, modularize the knowledge-map hotspot, and leave behind architecture documentation plus regression safeguards. If any of those are missing, the milestone is structurally incomplete even if the code is split into more files.
+
+Just as important, the research is explicit about what not to add: no visual redesign, no new recruiter-facing sections, no broad product expansion, no global clientification, no class-heavy OOP rewrite, no OGL replacement, and no data-source migration away from `public/assets/cv.json`.
 
 **Must have (table stakes):**
-- Blue-led visual refresh through design tokens.
-- Subtle motion with `prefers-reduced-motion` support.
-- Knowledge map replacing the standalone skills section.
-- Shared map-to-experience sync with full experience visibility.
-- Richer relocation details.
-- Compact, accessible contact icon links with email as primary CTA.
-- Real cookie consent prompt at bootstrap if consent is required.
+- **Full-surface atomic decomposition** — hero, section shells, metadata rows, contact/legal surfaces, and the map area all move out of large inline page blocks.
+- **Explicit server/client boundaries** — `app/page.tsx` stays server-first and shared interactivity stays in a narrow coordinator island.
+- **Behavior and UI parity** — section order, copy flow, CTA visibility, map selection/highlighting, and full-timeline visibility remain intact.
+- **Knowledge-map modularization** — split graph/model, OGL lifecycle, interaction logic, and presentational UI without changing behavior.
+- **Architecture documentation + regression safeguards** — document boundaries and protect recruiter-visible flows with tests/checks.
 
 **Should have (competitive):**
-- Knowledge map as the first skills surface.
-- Selection-driven experience reordering in addition to highlighting.
-- More spatial, de-centered map layout with the center sphere removed from UX.
-- Cleaner contact utility bar.
-- Relocation framed as recruiter decision support.
+- **Requirement-area refactor plan** — organize work around composition, boundaries, parity, docs, and safeguards.
+- **Stable map submodules** — make the highest-risk hotspot safer to change later.
+- **Thin composition root with section contracts** — future milestones become easier because `app/page.tsx` becomes declarative.
+- **Incremental extraction strategy** — ship the refactor safely instead of as a rewrite.
 
 **Defer (v2+):**
-- Advanced navigation beyond the single-page recruiter flow.
-- Hard-filter logic that hides nonmatching experience.
-- Major architecture rewrites or OOP orchestration.
-- Decorative/heavy animation experiments.
+- **Design-system packaging beyond this app** — no cross-project reuse case yet.
+- **Content-source/workflow redesign** — keep `public/assets/cv.json` for now.
+- **Recruiter-facing IA or interaction changes** — not while validating the architecture refactor.
+- **Storybook / broader component-workbench investments** — only if iteration frequency later justifies maintenance cost.
 
 ### Architecture Approach
 
-The architecture recommendation is clear: keep `app/page.tsx` as the server-rendered composition root, add one `KnowledgeExperienceCoordinator` client island for sections `01` and `02`, and keep other sections server-rendered unless browser APIs require otherwise. The map writes a single selection state; the experience timeline derives ranking/highlighting from that same state; consent bootstrap belongs in `app/layout.tsx`, not footer components.
+The architecture recommendation is opinionated and project-specific: keep `app/layout.tsx` as the protected root shell, reduce `app/page.tsx` to content loading plus server section composition, extract reusable atoms/molecules/organisms under `app/components/`, and move the knowledge-map/timeline feature into a dedicated feature folder with a single client coordinator. Content loading and ranking logic should remain in `src/content/portfolio/`, while the map is split by responsibility rather than line count: pure model helpers, imperative OGL runtime helpers, React controller hooks, and UI panels.
 
 **Major components:**
-1. **KnowledgeExperienceCoordinator** — owns the single selection state shared by sections `01` and `02`.
-2. **KnowledgeMapSection / Canvas / Inspector** — renders the OGL map, legend, and selection details.
-3. **ExperienceTimelineSection** — keeps all entries visible while highlighting and gently reordering matches.
-4. **RelocationSection** — presents richer recruiter-relevant relocation details from authored content.
-5. **ContactIconLinks** — compact, accessible email/GitHub/LinkedIn actions.
-6. **ConsentBootstrapScript** — centralizes iubenda config and early script loading in layout.
+1. **`app/page.tsx`** — thin server composition root that loads `PortfolioContent` once and assembles section organisms plus serializable props for the client island.
+2. **Server section organisms + shared atoms/molecules** — render stable recruiter-facing markup for hero, education, languages, relocation, contact, headings, metadata rows, chips, links, and shared shells.
+3. **`KnowledgeExperienceCoordinator` feature island** — owns shared selection state across the knowledge map and experience timeline.
+4. **`SkillsKnowledgeMap` submodules** — split into `model/`, `ogl/`, `hooks/`, and `ui/` so React orchestrates while OGL owns canvas internals.
+5. **`src/content/portfolio/*`** — retains canonical content contracts, server-only loading, and pure ranking helpers.
 
 ### Critical Pitfalls
 
-1. **Map–experience drift from brittle matching** — avoid substring-only matching; add explicit mapping or stable normalization and derive ranking from a clear helper.
-2. **Forked selection state** — use one parent-owned selection model and make map/timeline consumers of the same state.
-3. **Removing the center sphere without a semantic fallback** — preserve a non-visual default/root selection even if the node is no longer rendered.
-4. **Global client-ification during refactor** — keep server sections server-rendered and isolate client code to the shared interaction cluster.
-5. **Duplicated consent bootstrapping** — load iubenda once, separate footer legal links from bootstrap behavior, and verify real browser load order.
+The biggest risks are predictable and preventable if the roadmap respects boundaries and extraction order.
+
+1. **Client-boundary creep** — avoid by keeping static atoms and sections server-side, pushing `'use client'` down, and optionally guarding loaders with `server-only`.
+2. **Over-abstraction** — avoid by extracting only modules with a real invariant or responsibility, not wrappers that only forward `className` and `children`.
+3. **Styling drift during atomization** — avoid by preserving wrapper depth/semantics, centralizing class recipes, and using parity checks on desktop and mobile.
+4. **Selection-contract drift between map and timeline** — avoid by centralizing one `KnowledgeMapSelection` model and testing core/category/skill/reset flows.
+5. **OGL lifecycle churn and picking regressions** — avoid by isolating init/update/dispose, keeping imperative objects behind refs/controller boundaries, and validating drag/select/reset/resize behavior before signoff.
 
 ## Implications for Roadmap
 
 Based on research, suggested phase structure:
 
-### Phase 1: Interaction Contract and Shared State
-**Rationale:** This phase removes the highest-risk joinery issues before any visual polish. Matching quality, selection ownership, and default-state behavior are prerequisites for a trustworthy map-first UX.
-**Delivers:** shared selection model, explicit no-selection/root behavior, experience ranking helper, and `KnowledgeExperienceCoordinator` wiring.
-**Addresses:** map/experience sync, experience remains fully visible, knowledge map replacing the old skills section.
-**Avoids:** brittle matching drift, forked selection state, hidden `core` assumptions, oversized client boundaries.
+### Phase 1: Baseline, contracts, and guardrails
+**Rationale:** The refactor is high-risk because success is parity, not novelty; baseline contracts and tests must exist before big moves.
+**Delivers:** Architecture inventory, extraction rules, canonical server/client ownership notes, baseline parity checklist, and initial regression coverage for section order, coordinator wiring, and core selection semantics.
+**Addresses:** Architecture documentation, explicit server/client boundaries, refactor regression safeguards.
+**Avoids:** Client-boundary creep, over-abstraction, and test-gap regressions.
 
-### Phase 2: Section Restructure and UX Polish
-**Rationale:** Once interaction contracts are stable, the UI can be safely rearranged and polished without chasing moving logic.
-**Delivers:** map in section `01`, synced experience timeline in section `02`, blue token refresh, subtle motion, de-centered map layout, relocation expansion, and accessible contact utility bar.
-**Uses:** Tailwind 4 theme tokens/motion utilities, OGL layout adjustments, server-presentational sections.
-**Implements:** knowledge map section split, experience cards, relocation/contact presentation updates.
-**Avoids:** reordering that feels like filtering, mobile map dominance, contrast regressions, unclear icon-only contact actions, duplicated relocation content.
+### Phase 2: Static surface atomization
+**Rationale:** Shared atoms/molecules and server section organisms are the safest high-value extractions and prepare the page for a thin composition root.
+**Delivers:** Reusable atoms/molecules, extracted hero/education/languages/relocation/contact organisms, stabilized `section-card-styles.ts` recipes, and a leaner `app/page.tsx`.
+**Addresses:** Full-surface atomic decomposition, reuse of shared composition primitives, behavior/UI parity for the static recruiter-facing page.
+**Uses:** Next.js server components, React pure composition, Tailwind 4 style preservation.
+**Avoids:** Styling drift, accessibility regressions, and accidental clientification of static sections.
 
-### Phase 3: Consent and Legal Bootstrap Integration
-**Rationale:** Consent should land after structural changes are stable because it depends on final bootstrap ownership and browser validation rather than core recruiter UX.
-**Delivers:** single iubenda bootstrap path in `app/layout.tsx`, deduped script loading, verified banner behavior, and legal footer limited to policy links/markup.
-**Addresses:** bootstrap consent prompt.
-**Avoids:** duplicated script loads, banner race conditions, focus/overlay issues, broken policy/preference flows.
+### Phase 3: Knowledge-map decomposition
+**Rationale:** This is the milestone hotspot and should happen only after the page shell is stable; it has the highest technical risk and the most need for discipline.
+**Delivers:** Feature-folder move, canonical selection model, extracted pure graph helpers, OGL runtime helpers, controller hooks, smaller `SkillsKnowledgeMap`, and preserved `KnowledgeExperienceCoordinator` behavior.
+**Addresses:** Knowledge-map modularization without product change, preserved shared state boundaries, continued full-timeline visibility.
+**Uses:** OGL behind a dedicated lifecycle seam, TypeScript contracts, local client state only.
+**Avoids:** Selection drift, OGL lifecycle leaks, effect dependency churn, and picking/resize regressions.
+
+### Phase 4: Parity hardening and milestone signoff
+**Rationale:** Brownfield refactors are only done once parity is proven across UI, behavior, accessibility, and layout integrations.
+**Delivers:** Final regression suite, optional Playwright screenshots/interactions, manual QA for map behavior, accessibility smoke checks, and verification of legal/footer/analytics wiring.
+**Addresses:** Behavior and UI parity, accessibility and responsive parity, final confidence for release.
+**Avoids:** Shipping a structurally cleaner app with hidden recruiter-facing regressions.
 
 ### Phase Ordering Rationale
 
-- Phase 1 comes first because the riskiest failures are data/state contract failures, not CSS or layout issues.
-- Phase 2 groups features that share the same architectural boundary: map, experience, theming, motion, relocation, and contact all depend on the stable coordinator and section structure.
-- Phase 3 is isolated because consent integration has distinct third-party and QA risks and should not complicate earlier UX refactors.
+- Start with contracts and tests because parity is the milestone’s main acceptance criterion.
+- Extract the static server-rendered surface before touching the OGL hotspot so the riskiest work happens against a stable shell.
+- Split the map by responsibility only after shared selection semantics are explicit and testable.
+- Finish with parity hardening because legal/layout wiring, accessibility, and interactive QA are easy to miss in a refactor.
 
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase 1:** decide whether explicit experience-to-skill mapping should be added now or via a normalization layer.
-- **Phase 2:** validate mobile usability/hit targets for the de-centered OGL map and confirm final authored relocation content.
-- **Phase 3:** confirm real iubenda account/config requirements and browser load-order behavior for the consent banner.
+- **Phase 3: Knowledge-map decomposition** — highest-risk area; OGL lifecycle, picking, resize, reduced-motion, and effect boundaries need deliberate implementation planning.
+- **Phase 4: Parity hardening** — if Playwright is adopted, screenshot baseline strategy and environment stability should be planned explicitly.
 
 Phases with standard patterns (skip research-phase):
-- **Phase 2 visual refresh:** Tailwind token swap, restrained motion, and accessible contact simplification follow well-documented patterns.
-- **Phase 1 shared-state wiring:** lifted state in a single local client coordinator is a standard React pattern.
+- **Phase 1: Baseline, contracts, and guardrails** — standard brownfield planning and testing discipline.
+- **Phase 2: Static surface atomization** — well-supported by existing project architecture and standard Next.js server-component composition patterns.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Strong codebase evidence and official React/Tailwind/iubenda/Next guidance all align on “refactor, don’t add libraries.” |
-| Features | MEDIUM-HIGH | Well grounded in recruiter-first UX reasoning and current project scope, but some content details depend on authored portfolio data. |
-| Architecture | HIGH | Repo structure and official Next/React patterns support the recommended server-first composition with one client coordinator. |
-| Pitfalls | HIGH | Risks are codebase-specific and consistently identified across architecture, feature, and stack research. |
+| Stack | HIGH | Backed by official Next.js, React, Tailwind, TypeScript, and Playwright guidance; recommendations match the current repo state closely. |
+| Features | HIGH | Strongly grounded in milestone scope, project constraints, and explicit out-of-scope rules from local planning docs. |
+| Architecture | HIGH | Based on direct code inspection plus current Next.js/React guidance; structure recommendations are concrete and brownfield-aware. |
+| Pitfalls | MEDIUM | Risks are credible and well-supported, but map-runtime regressions still need empirical validation during implementation. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Skill-to-experience mapping fidelity:** validate whether current text-derived matching is good enough or if explicit authored mappings are needed in this milestone.
-- **iubenda configuration details:** confirm the actual project account/config values and whether current footer logic must be simplified when bootstrap moves to layout.
-- **Mobile map usability:** test node hit targets, map height, and section ordering on smaller screens before locking the de-centered layout.
-- **Relocation content depth:** ensure the authored source includes practical timing/preferences so the section can be enriched without ad hoc hardcoding.
+- **Current parity baseline is not fully automated**: confirm whether Playwright will be added in this milestone or whether a manual + existing-test baseline will be the initial guardrail.
+- **Exact extraction inventory is not yet frozen**: during planning, decide the minimum viable atom/molecule set so the team does not over-atomize the static surface.
+- **Map interaction invariants need an explicit acceptance checklist**: document exact drag/select/reset/resize/reduced-motion expectations before Phase 3 implementation starts.
+- **TypeScript strictness tightening is optional, not validated**: evaluate `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes` only if extracted graph/prop modules show ambiguity.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- `.planning/research/STACK.md` — stack direction, dependency constraints, iubenda reuse.
-- `.planning/research/FEATURES.md` — table stakes, differentiators, dependency ordering.
-- `.planning/research/ARCHITECTURE.md` — component boundaries, data flow, build order.
-- `.planning/research/PITFALLS.md` — phase risks, integration warnings, mitigation strategy.
-- React docs: https://react.dev/learn/sharing-state-between-components — shared state pattern.
-- Next.js local docs: `node_modules/next/dist/docs/01-app/01-getting-started/05-server-and-client-components.md` — server/client boundaries.
-- Next.js local docs: `node_modules/next/dist/docs/01-app/03-api-reference/02-components/script.md` — `beforeInteractive` consent script placement.
-- Tailwind docs: https://tailwindcss.com/docs/transition-property and https://tailwindcss.com/docs/hover-focus-and-other-states#prefers-reduced-motion — motion guidance.
+- `/workspaces/94lama/.planning/PROJECT.md` — milestone scope, constraints, out-of-scope items, and active requirements.
+- `/workspaces/94lama/.planning/ARCHITECTURE.md` — current app baseline and brownfield integration context.
+- Next.js docs — https://nextjs.org/docs/app/getting-started/server-and-client-components — server/client boundaries, App Router defaults, `server-only` / `client-only` guidance.
+- Next.js docs — https://nextjs.org/docs/app/guides/testing — testing strategy guidance for App Router apps.
+- Next.js docs — https://nextjs.org/docs/app/api-reference/file-conventions/layout — layout boundary conventions.
+- React docs — https://react.dev/reference/rules/components-and-hooks-must-be-pure — purity guidance for render vs side-effect boundaries.
+- React docs — https://react.dev/reference/react/memo — memoization is optimization, not architecture.
+- React docs — https://react.dev/reference/react/useEffect — effect lifecycle guidance relevant to OGL decomposition.
+- Tailwind docs — https://tailwindcss.com/docs/styling-with-utility-classes — utility-class composition and reuse guidance.
+- TypeScript TSConfig reference — https://www.typescriptlang.org/tsconfig/#noUncheckedIndexedAccess — strictness options relevant to extracted graph/indexed-access code.
 
 ### Secondary (MEDIUM confidence)
-- iubenda docs: https://www.iubenda.com/en/help/1177-iubenda-cookie-solution-introduction-and-getting-started — CMP setup basics.
-- iubenda docs: https://www.iubenda.com/en/help/3081-prior-consent-cookie-solution — prior consent behavior.
-- iubenda docs: https://www.iubenda.com/en/help/1205-how-to-configure-your-cookie-solution-advanced-guide — advanced configuration and global loading model.
-- MDN/W3C references cited in FEATURES.md and PITFALLS.md — motion accessibility and accessible naming guidance.
+- OGL README — https://github.com/oframe/ogl — confirms OGL’s low-abstraction positioning and suitability for modular internal refactor rather than replacement.
+
+### Tertiary (LOW confidence)
+- None.
 
 ---
-*Research completed: 2026-04-12*
+*Research completed: 2026-04-13*
 *Ready for roadmap: yes*
