@@ -1,7 +1,7 @@
 export function LegalFooter() {
   return (
     <footer className="flex flex-wrap items-center justify-center gap-4 px-6 py-6 text-sm">
-      <a
+      {/* <a
         href="https://www.iubenda.com/privacy-policy/76360064"
         className="iubenda-black iubenda-noiframe iubenda-embed"
         title="Privacy Policy "
@@ -14,7 +14,7 @@ export function LegalFooter() {
         title="Cookie Policy "
       >
         Cookie Policy
-      </a>
+      </a> */}
     </footer>
   );
 }
