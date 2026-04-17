@@ -38,13 +38,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
-        <Script
+        {/* <Script
           id="iubenda-widget-bootstrap"
           src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"
           type="text/javascript"
-        />
+        /> */}
         {children}
-        <LegalFooter />
+        {/* <LegalFooter /> */}
 
         {/* GTM */}
         <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
