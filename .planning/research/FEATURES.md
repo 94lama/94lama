@@ -1,152 +1,165 @@
 # Feature Research
 
-**Domain:** Atomic component refactor milestone for an existing recruiter-focused Next.js portfolio app
-**Researched:** 2026-04-13
-**Confidence:** HIGH
+**Domain:** Recruiter-facing portfolio UX/UI polish milestone (motion, loading, spacing, layout, responsive behavior)
+**Researched:** 2026-04-21
+**Confidence:** MEDIUM
 
 ## Feature Landscape
 
 ### Table Stakes (Users Expect These)
 
-Features users assume exist for a safe architecture refactor. Missing these = the milestone is not trustworthy even if the code looks cleaner.
+Features recruiters will not praise explicitly, but will notice immediately if they are missing or awkward.
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| Full-surface atomic decomposition | The milestone goal is to remove large inline page blocks across the whole rendered app, not just tidy one or two sections | HIGH | Must cover hero, section shells, metadata rows, contact/legal surfaces, and the knowledge-map surface; `app/page.tsx` should become a thin server composition root |
-| Explicit server/client boundaries | In Next.js App Router, pages/layouts are server-first by default and interactivity should stay in narrow client islands | HIGH | Preserve `KnowledgeExperienceCoordinator` as a narrow client boundary or equivalent; avoid pushing `use client` upward because it enlarges the client bundle and weakens refactor safety |
-| Behavior and UI parity | This milestone is a refactor, so recruiters should experience the same scan speed, copy flow, and interactions before and after | HIGH | Preserve section order, content hierarchy, CTA visibility, knowledge-map selection/highlighting, and full-timeline experience visibility |
-| Knowledge-map modularization without product change | The current hotspot is the map area, so refactor success requires splitting renderer internals as well, not only static sections | HIGH | Separate graph data/modeling, OGL lifecycle, interaction logic, and presentational UI; keep current interaction model and OGL stack |
-| Architectural documentation of pages/components/data flow | The milestone explicitly requires architectural documentation as a baseline and handoff artifact | MEDIUM | Document page composition, component boundaries, data flow from `cv.json`, and where client-only logic lives |
-| Refactor regression safeguards | A refactor without guardrails is hard to trust and easy to regress silently | MEDIUM | Add or expand tests around composition wiring, map-to-experience behavior, and key recruiter-visible flows; prefer integration/E2E coverage for async/server-heavy paths per current Next.js guidance |
-| Reuse of shared atoms and small composition primitives | Atomization is only real if repeated UI patterns are actually consolidated | MEDIUM | Extract shared headings, action links, metadata rows, section shells, list/card primitives, and legal/contact primitives where repetition already exists |
-| Accessibility and responsive parity | Refactors must not degrade baseline usability on mobile/desktop or break keyboard/screen-reader expectations | MEDIUM | Keep semantics, focus behavior, tap targets, heading structure, and current responsive scanability intact |
+| Consistent low-distraction motion system | Premium portfolios are expected to feel intentional, not abrupt or random | MEDIUM | Use one shared motion language for reveals, hover/focus states, panel swaps, and timeline/map transitions; keep motion short, readable, and subordinate to content |
+| Immediate interaction feedback | Recruiters need instant confirmation that taps, clicks, and selections worked | LOW | Button press, hover/focus, active nav state, hotspot selection, and panel updates should acknowledge input inside the “feels immediate” window; don’t make users wonder if they missed |
+| Reduced-motion-safe behavior | Motion polish is only acceptable if it respects accessibility preferences | MEDIUM | All non-essential movement should reduce or disappear under `prefers-reduced-motion`; opacity/color transitions are usually safer than travel/scale-heavy animations |
+| Stable loading states with reserved layout space | Premium UX should not jump, flash, or collapse while content/images/interactive surfaces initialize | MEDIUM | Use skeletons or reserved placeholders only where real waiting exists; preserve final geometry so recruiter scanning is never reset by layout shift |
+| Responsive single-column-first scanning | Recruiters often scan quickly on mobile or narrow windows, so content must reflow cleanly | MEDIUM | Preserve source-order reading, keep headings/summary/contact easy to find, and avoid horizontal scrolling except inside truly two-dimensional interactive surfaces |
+| Clear spacing rhythm and section chunking | A recruiter-facing portfolio should be easy to skim, not visually noisy or cramped | MEDIUM | Use consistent vertical rhythm, predictable section padding, and tighter grouping inside related content blocks so the page reads as fast, distinct chunks |
+| Mobile-safe interaction ergonomics | Baseline mobile usability already exists; premium polish means fewer friction points | MEDIUM | Ensure tap targets, sticky elements, overlays, and interactive panels do not crowd content or obscure CTAs on smaller viewports |
+| Orientation-preserving section transitions | When a user moves between map, panel, and timeline states, the relationship should stay obvious | HIGH | Transitions should explain “what changed” without forcing the recruiter to re-parse the whole section |
 
 ### Differentiators (Competitive Advantage)
 
-Features that make this milestone more valuable than a generic “component cleanup”.
+Features that make the portfolio feel notably more premium while still serving recruiter comprehension and contact conversion.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| Refactor plan organized by requirement areas | Makes milestone requirements easier to write, estimate, and validate than a vague “adopt atomic design” goal | LOW | Organize around composition, boundaries, behavior preservation, documentation, testing, and safeguards |
-| Map internals decomposed into stable submodules | Reduces the highest-risk hotspot first, making future map iteration safer without changing recruiter-facing behavior | HIGH | Best place for selective OOP if lifecycle or scene orchestration benefits from it naturally |
-| Thin composition root with section-level contracts | Makes future milestones safer because page composition becomes mostly declarative and sections have clearer input contracts | MEDIUM | Good outcome: `app/page.tsx` mainly loads content and assembles section components |
-| Refactor-safe parity definition | Success is measured by preserved recruiter outcomes, not just “more files” or prettier component names | MEDIUM | Define acceptance around same content flow, same interactions, same contact conversion path, same legal bootstrap behavior |
-| Architecture docs that explain why boundaries exist | Helps future contributors avoid re-monolithizing the app and accelerates later roadmap work | LOW | Include component inventory, responsibility boundaries, and rationale for client islands |
-| Incremental extraction strategy | Lets the team ship the refactor without a risky ground-up rewrite | MEDIUM | Prefer stepwise extractions with behavior checks after each boundary move |
+| Cross-component choreography for knowledge map, detail panel, and timeline | Makes the interactive core feel polished and legible instead of three loosely connected widgets | HIGH | Best differentiator in this milestone: selected state, panel update, and timeline emphasis should feel like one event, not separate rerenders |
+| Content-shaped skeletons or graceful progressive reveals | Improves perceived polish because loading feedback previews what is coming instead of showing generic spinners | MEDIUM | Best used for async subsections, media, or heavy client surfaces; avoid decorative placeholders for server-fast content |
+| Responsive layout recomposition, not just breakpoint shrinking | Makes the page feel designed for each viewport instead of merely compressed | HIGH | Allow section stacking, content reprioritization, and CTA relocation if it improves recruiter scan speed and keeps contact actions visible |
+| Evidence-first hierarchy tuning | Premium recruiter portfolios front-load proof, role fit, and action paths instead of making users hunt | MEDIUM | Strong candidate for layout restructuring: sharpen hero-to-proof-to-contact flow before polishing secondary details |
+| Adaptive motion intensity by context | Lets the experience feel smooth on desktop without becoming heavy on mobile or low-power devices | HIGH | Same motion language, lighter amplitude/duration on constrained devices or reduced-motion contexts |
+| Micro-interactions that reinforce credibility | Small polish cues can make the portfolio feel maintained and intentional | LOW | Examples: refined hover/focus states, smooth CTA affordances, crisp section-entry transitions, and subtle active-state emphasis |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
-Features that seem attractive during a refactor but would make this milestone less safe or less focused.
+Features that sound “premium” but usually hurt recruiter outcomes in this milestone.
 
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| Visual redesign during the refactor | Refactors often tempt “while we are here” UI cleanup | Blurs success criteria, creates parity disputes, and hides structural regressions behind visual change | Freeze the current UI and treat visual changes as a later milestone |
-| Broad product expansion | New sections or recruiter features can feel efficient to bundle with architecture work | Mixes feature risk with refactor risk and makes regressions harder to isolate | Keep scope on internal decomposition and documentation only |
-| Global clientification (`use client` too high in the tree) | Feels simpler when extracting interactive components | Increases bundle size, weakens server-first architecture, and spreads client-only constraints across static sections | Keep client islands narrow and pass serializable props from server components |
-| Class-heavy OOP rewrite across the app | Can sound “more architectural” during a refactor milestone | Adds ceremony, fights React/Next composition patterns, and risks rewriting good functional code for no recruiter-facing value | Use OOP only for natural fit areas such as renderer orchestration or lifecycle wrappers |
-| Premature design-system/package extraction | Shared atoms can invite turning the portfolio into a generalized component library | Over-abstraction slows delivery and creates components optimized for hypothetical reuse instead of current app needs | Extract only primitives already repeated in this app |
-| Replacing OGL or changing the map interaction model | The map is the hotspot, so replacement can look like a clean slate | Changes behavior and risk profile at the same time; violates milestone scope | Keep OGL and current interaction semantics, just decompose internals |
-| Data-source migration away from `public/assets/cv.json` | Refactors often trigger content architecture ambitions | Adds unrelated migration work and new failure modes without helping atomic decomposition directly | Keep current runtime source unless a later workflow milestone justifies change |
-| Snapshot-only test strategy | Fast to add during UI refactors | Catches markup churn poorly and does not validate recruiter-visible behavior well enough | Favor targeted integration/E2E assertions plus selective unit tests |
+| Cinematic reveal sequences and long scroll-triggered entrances | Feels high-end and portfolio-like | Slows scanning, delays access to facts, and makes the page feel self-indulgent instead of recruiter-friendly | Use short, consistent, skippable reveals that support orientation rather than spectacle |
+| Parallax / large travel / scale-heavy motion | Common shorthand for “premium” visual design | Can trigger motion sensitivity, increase distraction, and compete with content comprehension | Prefer opacity, subtle translate, or emphasis transitions; remove under reduced-motion |
+| Generic spinner-first loading everywhere | Easy default when polishing perceived performance | Spinners communicate waiting but not structure; overuse makes the site feel slower and less deliberate | Reserve layout space and use skeletons or direct content reveal where geometry is known |
+| Fake loading for already-fast SSR content | Sometimes added to make transitions feel “designed” | Creates artificial waiting and harms the portfolio’s fast-scan value proposition | Show real content immediately; animate only genuine state changes |
+| Aggressive visual reordering across breakpoints | Can make desktop compositions look clever or dense | Risks disconnecting visual order from reading/tab order and weakens scannability | Keep source order logical; recompose blocks without obscuring narrative hierarchy |
+| Hover-only affordances | Desktop interactions can tempt polished hover states as the main signal | Fails on touch devices and hides important affordances from part of the audience | Pair hover polish with visible default affordances, focus states, and tap-safe behavior |
+| Sticky UI that steals viewport from content | Seems useful for persistent nav/contact | On small screens or zoomed layouts it can obstruct reading and primary actions | Use minimal sticky patterns only where they preserve orientation without covering content |
+| Full layout rewrite before validating hierarchy gains | Bigger change can feel like the fastest route to “premium” | High risk of disrupting proven recruiter flow without evidence the new structure is better | Start with hierarchy and spacing fixes, then do targeted restructuring where it clearly improves scan speed |
 
 ## Feature Dependencies
 
 ```
-[Behavior and UI parity]
-    └──requires──> [Refactor regression safeguards]
+[Responsive content hierarchy]
+    └──requires──> [Clear spacing rhythm and section chunking]
 
-[Full-surface atomic decomposition]
-    ├──requires──> [Reuse of shared atoms and small composition primitives]
-    ├──requires──> [Explicit server/client boundaries]
-    └──requires──> [Knowledge-map modularization without product change]
+[Stable loading states]
+    └──requires──> [Reserved layout geometry]
 
-[Architectural documentation of pages/components/data flow]
-    └──requires──> [Thin composition root with section-level contracts]
+[Consistent low-distraction motion system]
+    ├──requires──> [Reduced-motion-safe behavior]
+    └──requires──> [Immediate interaction feedback]
 
-[Map internals decomposed into stable submodules]
-    └──requires──> [Behavior and UI parity]
+[Cross-component choreography for map/panel/timeline]
+    └──requires──> [Consistent low-distraction motion system]
 
-[Incremental extraction strategy] ──enhances──> [Behavior and UI parity]
+[Responsive layout recomposition]
+    └──enhances──> [Evidence-first hierarchy tuning]
 
-[Visual redesign during the refactor] ──conflicts──> [Behavior and UI parity]
-[Global clientification] ──conflicts──> [Explicit server/client boundaries]
+[Cinematic reveal sequences] ──conflicts──> [Recruiter fast-scan behavior]
+[Aggressive visual reordering] ──conflicts──> [Responsive single-column-first scanning]
+[Sticky UI that steals viewport] ──conflicts──> [Mobile-safe interaction ergonomics]
 ```
 
 ### Dependency Notes
 
-- **Behavior and UI parity requires refactor regression safeguards:** parity is not credible unless the milestone has checks for the known recruiter-visible flows and map wiring.
-- **Full-surface atomic decomposition requires shared atoms/primitives:** otherwise the refactor just moves markup into more files without improving reuse or boundaries.
-- **Full-surface atomic decomposition requires explicit server/client boundaries:** atomic extraction must not collapse the App Router server-first model into a client-heavy tree.
-- **Full-surface atomic decomposition requires knowledge-map modularization:** the milestone is incomplete if the largest interactive hotspot remains monolithic.
-- **Architectural documentation requires thin composition contracts:** docs become durable when responsibilities and inputs are explicit instead of buried in one page file.
-- **Incremental extraction enhances parity:** smaller boundary moves make it easier to detect regressions early and keep behavior stable.
-- **Visual redesign conflicts with parity:** any meaningful UI change makes “same behavior and scan speed” much harder to verify.
-- **Global clientification conflicts with explicit server/client boundaries:** it undermines one of the milestone’s core architectural goals.
+- **Responsive content hierarchy requires spacing rhythm:** hierarchy is not just order; it is also created by spacing, grouping, and separation.
+- **Stable loading states require reserved layout geometry:** skeletons only help if they prevent jumps and approximate the final structure.
+- **Consistent motion requires reduced-motion safety:** motion polish is incomplete if the same system cannot degrade cleanly for sensitive users.
+- **Consistent motion requires immediate interaction feedback:** the motion system should first confirm user input, then add polish.
+- **Map/panel/timeline choreography requires a shared motion language:** otherwise transitions feel fragmented and the interaction model becomes harder to parse.
+- **Responsive recomposition enhances hierarchy tuning:** some recruiter-first improvements may require moving or regrouping blocks, not only resizing them.
+- **Cinematic reveals conflict with recruiter fast-scan behavior:** the more motion asks to be watched, the less the page supports rapid evaluation.
+- **Aggressive visual reordering conflicts with responsive scanning:** users should not have to relearn the page order between desktop, mobile, and zoomed views.
+- **Sticky UI conflicts with mobile ergonomics when overused:** persistent chrome is only worth it if it does not hide content or CTAs.
 
 ## MVP Definition
 
-### Launch With (v1.1)
+### Launch With (v1.2)
 
-Minimum successful refactor milestone — what must ship for the milestone to count as done.
+Minimum successful polish milestone for recruiter-facing UX/UI.
 
-- [ ] Full-surface atomic decomposition — the rendered app is composed from extracted reusable components instead of large inline page blocks
-- [ ] Knowledge-map modularization — graph data, renderer lifecycle, interaction handling, and presentational UI are split into clearer modules without changing recruiter-facing behavior
-- [ ] Preserved server/client boundaries — `app/page.tsx` remains server-first and interactive state stays isolated to narrow client components
-- [ ] Behavior parity safeguards — tests and/or checks validate map-to-experience behavior, contact-path visibility, and core page composition wiring
-- [ ] Architecture documentation — pages, components, boundaries, and data flow are documented for future milestones
+- [ ] Shared motion rules across core surfaces — one restrained motion language for section reveals, panel/timeline changes, and micro-interactions
+- [ ] Immediate feedback on key actions — buttons, nav, hotspot selection, and panel changes acknowledge input clearly and quickly
+- [ ] Reduced-motion-safe implementation — non-essential motion reduces or disappears without breaking clarity
+- [ ] Stable loading polish where real waiting exists — skeletons/placeholders only for genuinely delayed surfaces, with reserved space to prevent jumps
+- [ ] Spacing and padding rhythm pass — sections, cards, and metadata rows are rebalanced for faster recruiter scanning
+- [ ] Responsive reflow pass — mobile/narrow/zoomed layouts preserve hierarchy, CTA visibility, and one-direction reading for normal content
+- [ ] Targeted map/panel/timeline transition smoothing — the portfolio’s most interactive area feels coherent rather than abrupt
 
-### Add After Validation (v1.1.x)
+### Add After Validation (v1.2.x)
 
-Useful follow-ons once the safe refactor is complete.
+Good follow-ons once the core polish is clearly better.
 
-- [ ] Visual regression automation — add if manual parity review becomes too fragile or repetitive
-- [ ] Storybook or isolated component workbench — add if section/atom iteration becomes frequent enough to justify the maintenance cost
-- [ ] Additional structural linting or import-boundary rules — add if contributors start drifting across server/client or section boundaries again
+- [ ] Broader layout restructuring — add if testing or review shows current section order still slows recruiter comprehension
+- [ ] Smarter content-shaped skeleton coverage — add if more async surfaces are introduced or perceived loading still feels rough
+- [ ] Adaptive motion tuning by device/context — add if desktop and mobile need meaningfully different motion intensity
+- [ ] Persistent but non-obstructive orientation aids — add if recruiters benefit from subtle sticky cues without viewport loss
 
 ### Future Consideration (v2+)
 
-Important ideas, but not part of this milestone’s safe success definition.
+Interesting, but too risky or too ornamental for this milestone.
 
-- [ ] Design-system packaging beyond this app — defer until real cross-project reuse exists
-- [ ] Content-source/workflow redesign — defer until authoring pain clearly outweighs migration cost
-- [ ] Recruiter-facing interaction or information-architecture changes — defer until product goals change, not while validating the refactor
+- [ ] Experimental scroll-driven storytelling — defer because recruiter portfolios benefit more from scan speed than cinematic sequencing
+- [ ] Style-first art direction layers that add little informational value — defer until core hierarchy and conversion are already excellent
+- [ ] Major IA redesign of the one-page narrative — defer until validated by analytics, usability review, or a new product goal
 
 ## Feature Prioritization Matrix
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| Behavior and UI parity | HIGH | HIGH | P1 |
-| Full-surface atomic decomposition | HIGH | HIGH | P1 |
-| Explicit server/client boundaries | HIGH | HIGH | P1 |
-| Knowledge-map modularization | HIGH | HIGH | P1 |
-| Architectural documentation | MEDIUM | MEDIUM | P1 |
-| Refactor regression safeguards | HIGH | MEDIUM | P1 |
-| Reuse of shared atoms/primitives | MEDIUM | MEDIUM | P1 |
-| Incremental extraction strategy | MEDIUM | LOW | P2 |
-| Visual regression automation | MEDIUM | MEDIUM | P2 |
-| Storybook/component workbench | LOW | MEDIUM | P3 |
+| Consistent low-distraction motion system | HIGH | MEDIUM | P1 |
+| Immediate interaction feedback | HIGH | LOW | P1 |
+| Reduced-motion-safe behavior | HIGH | MEDIUM | P1 |
+| Stable loading states with reserved layout space | HIGH | MEDIUM | P1 |
+| Responsive single-column-first scanning | HIGH | MEDIUM | P1 |
+| Clear spacing rhythm and section chunking | HIGH | MEDIUM | P1 |
+| Mobile-safe interaction ergonomics | HIGH | MEDIUM | P1 |
+| Orientation-preserving map/panel/timeline transitions | HIGH | HIGH | P1 |
+| Evidence-first hierarchy tuning | HIGH | MEDIUM | P2 |
+| Responsive layout recomposition | MEDIUM | HIGH | P2 |
+| Adaptive motion intensity by context | MEDIUM | HIGH | P2 |
+| Content-shaped skeleton refinement | MEDIUM | MEDIUM | P2 |
+| Experimental scroll storytelling | LOW | HIGH | P3 |
 
 **Priority key:**
 - P1: Must have for milestone success
-- P2: Should have if time allows after core refactor safety is in place
+- P2: Should have if core polish is already strong
 - P3: Nice to have, future consideration
 
 ## Competitor Feature Analysis
 
 | Feature | Competitor A | Competitor B | Our Approach |
 |---------|--------------|--------------|--------------|
-| Atomic decomposition | Typical “split files by section” refactor | Full design-system rewrite | Decompose by real reuse and responsibility boundaries across the current app |
-| Interactive hotspot cleanup | Leave canvas/renderer code monolithic | Rewrite interaction model entirely | Keep current behavior, but split graph data, renderer lifecycle, interaction logic, and UI |
-| Server/client separation | Often blurred during refactors | Sometimes over-engineered with wrappers everywhere | Keep a thin server composition root and narrow client islands aligned with Next.js guidance |
-| Refactor validation | Manual spot checks only | Heavy snapshot coverage | Validate recruiter-visible flows with targeted integration/E2E checks and selective unit coverage |
+| Motion polish | Standard developer portfolio uses abrupt fades or library-default reveals | Award-style portfolio uses cinematic motion that prioritizes spectacle | Use restrained motion that improves clarity, not spectacle |
+| Loading states | Many portfolios show blank gaps or generic spinners | Design-heavy portfolios sometimes fake loading for drama | Show immediate content where possible; use structural placeholders only for genuine waits |
+| Responsive behavior | Common approach is simple breakpoint shrink | Visual-first approach often preserves composition at the cost of scanability | Recompose for recruiter reading order, CTA visibility, and clean reflow |
+| Spacing/layout rhythm | Many portfolios feel inconsistent between sections due to iterative growth | Highly artistic portfolios may use intentionally irregular rhythm | Use deliberate rhythm and grouping that speeds scanning while still feeling premium |
 
 ## Sources
 
-- Project scope and milestone requirements: `/workspaces/94lama/.planning/PROJECT.md` — HIGH
-- Current architectural baseline: `/workspaces/94lama/.planning/ARCHITECTURE.md` — HIGH
-- Next.js 16 docs, Server and Client Components: https://nextjs.org/docs/app/getting-started/server-and-client-components (last updated 2026-04-08) — HIGH
-- Next.js 16 docs, Testing: https://nextjs.org/docs/app/guides/testing (last updated 2026-04-08) — HIGH
+- Project scope and recruiter-first success criteria: `/home/riccardolm/github/94lama/.planning/PROJECT.md` — HIGH
+- W3C, Understanding SC 1.4.10 Reflow (updated 2025-09-16): https://www.w3.org/WAI/WCAG22/Understanding/reflow.html — HIGH
+- W3C, Understanding SC 2.3.3 Animation from Interactions (updated 2025-09-16): https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html — HIGH
+- MDN, `prefers-reduced-motion` (modified 2026-04-20): https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion — HIGH
+- MDN, Realizing common layouts using grids (modified 2026-02-19): https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Realizing_common_layouts_using_grids — HIGH
+- NN/g, Response Times: The 3 Important Limits: https://www.nngroup.com/articles/response-times-3-important-limits/ — MEDIUM
+- NN/g, Progress Indicators Make a Slow System Less Insufferable: https://www.nngroup.com/articles/progress-indicators/ — MEDIUM
+- NN/g, How Users Read on the Web: https://www.nngroup.com/articles/how-users-read-on-the-web/ — MEDIUM
+- NN/g, F-Shaped Pattern of Reading on the Web: https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/ — MEDIUM
 
 ---
-*Feature research for: atomic component refactor milestone on existing recruiter portfolio app*
-*Researched: 2026-04-13*
+*Feature research for: recruiter-facing portfolio UX/UI improvement milestone v1.2*
+*Researched: 2026-04-21*
