@@ -33,9 +33,9 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 
 **Milestone Goal:** Make the one-page recruiter portfolio feel more polished and easier to scan through shared motion rules, coordinated map/panel/timeline transitions, selective real loading polish, stronger spacing rhythm, and responsive hierarchy improvements without turning the page into spectacle.
 
-- [ ] **Phase 8: Motion Language & Reveal Rhythm** - Establish a consistent recruiter-first motion system for section reveals and interaction feedback.
-- [ ] **Phase 9: Interactive Continuity & Real Loading States** - Preserve context through coordinated map/panel/timeline transitions and only-real loading polish.
-- [ ] **Phase 10: Responsive Hierarchy Rewrite** - Rework spacing, composition, and responsive reflow so proof and CTAs scan faster across screen sizes.
+- [x] **Phase 8: Motion Language & Reveal Rhythm** - Establish a consistent recruiter-first motion system for section reveals and interaction feedback.
+- [x] **Phase 9: Interactive Continuity & Real Loading States** - Preserve context through coordinated map/panel/timeline transitions and only-real loading polish.
+- [ ] **Phase 10: Responsive Hierarchy Rewrite** - Rework spacing, composition, and responsive reflow so proof and CTAs scan faster across screen sizes. Implementation done; manual verification pending.
 - [ ] **Phase 11: Recruiter-First Finish & Quality Guardrails** - Validate that the polish still preserves one-minute understanding, trust, and performance discipline.
 
 ## Phase Details
@@ -94,7 +94,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   1. Recruiter experiences a consistent motion rhythm across section reveals, interaction feedback, and state changes instead of mismatched speeds or styles.
   2. Recruiter can enter and scan each major section through polished reveals that orient the eye without hiding already-available reading for too long.
   3. Recruiter gets immediate, noticeable feedback on primary CTAs, links, cards, and interactive controls.
-**Plans**: TBD
+**Plans**: `08-01-PLAN.md`, `08-02-PLAN.md`
 **UI hint**: yes
 
 ### Phase 9: Interactive Continuity & Real Loading States
@@ -106,7 +106,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   2. Recruiter can move between knowledge-map hotspots, detail panels, and timeline emphasis through smooth coordinated transitions that preserve which item is active.
   3. Recruiter keeps orientation during pending updates because surrounding structure stays stable instead of swapping abruptly.
   4. Recruiter sees a route-level loading shell that preserves page structure and perceived continuity during real page-start or navigation waits.
-**Plans**: TBD
+**Plans**: `09-01-PLAN.md`, `09-02-PLAN.md`
 **UI hint**: yes
 
 ### Phase 10: Responsive Hierarchy Rewrite
@@ -117,7 +117,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
   1. Recruiter can identify positioning, proof, and primary contact actions more quickly because spacing, padding, and section chunking feel clearer and less crowded.
   2. Recruiter can read and interact comfortably across mobile, tablet, and desktop through stronger responsive reflow and clearer CTA visibility.
   3. Recruiter experiences a reworked page composition that makes section relationships and proof hierarchy easier to follow than the previous layout.
-**Plans**: TBD
+**Plans**: `10-01-PLAN.md`, `10-02-PLAN.md`
 **UI hint**: yes
 
 ### Phase 11: Recruiter-First Finish & Quality Guardrails
@@ -139,7 +139,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 | 5. Server-First Static Surface Atomization | 1/1 | Shipped | 2026-04-13 |
 | 6. Knowledge Map Feature Decomposition | 1/1 | Shipped | 2026-04-13 |
 | 7. Parity Hardening & Release Signoff | 1/1 | Shipped | 2026-04-13 |
-| 8. Motion Language & Reveal Rhythm | 0/TBD | Not started | - |
-| 9. Interactive Continuity & Real Loading States | 0/TBD | Not started | - |
-| 10. Responsive Hierarchy Rewrite | 0/TBD | Not started | - |
+| 8. Motion Language & Reveal Rhythm | 2/2 | Complete | 2026-04-21 |
+| 9. Interactive Continuity & Real Loading States | 2/2 | Ready to execute | - |
+| 10. Responsive Hierarchy Rewrite | 2/2 | Awaiting manual verification | - |
 | 11. Recruiter-First Finish & Quality Guardrails | 0/TBD | Not started | - |

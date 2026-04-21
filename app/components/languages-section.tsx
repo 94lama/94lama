@@ -1,5 +1,5 @@
 import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassName } from "@/app/components/section-shell";
+import { SectionShell, sectionInnerCardClassNames } from "@/app/components/section-shell";
 import {
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
@@ -12,14 +12,14 @@ type LanguagesSectionProps = {
 
 export function LanguagesSection({ languages }: Readonly<LanguagesSectionProps>) {
   return (
-    <SectionShell>
-      <SectionHeading index="04" title="Languages" />
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+    <SectionShell density="compact">
+      <SectionHeading index="05" title="Languages" />
+      <div className="mt-6 grid gap-3 sm:mt-7 sm:grid-cols-3">
         {languages.map((entry) => (
-          <div key={entry.label} className={sectionInnerCardClassName}>
+          <div key={entry.label} className={`${sectionInnerCardClassNames.compact} space-y-2`}>
             <p className={`text-lg font-semibold ${sectionTitleToneClassName}`}>{entry.label}</p>
             <p
-              className={`mt-2 font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
+              className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
             >
               {entry.level}
             </p>

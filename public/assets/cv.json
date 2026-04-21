@@ -34,61 +34,73 @@
     },
     {
       "category": "DevOps",
-      "items": ["Docker", "CI/CD", "Linux", "Bash"],
+      "items": ["Docker", "CI/CD", "Linux", "Bash", "Git"],
       "entries": [
         { "label": "Docker", "knowledge": 0.4 },
         { "label": "CI/CD", "knowledge": 0.4 },
         { "label": "Linux", "knowledge": 0.4 },
-        { "label": "Bash", "knowledge": 0.2 }
+        { "label": "Bash", "knowledge": 0.2 },
+        { "label": "Git", "knowledge": 0.7 }
       ]
     },
     {
       "category": "Databases",
-      "items": ["MySQL", "PostgreSQL"],
+      "items": ["MySQL", "PostgreSQL", "MongoDB", "MinIO", "Redis"],
       "entries": [
         { "label": "MySQL", "knowledge": 0.6 },
-        { "label": "PostgreSQL", "knowledge": 0.2 }
-      ]
-    }
-  ],
-  "experience": [
-    {
-      "role": "Python Developer",
-      "company": "Nuvolaris",
-      "dateRange": "10/2025 – Present",
-      "highlights": [
-        "Built front-end applications (PoC → production) with React/Svelte",
-        "Built serverless applications (PoC → production) with Python/OpenWhisk backend",
-        "Built AI-based workflows for data extraction and processing",
-        "Presented technical solutions to clients",
-        "Deployed a Nuvolaris cluster (Kubernetes) project in production"
-      ]
-    },
-    {
-      "role": "Full-Stack Developer",
-      "company": "Aroma S.r.l.",
-      "dateRange": "10/2024 – 06/2025",
-      "highlights": [
-        "Developed scalable frontend architecture with React",
-        "Implemented features across frontend and backend (Laravel)",
-        "Managed deployments using Docker and Linux environments"
-      ]
-    },
-    {
-      "role": "Full-Stack Developer",
-      "company": "Loliv",
-      "dateRange": "06/2024 – 12/2024",
-      "highlights": [
-        "Designed and developed a front-end web application",
-        "Designed and developer a back-end application",
-        "Managed database architecture and deployments",
-        "Coordinated small technical team"
+        { "label": "PostgreSQL", "knowledge": 0.3 },
+        { "label": "MongoDB", "knowledge": 0.2 },
+        { "label": "MinIO", "knowledge": 0.2 },
+        { "label": "Redis", "knowledge": 0.3 }
       ]
     }
   ],
   "education": [
-    "Master in Architecture – Politecnico di Torino",
-    "Bachelor in Architecture – Politecnico di Torino"
+    "2nd level Master in Architecture – Politecnico di Torino",
+    "MSc in Architecture – Politecnico di Torino",
+    "BSc in Architecture – Politecnico di Torino"
+  ],
+  "certificates": [
+    {
+      "title": "Cybersecurity & IT Support",
+      "issuer": "AcademyRapido",
+      "year": "2024"
+    },
+    {
+      "title": "AWS Cloud Specialist",
+      "issuer": "Randstad",
+      "year": "2024"
+    },
+    {
+      "title": "DevSecOps Expert",
+      "issuer": "Aulab",
+      "year": "2024"
+    },
+    {
+      "title": "Linux",
+      "issuer": "Cisco",
+      "year": "2024"
+    },
+    {
+      "title": "Cybersecurity",
+      "issuer": "Cisco",
+      "year": "2024"
+    },
+    {
+      "title": "Networking",
+      "issuer": "Cisco",
+      "year": "2024"
+    },
+    {
+      "title": "Meta Front-End Developer",
+      "issuer": "Meta",
+      "year": "2023"
+    },
+    {
+      "title": "Full-Stack Junior",
+      "issuer": "Aulab",
+      "year": "2023"
+    }
   ],
   "languages": [
     { "label": "Italian", "level": "Native" },

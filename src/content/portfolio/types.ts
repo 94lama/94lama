@@ -25,11 +25,19 @@ export interface ExperienceEntry {
   company: string;
   dateRange: string;
   highlights: string[];
+  relatedDomains: string[];
+  relatedSkills: string[];
 }
 
 export interface LanguageEntry {
   label: string;
   level: string;
+}
+
+export interface CertificateEntry {
+  title: string;
+  issuer?: string;
+  year?: string;
 }
 
 export interface RelocationInfo {
@@ -55,12 +63,15 @@ export interface ProjectEntry {
   description?: string;
 }
 
+export type PortfolioBaseContent = Omit<PortfolioContent, "experience">;
+
 export interface PortfolioContent {
   hero: HeroContent;
   summary: string;
   skills: SkillGroup[];
   experience: ExperienceEntry[];
   education: string[];
+  certificates?: CertificateEntry[];
   languages: LanguageEntry[];
   relocation: RelocationInfo;
   contact: ContactInfo;

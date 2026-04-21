@@ -1,5 +1,5 @@
 import type { KnowledgeMapSelection } from "./knowledge-map-selection.ts";
-import type { ExperienceEntry, SkillGroup } from "./types.ts";
+import type { ExperienceEntry } from "./types.ts";
 
 export type RankedExperienceEntry = {
   entry: ExperienceEntry;
@@ -19,30 +19,13 @@ function normalizeText(value: string) {
     .trim();
 }
 
-function getSelectionTerms(selection: KnowledgeMapSelection, skillGroups: SkillGroup[]) {
-  if (selection.kind === "skill") {
-    return [selection.label];
-  }
-
-  if (selection.kind === "category") {
-    const activeGroup =
-      selection.activeIndex >= 0 && selection.activeIndex < skillGroups.length
-        ? skillGroups[selection.activeIndex]
-        : undefined;
-
-    return activeGroup?.items ?? [];
-  }
-
-  return [];
-}
-
 function getOverviewCopy() {
   return "Showing the full experience timeline. Select a skill or category to move related entries higher.";
 }
 
 function getMatchedCopy(selection: KnowledgeMapSelection) {
   if (selection.kind === "skill") {
-    return `Showing experience entries related to ${selection.label} while keeping the full timeline visible.`;
+    return `Showing experience entries mapped to ${selection.label} while keeping the full timeline visible.`;
   }
 
   return `Showing experience entries connected to ${selection.label} while keeping the full timeline visible.`;
@@ -50,33 +33,64 @@ function getMatchedCopy(selection: KnowledgeMapSelection) {
 
 function getFallbackCopy(selection: KnowledgeMapSelection) {
   if (selection.kind === "skill") {
-    return `No experience entry mentions ${selection.label} directly yet, so the full timeline remains visible.`;
+    return `No experience entry is mapped to ${selection.label} yet, so the full timeline remains visible.`;
   }
 
-  return `No experience entry mentions this ${selection.label} skill cluster directly yet, so the full timeline remains visible.`;
+  return `No experience entry is mapped to the ${selection.label} domain or its related skill points yet, so the full timeline remains visible.`;
 }
 
 export function rankExperienceBySelection(args: {
   experience: ExperienceEntry[];
   selection: KnowledgeMapSelection;
-  skillGroups: SkillGroup[];
+  selectionSkillLabels: string[];
 }): {
   entries: RankedExperienceEntry[];
   helperCopy: string;
   isFallback: boolean;
 } {
-  const selectionTerms = getSelectionTerms(args.selection, args.skillGroups);
-  const normalizedTerms = selectionTerms
+  const normalizedSelectionSkills = args.selectionSkillLabels
     .map((term) => ({ original: term, normalized: normalizeText(term) }))
     .filter((term) => term.normalized);
+  const normalizedSelectionSkillSet = new Set(
+    normalizedSelectionSkills.map((term) => term.normalized),
+  );
+  const normalizedSelectionDomain =
+    args.selection.kind === "category" ? normalizeText(args.selection.label) : "";
 
   const entries = args.experience.map((entry, originalIndex) => {
-    const haystack = normalizeText(
-      [entry.role, entry.company, ...entry.highlights].join(" "),
-    );
-    const matchedTerms = normalizedTerms
-      .filter((term) => haystack.includes(term.normalized))
-      .map((term) => term.original);
+    const matchedTerms: string[] = [];
+    const seenTerms = new Set<string>();
+
+    for (const relatedDomain of entry.relatedDomains ?? []) {
+      const normalizedDomain = normalizeText(relatedDomain);
+
+      if (
+        args.selection.kind !== "category" ||
+        !normalizedSelectionDomain ||
+        normalizedDomain !== normalizedSelectionDomain ||
+        seenTerms.has(normalizedDomain)
+      ) {
+        continue;
+      }
+
+      seenTerms.add(normalizedDomain);
+      matchedTerms.push(relatedDomain);
+    }
+
+    for (const relatedSkill of entry.relatedSkills ?? []) {
+      const normalizedSkill = normalizeText(relatedSkill);
+
+      if (
+        !normalizedSkill ||
+        !normalizedSelectionSkillSet.has(normalizedSkill) ||
+        seenTerms.has(normalizedSkill)
+      ) {
+        continue;
+      }
+
+      seenTerms.add(normalizedSkill);
+      matchedTerms.push(relatedSkill);
+    }
 
     return {
       entry,
@@ -87,7 +101,11 @@ export function rankExperienceBySelection(args: {
     };
   });
 
-  if (args.selection.kind === "core" || normalizedTerms.length === 0) {
+  if (
+    args.selection.kind === "core" ||
+    (args.selection.kind === "skill" && normalizedSelectionSkillSet.size === 0) ||
+    (args.selection.kind === "category" && !normalizedSelectionDomain && normalizedSelectionSkillSet.size === 0)
+  ) {
     return {
       entries,
       helperCopy: getOverviewCopy(),

@@ -7,9 +7,9 @@
 
 ### Motion and Interaction
 
-- [ ] **MOTN-01**: Recruiter experiences one consistent motion language across section reveals, interaction feedback, and state changes.
-- [ ] **MOTN-02**: Recruiter can enter and scan sections through polished reveal and loading transitions that add orientation without blocking reading.
-- [ ] **MOTN-03**: Recruiter gets immediate micro-interaction feedback on primary CTAs, links, cards, and interactive controls.
+- [x] **MOTN-01**: Recruiter experiences one consistent motion language across section reveals, interaction feedback, and state changes. - Phase 8 (2026-04-21)
+- [x] **MOTN-02**: Recruiter can enter and scan sections through polished reveal and loading transitions that add orientation without blocking reading. - Phase 8 (2026-04-21)
+- [x] **MOTN-03**: Recruiter gets immediate micro-interaction feedback on primary CTAs, links, cards, and interactive controls. - Phase 8 (2026-04-21)
 - [ ] **MOTN-04**: Recruiter can move between knowledge-map, detail-panel, and timeline states through smooth coordinated transitions that preserve context.
 
 ### Loading and Continuity
@@ -67,16 +67,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MOTN-01 | Phase 8 | Pending |
-| MOTN-02 | Phase 8 | Pending |
-| MOTN-03 | Phase 8 | Pending |
-| MOTN-04 | Phase 9 | Pending |
-| LOAD-01 | Phase 9 | Pending |
-| LOAD-02 | Phase 9 | Pending |
-| LOAD-03 | Phase 9 | Pending |
-| LAY-01 | Phase 10 | Pending |
-| LAY-02 | Phase 10 | Pending |
-| LAY-03 | Phase 10 | Pending |
+| MOTN-01 | Phase 8 | Complete |
+| MOTN-02 | Phase 8 | Complete |
+| MOTN-03 | Phase 8 | Complete |
+| MOTN-04 | Phase 9 | Complete |
+| LOAD-01 | Phase 9 | Complete |
+| LOAD-02 | Phase 9 | Complete |
+| LOAD-03 | Phase 9 | Complete |
+| LAY-01 | Phase 10 | Implemented, pending manual verification |
+| LAY-02 | Phase 10 | Implemented, pending manual verification |
+| LAY-03 | Phase 10 | Implemented, pending manual verification |
 | QUAL-05 | Phase 11 | Pending |
 | QUAL-06 | Phase 11 | Pending |
 

@@ -4,6 +4,7 @@ export function LegalFooter() {
       <a
         href="https://www.iubenda.com/privacy-policy/76360064"
         className="iubenda-black iubenda-noiframe iubenda-embed"
+        suppressHydrationWarning
         title="Privacy Policy "
       >
         Privacy Policy
@@ -11,6 +12,7 @@ export function LegalFooter() {
       <a
         href="https://www.iubenda.com/privacy-policy/76360064/cookie-policy"
         className="iubenda-black iubenda-noiframe iubenda-embed"
+        suppressHydrationWarning
         title="Cookie Policy "
       >
         Cookie Policy

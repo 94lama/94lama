@@ -6,7 +6,7 @@ import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/app/compone
 import { createKnowledgeMapGraph } from "@/app/components/knowledge-map/model";
 import {
   getSelectedGroupNames,
-  getSelectedKnowledgeLabel,
+  getSelectedKnowledgeValue,
   getSelectedKindLabel,
   getSelectedNeighborNodes,
   getSelectedNode,
@@ -22,20 +22,34 @@ export type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-ma
 type SkillsKnowledgeMapProps = {
   skillGroups: SkillGroup[];
   activeIndex?: number;
+  pendingSelection?: KnowledgeMapSelection | null;
   selectedNodeId?: string;
   onSelectionChange?: (selection: KnowledgeMapSelection) => void;
+  onSelectionSettled?: (selection: KnowledgeMapSelection) => void;
 };
 
 export function SkillsKnowledgeMap({
   activeIndex: controlledActiveIndex,
   onSelectionChange,
+  onSelectionSettled,
+  pendingSelection = null,
   selectedNodeId: controlledSelectedNodeId,
   skillGroups,
 }: Readonly<SkillsKnowledgeMapProps>) {
   const graphData = useMemo(() => createKnowledgeMapGraph(skillGroups), [skillGroups]);
+  const mappedTechnologyCounts = useMemo(
+    () =>
+      skillGroups.map((_, groupIndex) =>
+        graphData.nodes.filter(
+          (node) => node.kind === "skill" && node.groupIndices.includes(groupIndex),
+        ).length,
+      ),
+    [graphData, skillGroups],
+  );
   const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(0);
   const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] = useState("core");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
   const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
   const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
   const safeSelection = normalizeSelection(
@@ -53,8 +67,17 @@ export function SkillsKnowledgeMap({
   const activeGroupIndex = selectedNode?.groupIndices[0] ?? safeSelection.activeIndex;
   const selectedNeighborNodes = getSelectedNeighborNodes(graphData, resolvedSelectedNodeId);
   const selectedGroupNames = getSelectedGroupNames(selectedNode, skillGroups);
-  const selectedKnowledgeLabel = getSelectedKnowledgeLabel(selectedNode);
+  const selectedKnowledgeValue = getSelectedKnowledgeValue(selectedNode);
   const selectedKindLabel = getSelectedKindLabel(selectedNode);
+  const pendingSelectedNode = pendingSelection
+    ? (getSelectedNode(graphData, pendingSelection.id) ?? undefined)
+    : undefined;
+  const pendingSelectedNeighborNodes = pendingSelection
+    ? getSelectedNeighborNodes(graphData, pendingSelection.id)
+    : [];
+  const pendingSelectedGroupNames = getSelectedGroupNames(pendingSelectedNode, skillGroups);
+  const pendingSelectedKnowledgeValue = getSelectedKnowledgeValue(pendingSelectedNode);
+  const pendingSelectedKindLabel = getSelectedKindLabel(pendingSelectedNode);
 
   const applySelection = (nodeId: string) => {
     const normalizedSelection = selectionFromNode(graphData.nodeMap.get(nodeId), activeIndex);
@@ -84,30 +107,56 @@ export function SkillsKnowledgeMap({
     };
   }, []);
 
+  useEffect(() => {
+    if (!pendingSelection) {
+      return;
+    }
+
+    if (!mapReady) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      onSelectionSettled?.(pendingSelection);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [mapReady, onSelectionSettled, pendingSelection]);
+
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
       <KnowledgeMapDetailsPanel
         activeGroupIndex={activeGroupIndex}
+        mappedTechnologyCounts={mappedTechnologyCounts}
         onFocusNode={applySelection}
-        prefersReducedMotion={prefersReducedMotion}
-        resolvedSelectedNodeId={resolvedSelectedNodeId}
+        pending={pendingSelection !== null}
+        pendingSelectedGroupNames={pendingSelectedGroupNames}
+        pendingSelectedKindLabel={pendingSelectedKindLabel}
+        pendingSelectedKnowledgeValue={pendingSelectedKnowledgeValue}
+        pendingSelectedLabel={pendingSelectedNode?.label ?? null}
+        pendingSelectedNeighborNodes={pendingSelectedNeighborNodes}
         selectedGroupNames={selectedGroupNames}
         selectedKindLabel={selectedKindLabel}
-        selectedKnowledgeLabel={selectedKnowledgeLabel}
+        selectedKnowledgeValue={selectedKnowledgeValue}
         selectedLabel={selectedNode?.label ?? "Knowledge Graph"}
         selectedNeighborNodes={selectedNeighborNodes}
         skillGroups={skillGroups}
       />
 
       <KnowledgeMapCanvasShell
+        mapReady={mapReady}
+        pending={pendingSelection !== null}
         prefersReducedMotion={prefersReducedMotion}
         resolvedSelectedNodeId={resolvedSelectedNodeId}
       >
         <KnowledgeMapViewport
           graphData={graphData}
+          onReadyChange={setMapReady}
           onPickNode={applySelection}
           prefersReducedMotion={prefersReducedMotion}
-          selectedNodeId={resolvedSelectedNodeId}
+          selectedNodeId={pendingSelection?.id ?? resolvedSelectedNodeId}
         />
       </KnowledgeMapCanvasShell>
     </div>

@@ -3,6 +3,9 @@ import {
   sectionBodyToneClassName,
   sectionCardClassName,
   sectionChipClassName,
+  sectionContinuityPendingClassName,
+  sectionContinuityShellClassName,
+  sectionControlMotionClassName,
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
 } from "@/app/components/section-card-styles";
@@ -13,6 +16,7 @@ type ExperienceCardProps = {
   isHighlighted: boolean;
   matchScore: number;
   matchedTerms: string[];
+  pending: boolean;
 };
 
 export function ExperienceCard({
@@ -21,10 +25,11 @@ export function ExperienceCard({
   isHighlighted,
   matchScore,
   matchedTerms,
+  pending,
 }: Readonly<ExperienceCardProps>) {
   return (
     <article
-      className={`${sectionCardClassName} rounded-[1.75rem] px-5 py-6 sm:px-6 sm:py-7 xl:px-8 ${
+      className={`${sectionCardClassName} ${sectionContinuityShellClassName} ${pending ? sectionContinuityPendingClassName : ""} rounded-[1.75rem] px-5 py-6 sm:px-6 sm:py-7 xl:px-8 ${
         isHighlighted
           ? "border-accent/35 bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(255,255,255,0.94))] shadow-[0_24px_80px_-56px_rgba(37,99,235,0.34)] dark:bg-[linear-gradient(180deg,rgba(96,165,250,0.18),rgba(15,23,42,0.86))] dark:shadow-none"
           : ""
@@ -59,7 +64,9 @@ export function ExperienceCard({
 
             {isHighlighted ? (
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-accent/35 bg-accent/12 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-accent">
+                <span
+                  className={`rounded-full border border-accent/35 bg-accent/12 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-accent ${sectionControlMotionClassName}`}
+                >
                   Match score {matchScore}
                 </span>
                 {matchedTerms.map((term) => (

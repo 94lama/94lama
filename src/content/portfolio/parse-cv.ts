@@ -164,7 +164,27 @@ function parseExperience(lines: string[]): ExperienceEntry[] {
       current = {
         ...header,
         highlights: [],
+        relatedDomains: [],
+        relatedSkills: [],
       };
+      continue;
+    }
+
+    const relatedDomainsMatch = line.match(/^Related Domains:\s*(.+)$/i);
+    if (relatedDomainsMatch && current) {
+      current.relatedDomains = relatedDomainsMatch[1]
+        .split(",")
+        .map((domain) => normalizeLine(domain))
+        .filter(Boolean);
+      continue;
+    }
+
+    const relatedSkillsMatch = line.match(/^Related Skills:\s*(.+)$/i);
+    if (relatedSkillsMatch && current) {
+      current.relatedSkills = relatedSkillsMatch[1]
+        .split(",")
+        .map((skill) => normalizeLine(skill))
+        .filter(Boolean);
       continue;
     }
 

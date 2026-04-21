@@ -79,14 +79,94 @@ a {
   color: var(--foreground);
 }
 
-@keyframes fade-in-up {
-  from {
+.motion-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.motion-reveal-quick {
+  opacity: 1;
+  transform: none;
+}
+
+.motion-reveal-delay {
+  --motion-delay: 90;
+}
+
+.motion-surface,
+.motion-control,
+.motion-image {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+:where(.motion-surface, .motion-control) {
+  position: relative;
+  isolation: isolate;
+}
+
+:where(.motion-surface, .motion-control) > * {
+  position: relative;
+  z-index: 1;
+}
+
+.motion-surface {
+  --motion-hover-overlay-color: rgba(37, 99, 235, 0.08);
+}
+
+.motion-control {
+  --motion-hover-overlay-color: rgba(37, 99, 235, 0.14);
+}
+
+html.dark .motion-surface,
+html.dark .motion-control,
+.dark .motion-surface,
+.dark .motion-control {
+  --motion-hover-overlay-color: rgba(96, 165, 250, 0.12);
+}
+
+:where(.motion-surface, .motion-control)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--motion-hover-overlay-color);
+  opacity: 0;
+  transition: opacity 2000ms ease;
+}
+
+:where(.motion-surface, .motion-control):hover::after,
+:where(.motion-surface, .motion-control):focus-visible::after,
+:where(.motion-surface, .motion-control):focus-within::after {
+  opacity: 1;
+}
+
+.route-shell-fade {
+  animation: route-shell-fade-in 320ms ease-out both;
+}
+
+@keyframes route-shell-fade-in {
+  0% {
     opacity: 0;
-    transform: translateY(12px);
+    transform: scale(0.985);
   }
 
-  to {
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-reveal,
+  .motion-reveal-quick {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .route-shell-fade {
+    animation: none;
   }
 }

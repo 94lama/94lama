@@ -14,8 +14,8 @@ Phase 8 defines one restrained motion language for the existing one-page recruit
 ## Implementation Decisions
 
 ### Reveal Rhythm
-- **D-01:** Use a single recruiter-first entrance pattern based on short vertical fade-in reveals for major section content, matching the existing `fade-in-up` direction already used by the knowledge-map panel runtime.
-- **D-02:** Reveals should orient the eye, not gate reading. Keep section content visible quickly with short durations and light stagger only for nearby child elements rather than long cinematic sequencing.
+- **D-01:** Use a single recruiter-first entrance pattern based on vertical fade-in reveals for major section content, matching the existing `fade-in-up` direction already used by the knowledge-map panel runtime.
+- **D-02:** Keep the shared reveal duration around 2 seconds so the motion feels calmer and less toy-like, while still using only light stagger for nearby child elements rather than long cinematic sequencing.
 - **D-03:** The hero stays effectively immediate and readable above the fold; motion can polish supporting surfaces inside the hero, but must not delay the primary positioning, summary, or email CTA.
 
 ### Interaction Feedback

@@ -7,6 +7,7 @@ import { createKnowledgeMapScene, syncHighlight, type SceneState } from "@/app/c
 
 type KnowledgeMapViewportProps = {
   graphData: KnowledgeMapGraph;
+  onReadyChange?: (ready: boolean) => void;
   onPickNode: (nodeId: string) => void;
   prefersReducedMotion: boolean;
   selectedNodeId: string;
@@ -14,6 +15,7 @@ type KnowledgeMapViewportProps = {
 
 export function KnowledgeMapViewport({
   graphData,
+  onReadyChange,
   onPickNode,
   prefersReducedMotion,
   selectedNodeId,
@@ -28,6 +30,8 @@ export function KnowledgeMapViewport({
       return;
     }
 
+    onReadyChange?.(false);
+
     const { state, cleanup } = createKnowledgeMapScene({
       container,
       graphData,
@@ -37,15 +41,17 @@ export function KnowledgeMapViewport({
 
     sceneRef.current = state;
     syncHighlight(state, graphData.nodeMap, selectedNodeId);
+    onReadyChange?.(true);
 
     return () => {
+      onReadyChange?.(false);
       cleanup();
 
       if (sceneRef.current === state) {
         sceneRef.current = null;
       }
     };
-  }, [graphData, onPickNode, prefersReducedMotion, selectedNodeId]);
+  }, [graphData, onPickNode, onReadyChange, prefersReducedMotion]);
 
   useEffect(() => {
     syncHighlight(sceneRef.current, graphData.nodeMap, selectedNodeId);

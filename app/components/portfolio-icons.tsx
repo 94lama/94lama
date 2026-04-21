@@ -17,6 +17,25 @@ export function EmailIcon() {
   );
 }
 
+export function PhoneIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M5.25 4.5h2.1c.36 0 .68.25.76.61l.72 3.22a.75.75 0 0 1-.22.72l-1.55 1.4a12.1 12.1 0 0 0 5.5 5.49l1.39-1.55a.75.75 0 0 1 .73-.22l3.21.72c.36.08.61.4.61.76v2.1a1.5 1.5 0 0 1-1.5 1.5h-.75C9.49 19.5 4.5 14.51 4.5 8.25V7.5a1.5 1.5 0 0 1 1.5-1.5Z"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
 export function GitHubIcon() {
   return (
     <svg aria-hidden="true" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">

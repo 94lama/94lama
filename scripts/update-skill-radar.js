@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // Update the skill radar polygon points in README.md and public SVG
-// based on public/assets/cv.json content.
+// based on public/assets/cv.json and public/assets/experience.json content.
 /* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
 const path = require('path');
 
 const CV_PATH = path.join(__dirname, '../public/assets/cv.json');
+const EXPERIENCE_PATH = path.join(__dirname, '../public/assets/experience.json');
 const README_PATH = path.join(__dirname, '../README.md');
 const SVG_PATH = path.join(__dirname, '../public/assets/readme/skill-radar.svg');
 
@@ -46,7 +47,7 @@ function findEntriesWithKeywords(skills, keywords) {
   return found;
 }
 
-function computeRatings(cv) {
+function computeRatings(cv, experience) {
   const skills = cv.skills || [];
   const frontendAvg = avgKnowledge(skills, 'Frontend') * 100; // 0..100
   const backendAvg = avgKnowledge(skills, 'Backend') * 100;
@@ -60,7 +61,7 @@ function computeRatings(cv) {
 
   // Text sources for keyword scanning
   const summary = cv.summary || '';
-  const experiences = Array.isArray(cv.experience) ? cv.experience : [];
+  const experiences = Array.isArray(experience) ? experience : [];
   const highlightsText = experiences.map(e => (e.highlights || []).join(' ')).join(' ');
   const educationText = Array.isArray(cv.education) ? cv.education.join(' ') : '';
   const projects = Array.isArray(cv.projects) ? cv.projects : [];
@@ -182,7 +183,8 @@ function updateFile(filePath, ratings, newPoints) {
 function main() {
   try {
     const cv = safeReadJSON(CV_PATH);
-    const ratings = computeRatings(cv);
+    const experience = safeReadJSON(EXPERIENCE_PATH);
+    const ratings = computeRatings(cv, experience);
     const pts = ratingsToPolygonPts(ratings);
 
     // Update both README.md and the public SVG

@@ -1,5 +1,5 @@
 import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassName } from "@/app/components/section-shell";
+import { SectionShell, sectionInnerCardClassNames } from "@/app/components/section-shell";
 import {
   sectionBodyToneClassName,
   sectionEyebrowToneClassName,
@@ -13,23 +13,23 @@ type RelocationSectionProps = {
 
 export function RelocationSection({ relocation }: Readonly<RelocationSectionProps>) {
   return (
-    <SectionShell>
-      <SectionHeading index="05" title="Relocation" />
-      <div className="mt-8 space-y-6">
-        <p className={`max-w-2xl text-lg leading-8 ${sectionBodyToneClassName}`}>
+    <SectionShell density="compact">
+      <SectionHeading index="06" title="Relocation" />
+      <div className="mt-6 space-y-5 sm:mt-7 sm:space-y-6">
+        <p className={`max-w-2xl text-base leading-7 sm:text-lg ${sectionBodyToneClassName}`}>
           {relocation.summary}
         </p>
 
         {relocation.support?.length ? (
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-3 lg:grid-cols-3">
             {relocation.support.map((entry) => (
-              <div key={entry.label} className={sectionInnerCardClassName}>
+              <div key={entry.label} className={`${sectionInnerCardClassNames.compact} space-y-2.5`}>
                 <p
                   className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
                 >
                   {entry.label}
                 </p>
-                <p className={`mt-3 text-base leading-7 ${sectionBodyToneClassName}`}>
+                <p className={`text-sm leading-6 sm:text-base sm:leading-7 ${sectionBodyToneClassName}`}>
                   {entry.value}
                 </p>
               </div>
@@ -38,7 +38,7 @@ export function RelocationSection({ relocation }: Readonly<RelocationSectionProp
         ) : null}
 
         {relocation.preferredRegions?.length ? (
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2.5">
             {relocation.preferredRegions.map((region) => (
               <span key={region} className={sectionPillClassName}>
                 {region}
@@ -48,7 +48,7 @@ export function RelocationSection({ relocation }: Readonly<RelocationSectionProp
         ) : null}
 
         {relocation.priorities?.length ? (
-          <div className={sectionInnerCardClassName}>
+          <div className={sectionInnerCardClassNames.compact}>
             <p
               className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}
             >

@@ -28,10 +28,13 @@ Phase 9 defines how the existing one-page recruiter portfolio preserves orientat
 - **D-08:** Use lightweight overlays, dimming, emphasis easing, or reserved placeholders before introducing heavier animation tooling or fully separate loading screens.
 - **D-09:** Timeline behavior should keep the full chronology visible, with related entries moving higher and gaining emphasis from the same selection state rather than collapsing the list into filtered-only results.
 
+### Motion Carry-Forward
+- **D-10:** Carry forward the calmer shared reveal baseline from Phase 8 at roughly 2 seconds for reveal-style entrances so continuity work does not revert to faster, toy-like timing.
+
 ### Route-Level Loading Shell
-- **D-10:** Add a route-level loading shell that mirrors the real page structure closely enough to preserve perceived continuity during true page-start or navigation waits.
-- **D-11:** The route shell should prioritize structural continuity over decorative shimmer: keep hero, map/timeline, and lower grid regions recognizable with stable sizing and restrained motion.
-- **D-12:** Route-level loading should remain a fallback for real waits, not a permanent theatrical intro for a mostly fast one-page app.
+- **D-11:** Add a route-level loading shell that mirrors the real page structure closely enough to preserve perceived continuity during true page-start or navigation waits.
+- **D-12:** The route shell should prioritize structural continuity over decorative shimmer: keep hero, map/timeline, and lower grid regions recognizable with stable sizing and restrained motion.
+- **D-13:** Route-level loading should remain a fallback for real waits, not a permanent theatrical intro for a mostly fast one-page app.
 
 ### the agent's Discretion
 - Exact transition timings, whether to use React transition primitives or CSS-only sequencing, and whether an optional helper such as `motion` is warranted can be finalized during planning.
