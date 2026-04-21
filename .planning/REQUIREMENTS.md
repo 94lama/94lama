@@ -67,12 +67,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| MOTN-01 | Phase 8 | Pending |
+| MOTN-02 | Phase 8 | Pending |
+| MOTN-03 | Phase 8 | Pending |
+| MOTN-04 | Phase 9 | Pending |
+| LOAD-01 | Phase 9 | Pending |
+| LOAD-02 | Phase 9 | Pending |
+| LOAD-03 | Phase 9 | Pending |
+| LAY-01 | Phase 10 | Pending |
+| LAY-02 | Phase 10 | Pending |
+| LAY-03 | Phase 10 | Pending |
+| QUAL-05 | Phase 11 | Pending |
+| QUAL-06 | Phase 11 | Pending |
 
 **Coverage:**
 - Milestone requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-21*
-*Last updated: 2026-04-21 after initial milestone v1.2 definition*
+*Last updated: 2026-04-21 after roadmap creation*

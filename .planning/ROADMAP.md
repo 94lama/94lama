@@ -2,12 +2,13 @@
 
 ## Overview
 
-v1.1 is an architecture-first refactor of the shipped recruiter-facing portfolio. The roadmap keeps the current UI and interaction behavior effectively unchanged while rebuilding the rendered app around reusable atomic components, a thin server-first `app/page.tsx`, an explicitly bounded knowledge-map client island, and parity safeguards strong enough to ship the refactor safely.
+The roadmap preserves the shipped recruiter-first portfolio milestones and extends them with v1.2, a polish-focused milestone that improves scan speed, motion clarity, responsive behavior, and loading continuity without sacrificing performance discipline, proof-first reading order, or contact discoverability.
 
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-3 shipped 2026-04-11
 - ✅ **v1.1 implement atomization of components** — Phases 4-7 shipped 2026-04-13
+- 🚧 **v1.2 improve ux and ui** — Phases 8-11 planned
 
 ## Phases
 
@@ -18,14 +19,24 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 
 </details>
 
-### ✅ v1.1 implement atomization of components (Shipped 2026-04-13)
-
-**Milestone Goal:** Atomize the full rendered app without changing recruiter-facing UI or behavior, keep the page server-first and SEO-safe, split the knowledge-map feature across model/OGL/UI layers, and ship with documentation plus regression confidence.
+<details>
+<summary>✅ v1.1 implement atomization of components (Phases 4-7) - SHIPPED 2026-04-13</summary>
 
 - [x] **Phase 4: Architecture Baseline & Refactor Guardrails** - Captured the current architecture and locked regression guardrails before structural extraction.
 - [x] **Phase 5: Server-First Static Surface Atomization** - Extracted reusable atoms and static sections while keeping `app/page.tsx` thin, server-rendered, and indexable.
 - [x] **Phase 6: Knowledge Map Feature Decomposition** - Split the knowledge-map hotspot into model, OGL runtime, and UI layers without changing recruiter-visible behavior.
 - [x] **Phase 7: Parity Hardening & Release Signoff** - Proved recruiter-visible parity with Playwright and QA before shipping the milestone.
+
+</details>
+
+### 🚧 v1.2 improve ux and ui (Current milestone)
+
+**Milestone Goal:** Make the one-page recruiter portfolio feel more polished and easier to scan through shared motion rules, coordinated map/panel/timeline transitions, selective real loading polish, stronger spacing rhythm, and responsive hierarchy improvements without turning the page into spectacle.
+
+- [ ] **Phase 8: Motion Language & Reveal Rhythm** - Establish a consistent recruiter-first motion system for section reveals and interaction feedback.
+- [ ] **Phase 9: Interactive Continuity & Real Loading States** - Preserve context through coordinated map/panel/timeline transitions and only-real loading polish.
+- [ ] **Phase 10: Responsive Hierarchy Rewrite** - Rework spacing, composition, and responsive reflow so proof and CTAs scan faster across screen sizes.
+- [ ] **Phase 11: Recruiter-First Finish & Quality Guardrails** - Validate that the polish still preserves one-minute understanding, trust, and performance discipline.
 
 ## Phase Details
 
@@ -75,6 +86,51 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 **Plans**: `07-01-PLAN.md`
 **UI hint**: yes
 
+### Phase 8: Motion Language & Reveal Rhythm
+**Goal**: Recruiters experience one restrained, consistent motion language that improves orientation and interaction clarity without slowing their scan.
+**Depends on**: Phase 7
+**Requirements**: MOTN-01, MOTN-02, MOTN-03
+**Success Criteria** (what must be TRUE):
+  1. Recruiter experiences a consistent motion rhythm across section reveals, interaction feedback, and state changes instead of mismatched speeds or styles.
+  2. Recruiter can enter and scan each major section through polished reveals that orient the eye without hiding already-available reading for too long.
+  3. Recruiter gets immediate, noticeable feedback on primary CTAs, links, cards, and interactive controls.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 9: Interactive Continuity & Real Loading States
+**Goal**: Recruiters keep context during real waits and interactive state changes, especially through the knowledge-map, panel, and timeline choreography.
+**Depends on**: Phase 8
+**Requirements**: MOTN-04, LOAD-01, LOAD-02, LOAD-03
+**Success Criteria** (what must be TRUE):
+  1. Recruiter sees skeletons or reserved placeholders only where delayed surfaces genuinely need time, especially around interactive map-related loading boundaries.
+  2. Recruiter can move between knowledge-map hotspots, detail panels, and timeline emphasis through smooth coordinated transitions that preserve which item is active.
+  3. Recruiter keeps orientation during pending updates because surrounding structure stays stable instead of swapping abruptly.
+  4. Recruiter sees a route-level loading shell that preserves page structure and perceived continuity during real page-start or navigation waits.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 10: Responsive Hierarchy Rewrite
+**Goal**: Recruiters can scan a materially reworked one-page layout faster across mobile, tablet, and desktop through better spacing rhythm, reflow, and proof-first composition.
+**Depends on**: Phase 9
+**Requirements**: LAY-01, LAY-02, LAY-03
+**Success Criteria** (what must be TRUE):
+  1. Recruiter can identify positioning, proof, and primary contact actions more quickly because spacing, padding, and section chunking feel clearer and less crowded.
+  2. Recruiter can read and interact comfortably across mobile, tablet, and desktop through stronger responsive reflow and clearer CTA visibility.
+  3. Recruiter experiences a reworked page composition that makes section relationships and proof hierarchy easier to follow than the previous layout.
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 11: Recruiter-First Finish & Quality Guardrails
+**Goal**: The polished portfolio still optimizes for one-minute recruiter understanding, trust, and performance discipline after the UX/UI rewrite.
+**Depends on**: Phase 10
+**Requirements**: QUAL-05, QUAL-06
+**Success Criteria** (what must be TRUE):
+  1. Recruiter can still understand Riccardo's positioning and find primary contact actions within one minute after the milestone changes.
+  2. Recruiter experiences the added polish without fake waiting, distracting instability, or motion that makes the page harder to scan.
+  3. Recruiter can use the updated page on common desktop and mobile views without noticeable performance regressions in core reading and interaction flows.
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -83,3 +139,7 @@ Archived milestone. See `.planning/MILESTONES.md` for shipped milestone summary.
 | 5. Server-First Static Surface Atomization | 1/1 | Shipped | 2026-04-13 |
 | 6. Knowledge Map Feature Decomposition | 1/1 | Shipped | 2026-04-13 |
 | 7. Parity Hardening & Release Signoff | 1/1 | Shipped | 2026-04-13 |
+| 8. Motion Language & Reveal Rhythm | 0/TBD | Not started | - |
+| 9. Interactive Continuity & Real Loading States | 0/TBD | Not started | - |
+| 10. Responsive Hierarchy Rewrite | 0/TBD | Not started | - |
+| 11. Recruiter-First Finish & Quality Guardrails | 0/TBD | Not started | - |
