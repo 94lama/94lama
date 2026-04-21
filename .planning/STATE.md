@@ -1,36 +1,36 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: implement atomization of components
-status: milestone_shipped
-stopped_at: Milestone v1.1 shipped and archived
-last_updated: "2026-04-13T23:59:00+00:00"
-last_activity: "2026-04-13 - Shipped v1.1 component atomization milestone"
+milestone: v1.2
+milestone_name: improve ux and ui
+status: defining_requirements
+stopped_at: Defining milestone v1.2 requirements
+last_updated: "2026-04-21T13:37:45+00:00"
+last_activity: "2026-04-21 - Milestone v1.2 started"
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 7
-  completed_plans: 11
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-13)
+See: .planning/PROJECT.md (updated 2026-04-21)
 
 **Core value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
-**Current focus:** Milestone complete - waiting for next milestone definition
+**Current focus:** Defining milestone v1.2 requirements and roadmap
 
 ## Current Position
 
-Phase: 7 of 7 (Parity Hardening & Release Signoff)
-Plan: 1 of 1 in current phase
-Status: Milestone shipped
-Last activity: 2026-04-13 - Shipped v1.1 component atomization milestone
+Phase: Not started (defining requirements)
+Plan: -
+Status: Defining requirements
+Last activity: 2026-04-21 - Milestone v1.2 started
 
-Progress: [##########] 100%
+Progress: [----------] 0%
 
 ## Performance Metrics
 
@@ -69,6 +69,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-13 23:59 UTC
-Stopped at: Milestone v1.1 shipped and archived
-Resume file: None
+Last session: 2026-04-21 13:37 UTC
+Stopped at: Defining milestone v1.2 requirements
+Resume file: .planning/REQUIREMENTS.md
