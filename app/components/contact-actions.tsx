@@ -1,4 +1,4 @@
-import { GitHubIcon, LinkedInIcon } from "@/app/components/portfolio-icons";
+import { EmailIcon, GitHubIcon, LinkedInIcon, PhoneIcon } from "@/app/components/portfolio-icons";
 import { sectionChipClassName } from "@/app/components/section-card-styles";
 
 type ContactActionProps = {
@@ -10,7 +10,8 @@ type ContactActionProps = {
 type ContactIconActionProps = {
   href: string;
   label: string;
-  icon: "github" | "linkedin";
+  icon: "email" | "phone" | "github" | "linkedin";
+  external?: boolean;
 };
 
 export function ContactAction({ href, label, icon }: Readonly<ContactActionProps>) {
@@ -31,17 +32,21 @@ export function ContactIconAction({
   href,
   label,
   icon,
+  external = true,
 }: Readonly<ContactIconActionProps>) {
   return (
     <a
       aria-label={label}
       className={`${sectionChipClassName} inline-flex h-12 w-12 items-center justify-center px-0 py-0 text-slate-800 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent dark:text-white`}
       href={href}
-      rel="noreferrer"
-      target="_blank"
+      rel={external ? "noreferrer" : undefined}
+      target={external ? "_blank" : undefined}
       title={label}
     >
-      {icon === "github" ? <GitHubIcon /> : <LinkedInIcon />}
+      {icon === "email" ? <EmailIcon /> : null}
+      {icon === "phone" ? <PhoneIcon /> : null}
+      {icon === "github" ? <GitHubIcon /> : null}
+      {icon === "linkedin" ? <LinkedInIcon /> : null}
     </a>
   );
 }

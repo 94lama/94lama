@@ -7,6 +7,7 @@ import { rankExperienceBySelection } from "../src/content/portfolio/rank-experie
 import { createKnowledgeMapGraph } from "../app/components/knowledge-map/model.ts";
 import {
   createRootSelection,
+  getSelectionTriggerSkillLabels,
   getSelectedKindLabel,
   normalizeSelection,
   selectionFromNode,
@@ -16,10 +17,11 @@ import type { ExperienceEntry, SkillGroup } from "../src/content/portfolio/types
 const skillGroups: SkillGroup[] = [
   {
     category: "Frontend",
-    items: ["React", "Next.js", "TypeScript"],
+    items: ["React", "Next.js", "Javascript", "TypeScript"],
     entries: [
       { label: "React", knowledge: 1 },
       { label: "Next.js", knowledge: 0.8 },
+      { label: "Javascript", knowledge: 0.8 },
       { label: "TypeScript", knowledge: 0.7 },
     ],
   },
@@ -32,14 +34,27 @@ const skillGroups: SkillGroup[] = [
       { label: "CI/CD", knowledge: 0.4 },
     ],
   },
+  {
+    category: "Backend",
+    items: ["Laravel", "Serverless (OpenWhisk)"],
+    entries: [
+      { label: "Laravel", knowledge: 0.7 },
+      { label: "Serverless (OpenWhisk)", knowledge: 0.5 },
+    ],
+  },
 ];
 
 const rootDir = process.cwd();
 const pagePath = path.join(rootDir, "app/page.tsx");
+const routeLoadingPath = path.join(rootDir, "app/loading.tsx");
+const contactSectionPath = path.join(rootDir, "app/components/contact-section.tsx");
 const mapPath = path.join(rootDir, "app/components/skills-knowledge-map.tsx");
 const mapModelPath = path.join(rootDir, "app/components/knowledge-map/model.ts");
 const mapRuntimePath = path.join(rootDir, "app/components/knowledge-map/runtime.ts");
 const mapPanelsPath = path.join(rootDir, "app/components/knowledge-map/knowledge-map-panels.tsx");
+const mapViewportPath = path.join(rootDir, "app/components/knowledge-map/viewport.tsx");
+const routeShellPath = path.join(rootDir, "app/components/loading/route-shell-skeleton.tsx");
+const certificatesSectionPath = path.join(rootDir, "app/components/certificates-section.tsx");
 
 const experience: ExperienceEntry[] = [
   {
@@ -50,6 +65,8 @@ const experience: ExperienceEntry[] = [
       "Built React and Next.js interfaces for marketing pages.",
       "Shipped TypeScript components for the design system.",
     ],
+    relatedDomains: ["Frontend"],
+    relatedSkills: ["React", "Next.js", "TypeScript"],
   },
   {
     role: "Product Engineer",
@@ -59,6 +76,8 @@ const experience: ExperienceEntry[] = [
       "Developed React tooling for admin workflows.",
       "Maintained Docker images and Linux deployment scripts.",
     ],
+    relatedDomains: ["Frontend", "DevOps"],
+    relatedSkills: ["React", "Docker", "Linux"],
   },
   {
     role: "Platform Engineer",
@@ -68,6 +87,8 @@ const experience: ExperienceEntry[] = [
       "Managed CI/CD pipelines and container releases.",
       "Improved Linux observability for production systems.",
     ],
+    relatedDomains: ["DevOps"],
+    relatedSkills: ["CI/CD", "Linux", "Serverless (OpenWhisk)"],
   },
 ];
 
@@ -80,7 +101,7 @@ test("core selection keeps the full timeline in original order", () => {
       kind: "core",
       activeIndex: 0,
     },
-    skillGroups,
+    selectionSkillLabels: [],
   });
 
   assert.equal(result.isFallback, true);
@@ -92,45 +113,52 @@ test("core selection keeps the full timeline in original order", () => {
   assert.match(result.helperCopy, /full timeline|full experience timeline/i);
 });
 
-test("skill selection promotes matching entries and keeps nonmatches visible", () => {
+test("skill selection promotes only entries mapped to the selected technology", () => {
+  const graph = createKnowledgeMapGraph(skillGroups);
+  const typeScriptNode = graph.nodes.find((node) => node.label === "TypeScript");
+
+  assert.ok(typeScriptNode);
+
+  const selectionSkillLabels = getSelectionTriggerSkillLabels(graph, typeScriptNode.id);
   const result = rankExperienceBySelection({
     experience,
-    selection: {
-      id: "skill-react",
-      label: "React",
-      kind: "skill",
-      activeIndex: 0,
-    },
-    skillGroups,
+    selection: selectionFromNode(typeScriptNode, 0),
+    selectionSkillLabels,
   });
 
+  assert.equal(selectionSkillLabels.includes("Frontend"), false);
+  assert.deepEqual(selectionSkillLabels, ["TypeScript"]);
   assert.equal(result.entries.length, experience.length);
   assert.deepEqual(
     result.entries.map((item) => item.entry.company),
     ["Alpha Studio", "Beta Labs", "Gamma Ops"],
   );
   assert.equal(result.entries[0]?.isHighlighted, true);
-  assert.equal(result.entries[1]?.isHighlighted, true);
+  assert.equal(result.entries[1]?.isHighlighted, false);
   assert.equal(result.entries[2]?.isHighlighted, false);
+  assert.deepEqual(result.entries[0]?.matchedTerms, ["TypeScript"]);
 });
 
-test("category selection uses the active group's items as match terms", () => {
+test("category selection uses explicit domain links plus connected skill points", () => {
+  const graph = createKnowledgeMapGraph(skillGroups);
+  const devopsNode = graph.nodes.find((node) => node.label === "DevOps");
+
+  assert.ok(devopsNode);
+
+  const selectionSkillLabels = getSelectionTriggerSkillLabels(graph, devopsNode.id);
   const result = rankExperienceBySelection({
     experience,
-    selection: {
-      id: "category-1",
-      label: "DevOps",
-      kind: "category",
-      activeIndex: 1,
-    },
-    skillGroups,
+    selection: selectionFromNode(devopsNode, 1),
+    selectionSkillLabels,
   });
 
+  assert.equal(selectionSkillLabels.includes("DevOps"), false);
   assert.equal(result.entries.length, experience.length);
-  assert.equal(result.entries[0]?.entry.company, "Beta Labs");
-  assert.equal(result.entries[1]?.entry.company, "Gamma Ops");
+  assert.equal(result.entries[0]?.entry.company, "Gamma Ops");
+  assert.equal(result.entries[1]?.entry.company, "Beta Labs");
   assert.equal(result.entries[2]?.entry.company, "Alpha Studio");
-  assert.deepEqual(result.entries[0]?.matchedTerms, ["Docker", "Linux"]);
+  assert.deepEqual(result.entries[0]?.matchedTerms, ["DevOps", "CI/CD", "Linux", "Serverless (OpenWhisk)"]);
+  assert.deepEqual(result.entries[1]?.matchedTerms, ["DevOps", "Docker", "Linux"]);
 });
 
 test("unmatched selections fall back to the full timeline with helper copy", () => {
@@ -142,7 +170,7 @@ test("unmatched selections fall back to the full timeline with helper copy", () 
       kind: "skill",
       activeIndex: 0,
     },
-    skillGroups,
+    selectionSkillLabels: ["Rust"],
   });
 
   assert.equal(result.isFallback, true);
@@ -153,16 +181,44 @@ test("unmatched selections fall back to the full timeline with helper copy", () 
 
 test("page wiring replaces duplicate sections with the shared coordinator", async () => {
   const source = await readFile(pagePath, "utf8");
+  const heroIndex = source.indexOf("<HeroSection");
+  const proofIndex = source.indexOf("<KnowledgeExperienceCoordinator");
 
   assert.match(source, /KnowledgeExperienceCoordinator/);
   assert.match(source, /HeroSection/);
+  assert.match(source, /pageRhythm/);
+  assert.match(source, /ResponsiveSectionGrid/);
   assert.match(source, /EducationSection/);
+  assert.match(source, /CertificatesSection/);
   assert.match(source, /LanguagesSection/);
   assert.match(source, /RelocationSection/);
-  assert.match(source, /ContactSection/);
+  assert.notEqual(heroIndex, -1);
+  assert.notEqual(proofIndex, -1);
+  assert.equal(heroIndex < proofIndex, true);
   assert.doesNotMatch(source, /ExperienceMapController/);
   assert.doesNotMatch(source, /Interactive Skills And Experience/);
   assert.doesNotMatch(source, /content\.skills\.map\(/);
+});
+
+test("contact section keeps the primary mailto CTA explicit", async () => {
+  const source = await readFile(contactSectionPath, "utf8");
+
+  assert.match(source, /Primary CTA/);
+  assert.match(source, /href=\{`mailto:\$\{contact\.email\}`\}/);
+  assert.match(source, /Email me/);
+});
+
+test("certificates section uses a button-triggered modal with dialog semantics", async () => {
+  const source = await readFile(certificatesSectionPath, "utf8");
+
+  assert.match(source, /"use client"/);
+  assert.match(source, /View all certificates/);
+  assert.match(source, /aria-haspopup="dialog"/);
+  assert.match(source, /role="dialog"/);
+  assert.match(source, /aria-modal="true"/);
+  assert.match(source, /Close certificates modal/);
+  assert.match(source, /rotateX/);
+  assert.match(source, /rotateY/);
 });
 
 test("map component keeps a semantic core selection without a rendered core mesh", async () => {
@@ -177,20 +233,58 @@ test("map component keeps a semantic core selection without a rendered core mesh
   assert.match(modelSource, /id: "core"/);
   assert.match(runtimeSource, /node\.kind === "core" \? undefined : new Mesh/);
   assert.match(runtimeSource, /visual\.data\.kind === "core" \? false/);
-  assert.match(panelSource, /Reset to overview/);
+  assert.match(panelSource, /Current selection/);
+});
+
+test("viewport scene creation stays separate from selection highlight sync", async () => {
+  const viewportSource = await readFile(mapViewportPath, "utf8");
+
+  assert.match(viewportSource, /createKnowledgeMapScene\(/);
+  assert.match(viewportSource, /syncHighlight\(state, graphData\.nodeMap, selectedNodeId\)/);
+  assert.match(viewportSource, /syncHighlight\(sceneRef\.current, graphData\.nodeMap, selectedNodeId\)/);
+  assert.match(
+    viewportSource,
+    /\}, \[graphData, onPickNode, onReadyChange, prefersReducedMotion\]\);/,
+  );
+  assert.doesNotMatch(
+    viewportSource,
+    /\}, \[[^\]]*graphData[^\]]*onPickNode[^\]]*prefersReducedMotion[^\]]*selectedNodeId[^\]]*\]\);/,
+  );
+});
+
+test("route-level loading renders a structural route shell instead of a spinner fallback", async () => {
+  const [loadingSource, routeShellSource] = await Promise.all([
+    readFile(routeLoadingPath, "utf8"),
+    readFile(routeShellPath, "utf8"),
+  ]);
+
+  assert.match(loadingSource, /RouteShellSkeleton/);
+  assert.match(routeShellSource, /Hero loading shell/);
+  assert.match(routeShellSource, /Interactive section loading shell/);
+  assert.match(routeShellSource, /Lower content grids loading shell/);
+  assert.match(routeShellSource, /data-route-shell="portfolio-loading"/);
+  assert.doesNotMatch(routeShellSource, /spinner/i);
+  assert.doesNotMatch(routeShellSource, /Loading\.\.\./);
 });
 
 test("knowledge map graph keeps cross-domain and related-technology links in the model layer", () => {
   const graph = createKnowledgeMapGraph(skillGroups);
   const reactNode = graph.nodes.find((node) => node.label === "React");
   const nextNode = graph.nodes.find((node) => node.label === "Next.js");
-  const frontendNode = graph.nodes.find((node) => node.label === "Frontend");
+  const typeScriptNode = graph.nodes.find((node) => node.label === "TypeScript");
+  const backendNode = graph.nodes.find((node) => node.label === "Backend");
+  const serverlessNode = graph.nodes.find(
+    (node) => node.label === "Serverless (OpenWhisk)",
+  );
 
   assert.ok(reactNode);
   assert.ok(nextNode);
-  assert.ok(frontendNode);
+  assert.ok(typeScriptNode);
+  assert.ok(backendNode);
+  assert.ok(serverlessNode);
   assert.equal(reactNode?.neighbors.includes(nextNode?.id ?? ""), true);
-  assert.equal(reactNode?.neighbors.includes(frontendNode?.id ?? ""), true);
+  assert.equal(typeScriptNode?.neighbors.includes(backendNode?.id ?? ""), true);
+  assert.equal(typeScriptNode?.neighbors.includes(serverlessNode?.id ?? ""), true);
 });
 
 test("selection helpers normalize invalid ids and derive node metadata", () => {

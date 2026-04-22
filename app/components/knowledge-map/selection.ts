@@ -70,6 +70,34 @@ export function getSelectedNeighborNodes(graph: KnowledgeMapGraph, selectedNodeI
     });
 }
 
+export function getSelectionTriggerSkillLabels(
+  graph: KnowledgeMapGraph,
+  selectedNodeId: string,
+) {
+  const selectedNode = getSelectedNode(graph, selectedNodeId);
+
+  if (!selectedNode || selectedNode.kind === "core") {
+    return [];
+  }
+
+  const skillLabels = new Set<string>();
+
+  if (selectedNode.kind === "skill") {
+    skillLabels.add(selectedNode.label);
+    return Array.from(skillLabels);
+  }
+
+  for (const neighborId of selectedNode.neighbors) {
+    const neighbor = graph.nodeMap.get(neighborId);
+
+    if (neighbor?.kind === "skill") {
+      skillLabels.add(neighbor.label);
+    }
+  }
+
+  return Array.from(skillLabels).sort((left, right) => left.localeCompare(right));
+}
+
 export function getSelectedGroupNames(
   selectedNode: GraphNode | undefined,
   skillGroups: SkillGroup[],
@@ -79,9 +107,9 @@ export function getSelectedGroupNames(
     .filter(Boolean);
 }
 
-export function getSelectedKnowledgeLabel(selectedNode: GraphNode | undefined) {
+export function getSelectedKnowledgeValue(selectedNode: GraphNode | undefined) {
   return selectedNode?.kind === "skill" && typeof selectedNode.knowledge === "number"
-    ? `${Math.round(selectedNode.knowledge * 5)}/5 knowledge`
+    ? Math.max(1, Math.min(5, Math.round(selectedNode.knowledge * 5)))
     : null;
 }
 

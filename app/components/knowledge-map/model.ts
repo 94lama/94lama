@@ -10,6 +10,8 @@ const CATEGORY_COLORS = [
 ] as const;
 
 const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
+  Javascript: ["Backend"],
+  TypeScript: ["Backend"],
   Python: ["DevOps"],
   "Serverless (OpenWhisk)": ["DevOps"],
   Docker: ["DevOps"],
@@ -21,16 +23,17 @@ const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
 };
 
 const RELATED_SKILL_LINKS: Record<string, string[]> = {
-  React: ["Next.js", "TypeScript", "Tailwind", "Svelte"],
-  "Next.js": ["React", "TypeScript", "Tailwind", "Serverless (OpenWhisk)"],
-  Svelte: ["React", "TypeScript"],
-  TypeScript: ["React", "Next.js", "Svelte", "Tailwind"],
-  Tailwind: ["React", "Next.js", "TypeScript"],
+  React: ["Javascript", "Next.js", "TypeScript", "Tailwind", "Svelte"],
+  "Next.js": ["React", "Javascript", "TypeScript", "Tailwind", "Serverless (OpenWhisk)"],
+  Svelte: ["Javascript", "React", "TypeScript"],
+  Javascript: ["React", "Next.js", "Svelte", "TypeScript", "Laravel", "Serverless (OpenWhisk)"],
+  TypeScript: ["Javascript", "React", "Next.js", "Svelte", "Tailwind", "Serverless (OpenWhisk)"],
+  Tailwind: ["React", "Next.js", "TypeScript", "Javascript"],
   Python: ["Django", "Serverless (OpenWhisk)", "Docker", "Linux", "Bash", "PostgreSQL"],
-  PHP: ["Laravel", "MySQL"],
-  Laravel: ["PHP", "MySQL"],
+  PHP: ["Laravel", "MySQL", "Javascript"],
+  Laravel: ["PHP", "MySQL", "Javascript"],
   Django: ["Python", "PostgreSQL"],
-  "Serverless (OpenWhisk)": ["Python", "Docker", "Next.js"],
+  "Serverless (OpenWhisk)": ["Python", "Docker", "Next.js", "TypeScript", "Javascript"],
   Docker: ["Python", "Linux", "Bash", "CI/CD", "Serverless (OpenWhisk)"],
   Kubernetes: ["Linux", "Bash", "CI/CD", "Serverless (OpenWhisk)"],
   "CI/CD": ["Docker", "Linux", "Bash"],

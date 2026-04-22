@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { MotionController } from "./components/motion-controller";
 import { LegalFooter } from "./components/legal-footer";
 
 const geistSans = Geist({
@@ -35,17 +36,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-motion="ready"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
+      <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
+        <MotionController />
         <Script
           id="iubenda-widget-bootstrap"
           src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"
+          strategy="lazyOnload"
           type="text/javascript"
-          strategy="beforeInteractive"
         />
-      </head>
-      <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         {children}
         <LegalFooter />
 

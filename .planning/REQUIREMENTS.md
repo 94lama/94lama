@@ -1,37 +1,40 @@
 # Requirements: Riccardo La Malfa Portfolio
 
-**Defined:** 2026-04-13
+**Defined:** 2026-04-21
 **Core Value:** A recruiter can understand Riccardo's positioning and know how to contact him within one minute.
 
-## Milestone v1.1 Requirements
+## Milestone v1.2 Requirements
 
-### Composition
+### Motion and Interaction
 
-- [x] **COMP-01**: Recruiter can view the hero, education, languages, relocation, and contact sections from extracted section components without changes to section order, copy flow, or visible semantics.
-- [x] **COMP-02**: Recruiter can experience consistent section shells, headings, metadata rows, contact actions, and legal/contact surface styling through shared atomic UI primitives without visible drift.
-- [x] **COMP-03**: Maintainer can assemble the full portfolio page from extracted section components in a thin `app/page.tsx` composition root that loads portfolio content once.
+- [x] **MOTN-01**: Recruiter experiences one consistent motion language across section reveals, interaction feedback, and state changes. - Phase 8 (2026-04-21)
+- [x] **MOTN-02**: Recruiter can enter and scan sections through polished reveal and loading transitions that add orientation without blocking reading. - Phase 8 (2026-04-21)
+- [x] **MOTN-03**: Recruiter gets immediate micro-interaction feedback on primary CTAs, links, cards, and interactive controls. - Phase 8 (2026-04-21)
+- [ ] **MOTN-04**: Recruiter can move between knowledge-map, detail-panel, and timeline states through smooth coordinated transitions that preserve context.
 
-### Rendering and Indexability
+### Loading and Continuity
 
-- [x] **REND-01**: Recruiter can access the main portfolio shell and primary contact path from the initial server-rendered page without waiting for non-essential interactive code.
-- [x] **REND-02**: Search engine can index the recruiter-facing hero, experience, education, relocation, and contact content from the server-rendered document.
-- [x] **REND-03**: Maintainer can keep static sections server-first and isolate interactive map behavior to a narrow client island with explicit server/client ownership guards where needed.
+- [ ] **LOAD-01**: Recruiter sees skeleton screens or reserved placeholders only where real waiting exists, especially around delayed interactive surfaces.
+- [ ] **LOAD-02**: Recruiter keeps context during map, panel, and timeline state changes through pending-state continuity instead of abrupt swaps.
+- [ ] **LOAD-03**: Recruiter sees a route-level loading shell that preserves page structure and perceived continuity during real page-start or navigation waits.
 
-### Knowledge Map Architecture
+### Layout and Hierarchy
 
-- [x] **MAP-03**: Maintainer can edit knowledge-map graph constants, graph construction, and selection normalization in pure modules separate from React and OGL runtime code.
-- [x] **MAP-04**: Maintainer can edit OGL scene setup, shaders, animation, picking, highlighting, and cleanup in dedicated runtime modules without changing recruiter-visible map behavior.
-- [x] **MAP-05**: Maintainer can edit knowledge-map panels, legend, controls, and canvas shell in separate UI components without mixing them with renderer lifecycle code.
-- [x] **MAP-06**: Recruiter can still use the current knowledge-map and experience interaction model, including overview reset, selection highlighting, and full-timeline visibility, after the refactor.
+- [ ] **LAY-01**: Recruiter can scan the page faster through improved spacing, padding rhythm, and section chunking.
+- [ ] **LAY-02**: Recruiter can read and interact comfortably across mobile, tablet, and desktop through stronger responsive reflow and clearer CTA visibility.
+- [ ] **LAY-03**: Recruiter can navigate a materially reworked page composition that improves proof-first hierarchy and section relationships over the current layout.
 
-### Verification and Documentation
+### Quality Guardrails
 
-- [x] **QUAL-01**: Maintainer can review `.planning/ARCHITECTURE.md` for a current inventory of pages, components, boundaries, and data flow before and after the refactor.
-- [x] **QUAL-02**: Maintainer can run automated regression checks for page composition, CTA visibility and wiring, and map-to-experience invariants during the refactor.
-- [x] **QUAL-03**: Maintainer can run Playwright parity checks for key recruiter-visible flows, including initial page render and map-to-experience interaction.
-- [x] **QUAL-04**: Maintainer can follow an explicit QA checklist covering map interaction parity, accessibility, responsive parity, and layout-level legal and analytics wiring before signoff.
+- [ ] **QUAL-05**: Recruiter can still understand Riccardo's positioning and find primary contact actions within one minute after the UX/UI changes.
+- [ ] **QUAL-06**: Recruiter experiences the added polish without fake waiting, distracting instability, or noticeable performance regressions.
 
 ## Future Requirements
+
+### UX Accessibility and Verification
+
+- **MOTN-05**: Recruiters who prefer reduced motion can experience the same content and interactions with non-essential motion reduced or removed.
+- **QUAL-07**: Maintainer can run explicit regression checks covering motion behavior, responsive layout, and key recruiter flows before signoff.
 
 ### Product Extensions
 
@@ -49,13 +52,14 @@
 
 | Feature | Reason |
 |---------|--------|
-| Visual redesign during the refactor | This milestone is judged on parity and structure, not on changing the recruiter-facing UI. |
-| New recruiter-facing sections or SEO copy expansion | Architecture refactor and product expansion should not be mixed in the same milestone. |
-| Strict class-heavy OOP rewrite across the entire app | OOP should be used only where it clearly improves ownership, especially around imperative runtime code. |
-| Global clientification of the page tree | It would hurt fast rendering, bundle discipline, and technical SEO. |
-| Replacing OGL or changing the map interaction model | The milestone should preserve behavior while refactoring internals. |
-| Storybook rollout or generalized design-system packaging | Premature for a single-app parity refactor and not needed to ship v1.1 safely. |
-| Migrating away from `public/assets/cv.json` | Unrelated to the current atomization and parity goals. |
+| New product-surface expansion such as project showcase or dedicated CV access | This milestone is focused on improving the current recruiter experience before adding new surfaces. |
+| Replacing OGL or changing the core knowledge-map interaction model | The milestone should polish the experience around the map without turning it into a different feature. |
+| Rewriting the maintained content workflow away from `public/assets/cv.json` | Content-pipeline changes are unrelated to UX/UI polish and would dilute milestone focus. |
+| Framework churn or adding heavy animation tooling without clear need | Existing stack already supports most milestone goals, and unnecessary tooling would add risk. |
+| Decorative motion that delays reading or hides already-rendered content | Recruiter comprehension and contact discoverability matter more than spectacle. |
+| Fake skeletons or generic loading states for immediately available server-rendered content | Artificial waiting would hurt trust and perceived speed in a mostly server-first one-page app. |
+| Scroll-hijacking, cinematic storytelling, or parallax-heavy effects | These patterns are more likely to distract recruiters than improve scan speed. |
+| Global clientification of the page tree | It would weaken rendering discipline, SEO safety, and milestone performance goals. |
 
 ## Traceability
 
@@ -63,26 +67,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMP-01 | Phase 5 | Completed 2026-04-13 |
-| COMP-02 | Phase 5 | Completed 2026-04-13 |
-| COMP-03 | Phase 5 | Completed 2026-04-13 |
-| REND-01 | Phase 5 | Completed 2026-04-13 |
-| REND-02 | Phase 5 | Completed 2026-04-13 |
-| REND-03 | Phase 5 | Completed 2026-04-13 |
-| MAP-03 | Phase 6 | Completed 2026-04-13 |
-| MAP-04 | Phase 6 | Completed 2026-04-13 |
-| MAP-05 | Phase 6 | Completed 2026-04-13 |
-| MAP-06 | Phase 6 | Completed 2026-04-13 |
-| QUAL-01 | Phase 4 | Completed 2026-04-13 |
-| QUAL-02 | Phase 4 | Completed 2026-04-13 |
-| QUAL-03 | Phase 7 | Completed 2026-04-13 |
-| QUAL-04 | Phase 7 | Completed 2026-04-13 |
+| MOTN-01 | Phase 8 | Complete |
+| MOTN-02 | Phase 8 | Complete |
+| MOTN-03 | Phase 8 | Complete |
+| MOTN-04 | Phase 9 | Complete |
+| LOAD-01 | Phase 9 | Complete |
+| LOAD-02 | Phase 9 | Complete |
+| LOAD-03 | Phase 9 | Complete |
+| LAY-01 | Phase 10 | Implemented, pending manual verification |
+| LAY-02 | Phase 10 | Implemented, pending manual verification |
+| LAY-03 | Phase 10 | Implemented, pending manual verification |
+| QUAL-05 | Phase 11 | Pending |
+| QUAL-06 | Phase 11 | Pending |
 
 **Coverage:**
-- Milestone requirements: 14 total
-- Mapped to phases: 14
+- Milestone requirements: 12 total
+- Mapped to phases: 12
 - Unmapped: 0 ✓
 
 ---
-*Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after milestone v1.1 shipment*
+*Requirements defined: 2026-04-21*
+*Last updated: 2026-04-21 after roadmap creation*

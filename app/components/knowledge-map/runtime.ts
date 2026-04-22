@@ -8,6 +8,7 @@ import {
   Transform,
   Vec3,
 } from "ogl";
+import type { CSSProperties } from "react";
 
 import type { GraphNode, KnowledgeMapGraph } from "@/app/components/knowledge-map/model";
 
@@ -87,6 +88,10 @@ type ProjectedNode = {
   radius: number;
 };
 
+type MotionStyle = CSSProperties & {
+  "--motion-delay"?: string;
+};
+
 export type SceneState = {
   camera: Camera;
   renderer: Renderer;
@@ -127,13 +132,16 @@ function hashLabel(label: string) {
   return hash;
 }
 
-export function getEntranceStyle(prefersReducedMotion: boolean, delay = 0) {
-  if (prefersReducedMotion) {
+export function getEntranceStyle(
+  prefersReducedMotion: boolean,
+  delay = 0,
+): MotionStyle | undefined {
+  if (prefersReducedMotion || delay === 0) {
     return undefined;
   }
 
   return {
-    animation: `fade-in-up 500ms ease-out ${delay}ms both`,
+    "--motion-delay": `${delay}ms`,
   };
 }
 

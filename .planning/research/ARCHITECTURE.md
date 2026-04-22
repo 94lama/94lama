@@ -1,7 +1,7 @@
 # Architecture Research
 
-**Domain:** Brownfield one-page recruiter portfolio with a shared client-side OGL knowledge map
-**Researched:** 2026-04-13
+**Domain:** UX/UI integration for an existing recruiter-facing one-page portfolio
+**Researched:** 2026-04-21
 **Confidence:** HIGH
 
 ## Standard Architecture
@@ -9,296 +9,281 @@
 ### System Overview
 
 ```text
-┌──────────────────────────────────────────────────────────────────────┐
-│ Server composition layer                                             │
-│ app/layout.tsx  → global shell, metadata, scripts, footer           │
-│ app/page.tsx    → content load + section composition only            │
-├──────────────────────────────────────────────────────────────────────┤
-│ Server section layer                                                 │
-│ HeroSection  EducationSection  LanguagesSection  RelocationSection   │
-│ ContactSection  KnowledgeExperienceSectionShell                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Shared UI layer                                                      │
-│ atoms: badges, chips, pills, icons, buttons                          │
-│ molecules: section headings, meta rows, action groups, info cards    │
-│ organisms: section shells, cards, panel compositions                 │
-├──────────────────────────────────────────────────────────────────────┤
-│ Client feature island                                                │
-│ KnowledgeExperienceCoordinator                                       │
-│   ├── SkillsKnowledgeMap                                             │
-│   │   ├── ui/ panels + controls                                      │
-│   │   ├── hooks/ selection + reduced motion + scene lifecycle        │
-│   │   ├── model/ graph creation + normalization                      │
-│   │   └── ogl/ scene, shaders, animation, picking, highlight         │
-│   └── ExperienceTimelineSection                                      │
-├──────────────────────────────────────────────────────────────────────┤
-│ Content / domain layer                                               │
-│ getPortfolioContent → PortfolioContent → rankExperienceBySelection   │
-└──────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Server shell                                                               │
+│ app/layout.tsx → metadata, fonts, scripts, legal footer                    │
+│ app/page.tsx   → load cv.json once, compose sections in recruiter order     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Server-rendered content sections                                            │
+│ HeroSection → Education/Languages → Relocation/Contact                      │
+│ Keep semantic order and SEO-visible content in HTML                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Thin client wrappers                                                        │
+│ motion/RevealOnScroll → section reveals, micro-interaction state            │
+│ loading/KnowledgeMapSkeleton → client-only boot placeholder                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Main client island                                                          │
+│ KnowledgeExperienceCoordinator                                              │
+│   ├── SkillsKnowledgeMap                                                    │
+│   │   ├── knowledge-map-panels.tsx                                          │
+│   │   ├── viewport.tsx                                                      │
+│   │   ├── runtime.ts                                                        │
+│   │   ├── model.ts                                                          │
+│   │   └── selection.ts                                                      │
+│   └── ExperienceTimelineSection                                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Content/domain layer                                                        │
+│ getPortfolioContent() → typed content → rankExperienceBySelection()         │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Component Responsibilities
 
 | Component | Responsibility | Typical Implementation |
 |-----------|----------------|------------------------|
-| `app/page.tsx` | Thin server composition root | Fetch `PortfolioContent`, derive simple view-model arrays, compose section organisms only |
-| Server sections | Render stable recruiter-facing markup | Pure server components receiving already-typed content slices |
-| Shared atoms/molecules | Reusable visual primitives and small compositions | Stateless components backed by `section-card-styles.ts` recipes |
-| `KnowledgeExperienceCoordinator` | Own shared selection state for sections 01 and 02 | Single client island with `useState`, `useMemo`, pure ranking/model helpers |
-| `SkillsKnowledgeMap` | Feature-level composition for map UI + canvas | Small client organism delegating graph/model/runtime work to submodules |
-| OGL engine modules | Build, animate, pick, and dispose the 3D scene | Pure helpers + one lifecycle hook around `useEffect` |
+| `app/page.tsx` | Server composition root only | Fetch content once, compose sections, no motion state |
+| `SectionShell` + `section-card-styles.ts` | Shared spacing, surface, and motion tokens | Server-safe class recipes with variant props |
+| `motion/*` | Progressive reveal and small interaction polish | Tiny client wrappers around already-server-rendered children |
+| `loading/*` | Skeletons only where content is genuinely pending | Mostly client-island boot/pending placeholders |
+| `KnowledgeExperienceCoordinator` | Shared state between map and timeline | One client island with selection + pending state |
+| `knowledge-map/runtime.ts` | OGL-only scene lifecycle and adaptive quality | Imperative scene API, no section layout ownership |
 
 ## Recommended Project Structure
 
 ```text
 app/
-├── layout.tsx                                 # keep as root shell
-├── page.tsx                                   # thin server composition root
-├── components/
-│   ├── atoms/                                 # NEW: smallest reusable UI pieces
-│   │   ├── icon-email.tsx
-│   │   ├── icon-social.tsx
-│   │   ├── section-index-badge.tsx
-│   │   ├── chip.tsx
-│   │   ├── pill.tsx
-│   │   └── action-link.tsx
-│   ├── molecules/                             # NEW: small reusable compositions
-│   │   ├── section-heading.tsx
-│   │   ├── meta-pair.tsx
-│   │   ├── tag-list.tsx
-│   │   ├── bullet-list.tsx
-│   │   └── contact-action-group.tsx
-│   ├── organisms/                             # NEW: section-sized building blocks
-│   │   ├── hero-section.tsx
-│   │   ├── education-section.tsx
-│   │   ├── languages-section.tsx
-│   │   ├── relocation-section.tsx
-│   │   ├── contact-section.tsx
-│   │   ├── section-shell.tsx
-│   │   └── section-grid.tsx
-│   ├── features/                              # NEW: feature-specific client/server modules
-│   │   └── knowledge-map/
-│   │       ├── knowledge-experience-coordinator.tsx      # MODIFIED
-│   │       ├── skills-knowledge-map.tsx                   # MODIFIED, much smaller
-│   │       ├── experience-timeline-section.tsx            # move or re-export
-│   │       ├── ui/
-│   │       │   ├── knowledge-map-sidebar.tsx
-│   │       │   ├── knowledge-map-selection-panel.tsx
-│   │       │   ├── knowledge-map-connected-points.tsx
-│   │       │   ├── knowledge-map-category-grid.tsx
-│   │       │   ├── knowledge-map-canvas-panel.tsx
-│   │       │   └── knowledge-map-legend.tsx
-│   │       ├── hooks/
-│   │       │   ├── use-knowledge-map-controller.ts
-│   │       │   ├── use-knowledge-map-scene.ts
-│   │       │   └── use-reduced-motion.ts
-│   │       ├── model/
-│   │       │   ├── knowledge-map-types.ts
-│   │       │   ├── knowledge-map-constants.ts
-│   │       │   ├── create-knowledge-graph.ts
-│   │       │   └── selection.ts
-│   │       └── ogl/
-│   │           ├── shaders.ts
-│   │           ├── build-scene.ts
-│   │           ├── update-highlight.ts
-│   │           ├── project-nodes.ts
-│   │           ├── pick-node.ts
-│   │           └── animate-scene.ts
-│   ├── legal-footer.tsx                        # keep
-│   └── section-card-styles.ts                  # keep, expand as token/recipe source
-src/
-└── content/portfolio/
-    ├── get-portfolio-content.ts               # keep server-only
-    ├── rank-experience-by-selection.ts        # keep pure domain helper
-    └── types.ts                               # keep canonical content contracts
+├── layout.tsx                                   # keep server root shell
+├── page.tsx                                     # keep thin server composition root
+├── loading.tsx                                  # NEW optional route-shell fallback
+└── components/
+    ├── hero-section.tsx                         # MODIFIED: reveal hooks + rhythm variants only
+    ├── education-section.tsx                    # MODIFIED: same
+    ├── languages-section.tsx                    # MODIFIED: same
+    ├── relocation-section.tsx                   # MODIFIED: same
+    ├── contact-section.tsx                      # MODIFIED: same
+    ├── experience-timeline-section.tsx          # MODIFIED: transition/pending props
+    ├── experience-card.tsx                      # MODIFIED: reorder/highlight motion classes
+    ├── section-shell.tsx                        # MODIFIED: spacing-density + reveal slots
+    ├── section-card-styles.ts                   # MODIFIED: motion/rhythm token source
+    ├── knowledge-experience-coordinator.tsx     # MODIFIED: selection transition ownership
+    ├── skills-knowledge-map.tsx                 # MODIFIED: map composition + ready state
+    ├── motion/                                  # NEW
+    │   ├── motion-tokens.ts
+    │   ├── reveal-on-scroll.tsx
+    │   ├── section-transition.tsx
+    │   └── use-reduced-motion.ts
+    ├── loading/                                 # NEW
+    │   ├── route-shell-skeleton.tsx
+    │   ├── knowledge-map-skeleton.tsx
+    │   └── timeline-pending-overlay.tsx
+    ├── layout/                                  # NEW
+    │   ├── page-rhythm.ts
+    │   └── responsive-section-grid.tsx
+    └── knowledge-map/
+        ├── knowledge-map-panels.tsx             # MODIFIED: shell + overlay ownership
+        ├── viewport.tsx                         # MODIFIED: emits ready/interaction callbacks
+        ├── runtime.ts                           # MODIFIED: scene API, adaptive quality policy
+        ├── model.ts                             # keep pure
+        └── selection.ts                         # keep pure
 ```
 
 ### Structure Rationale
 
-- **Keep `app/page.tsx` and `app/layout.tsx` where they are:** this preserves App Router conventions and the current server-first rendering model. Next.js 16 still defaults pages and layouts to Server Components, which is the right baseline here. Source: Next.js docs, last updated 2026-04-08.
-- **Introduce `atoms/`, `molecules/`, and `organisms/` under `app/components/`:** this atomizes the rendered app without forcing a risky cross-repo move.
-- **Put the knowledge map under `components/features/knowledge-map/`:** the map is not shared generic UI; it is a feature with its own model, runtime, and UI.
-- **Keep content/domain logic in `src/content/portfolio/`:** it is already a good non-UI boundary and should not be pulled into the component tree.
+- **Do not do another major folder migration in v1.2.** v1.1 already paid the structural refactor cost. v1.2 should be additive and low-risk.
+- **Add `motion/`, `loading/`, and `layout/` beside existing components.** These are the new architectural concerns in this milestone.
+- **Keep the knowledge-map files where they are.** Improve them internally, but preserve OGL isolation and import stability.
 
-## Recommended Integration Into The Existing App
+## Recommended Architecture For v1.2
 
-### New vs Modified Modules
+### 1. Motion system: add wrappers, not a client-wide provider
 
-| Status | Module | Recommendation |
-|--------|--------|----------------|
-| **Modify** | `app/page.tsx` | Reduce to content fetch + section composition only. Remove inline helper components and section markup. |
-| **Modify** | `app/layout.tsx` | Keep server-only. Optionally extract global script/footer wrappers only if it reduces clutter; do not over-atomize. |
-| **Modify** | `app/components/knowledge-experience-coordinator.tsx` | Keep the client-island responsibility, but move to feature folder and strip duplicate heading/presentational code. |
-| **Modify** | `app/components/skills-knowledge-map.tsx` | Convert from monolith to feature composer over model/hooks/ui/ogl modules. |
-| **Modify** | `app/components/experience-timeline-section.tsx` | Treat as feature organism; optionally relocate under `features/knowledge-map/`. |
-| **Modify** | `app/components/section-card-styles.ts` | Keep as shared token/recipe module; let atoms/molecules consume it rather than duplicating class strings. |
-| **New** | `app/components/atoms/*` | Extract icons, chips, pills, action links, and other repeated leaf UI from `app/page.tsx`. |
-| **New** | `app/components/molecules/*` | Extract `SectionHeading`, metadata rows, tag groups, CTA clusters, and small cards. |
-| **New** | `app/components/organisms/*` | Create server section components for hero, education, languages, relocation, and contact. |
-| **New** | `app/components/features/knowledge-map/model/*` | Isolate graph constants, graph generation, and selection normalization into pure testable modules. |
-| **New** | `app/components/features/knowledge-map/ogl/*` | Isolate OGL setup, animation, picking, projection, highlight syncing, and shader strings. |
-| **New** | `app/components/features/knowledge-map/ui/*` | Split side panel, legend, connected points, category buttons, and canvas frame into focused presentational parts. |
+Use a **token-first motion system** built on Tailwind classes/CSS variables plus a few narrow client wrappers.
 
-### Server vs Client Boundaries
+**Add:**
+- `app/components/motion/motion-tokens.ts`
+- `app/components/motion/reveal-on-scroll.tsx`
+- `app/components/motion/section-transition.tsx`
+- `app/components/motion/use-reduced-motion.ts`
 
-**Keep on the server:**
-- `app/layout.tsx`
+**Modify:**
+- `app/components/section-card-styles.ts`
+- `app/components/section-shell.tsx`
+- `app/components/section-heading.tsx`
+- CTA/button components in `contact-actions.tsx`
+
+**Ownership:**
+- `motion-tokens.ts` owns durations, easing, stagger, hover/press distances, and reduced-motion fallbacks.
+- `RevealOnScroll` owns IntersectionObserver-based enter transitions for already-rendered server content.
+- `SectionShell` accepts variant props like `density="comfortable|compact"` and optional `reveal` config, but stays server-renderable.
+
+**Why this fits the current architecture:**
+- Next.js pages/layouts remain Server Components by default, which keeps initial HTML and SEO safe. Use client wrappers only where browser APIs are needed. Source: Next.js Server and Client Components docs, v16.2.4, updated 2026-04-15.
+- A server section can render inside a client wrapper without turning the whole page into a client tree. Use that pattern for reveal effects, not for content ownership. Source: same Next.js doc, “Interleaving Server and Client Components”.
+
+**Recommendation:**
+- Do **not** add a heavy animation library for this milestone.
+- Use native CSS transitions for cards/buttons/reveals.
+- Reserve imperative animation for OGL only.
+
+### 2. Skeleton/loading states: only for real pending states
+
+The page currently loads a local JSON file once on the server. That means most recruiter-facing copy is available immediately in server HTML. So skeletons should be **surgical**, not global.
+
+**Add:**
+- `app/loading.tsx` → optional route-shell fallback for cold navigations only
+- `app/components/loading/route-shell-skeleton.tsx`
+- `app/components/loading/knowledge-map-skeleton.tsx`
+- `app/components/loading/timeline-pending-overlay.tsx`
+
+**Modify:**
+- `app/components/skills-knowledge-map.tsx`
+- `app/components/knowledge-map/viewport.tsx`
+- `app/components/knowledge-map/knowledge-map-panels.tsx`
+- `app/components/knowledge-experience-coordinator.tsx`
+
+**Recommended behavior:**
+- **Route-level loading:** `app/loading.tsx` can mirror the page shell, but value is limited because this is a one-page app with a fast local content source.
+- **Map boot loading:** show `KnowledgeMapSkeleton` inside `KnowledgeMapCanvasShell` until the OGL scene reports ready.
+- **Timeline interaction pending:** when selection changes, keep the current timeline visible and show a subtle pending overlay/state badge instead of blanking cards.
+- **Do not skeletonize hero/contact/education copy on first render.** That content is SEO-visible server content and should appear as real content, not placeholders.
+
+**Why this fits the current architecture:**
+- Next.js `loading.tsx` is appropriate for route-segment fallback UI and streams from the server, but it is for route loading, not for every local interaction. Source: Next.js `loading.js` docs, v16.2.4, updated 2026-04-15.
+- React Suspense boundaries should match real loading sequences, not be placed around everything. Source: React Suspense docs.
+
+### 3. Responsive restructuring: move layout logic into server-safe layout recipes
+
+Use **CSS-first layout recipes**, not client resize listeners.
+
+**Add:**
+- `app/components/layout/page-rhythm.ts`
+- `app/components/layout/responsive-section-grid.tsx`
+
+**Modify:**
 - `app/page.tsx`
-- Hero / education / languages / relocation / contact section organisms
-- `getPortfolioContent()` and all direct file reads
+- `app/components/hero-section.tsx`
+- `app/components/education-section.tsx`
+- `app/components/languages-section.tsx`
+- `app/components/relocation-section.tsx`
+- `app/components/contact-section.tsx`
+- `app/components/section-shell.tsx`
 
-**Keep on the client:**
-- `KnowledgeExperienceCoordinator`
-- `SkillsKnowledgeMap`
-- all OGL scene lifecycle code
-- any reduced-motion, pointer, resize, or selection hooks
+**Ownership:**
+- `page-rhythm.ts` exports spacing/padding/gap recipes for mobile, tablet, desktop, and xl.
+- `responsive-section-grid.tsx` owns layout pairings like education/languages and relocation/contact.
+- Section components stay responsible for section internals only, not page orchestration.
 
-**Why:** Next.js recommends pushing `'use client'` as deep as possible because that boundary pulls all imports beneath it into the client bundle. This milestone should narrow, not spread, the client graph. Source: Next.js Server and Client Components docs, v16.2.3.
+**Rule:** keep DOM order identical to recruiter reading order:
+1. Hero
+2. Skills
+3. Experience
+4. Education
+5. Languages
+6. Relocation
+7. Contact
 
-### Page-Level Atomic Layering
+Visual rearrangement is fine through CSS grid, but **do not reorder DOM for desktop cosmetics**. That protects scan flow, accessibility, and SEO.
 
-#### Atoms
-- `SectionIndexBadge`
-- `EyebrowText` or shared eyebrow class wrapper
-- `Chip`
-- `Pill`
-- `ActionLink`
-- `IconEmail`
-- `IconSocial`
+### 4. Map interaction polish: coordinator owns state, runtime owns rendering
 
-These replace the current page-local `EmailIcon`, `ContactLink`, and `ContactIconLink` without changing markup semantics.
+The map is already well split. v1.2 should keep that split and add a clearer contract between UI state and OGL state.
 
-#### Molecules
-- `SectionHeading`
-- `MetaPair` for “Based in” / “Relocation” style pairs
-- `ContactActionGroup` for email + secondary actions
-- `TagList` for preferred regions and selection labels
-- `InfoCard` / `StatCard` wrappers for repeated bordered-card blocks
+**Modify:**
+- `app/components/knowledge-experience-coordinator.tsx`
+- `app/components/skills-knowledge-map.tsx`
+- `app/components/knowledge-map/knowledge-map-panels.tsx`
+- `app/components/knowledge-map/viewport.tsx`
+- `app/components/knowledge-map/runtime.ts`
 
-These remove duplication in `app/page.tsx` and `KnowledgeExperienceCoordinator` first.
+**Keep unchanged in role:**
+- `app/components/knowledge-map/model.ts`
+- `app/components/knowledge-map/selection.ts`
 
-#### Organisms
-- `HeroSection`
-- `EducationSection`
-- `LanguagesSection`
-- `RelocationSection`
-- `ContactSection`
-- existing `ExperienceCard` remains a strong card-level organism/molecule boundary
+**New responsibilities:**
+- `KnowledgeExperienceCoordinator` should own:
+  - selected node state
+  - `isPending` selection-transition state
+  - derived ranked experience
+- `SkillsKnowledgeMap` should own:
+  - map-ready state for skeleton handoff
+  - map-panel composition
+  - passing stable callbacks into viewport/runtime
+- `viewport.tsx` should own:
+  - mount/unmount bridge only
+  - `onSceneReady`, `onPickNode`, and optional `onInteractionStateChange`
+- `runtime.ts` should own:
+  - renderer creation/destruction
+  - drag/rotate/bobbing policy
+  - compact-screen quality tuning
+  - highlight sync
 
-Each organism should receive a single typed content slice and render no local data fetching or client state.
-
-## Knowledge Map Decomposition
-
-### Recommended OGL Split
-
-The current `SkillsKnowledgeMap` file should be decomposed into four layers, not dozens of tiny files.
-
-#### 1. Model layer (pure, testable)
-- `knowledge-map-types.ts`: `GraphNode`, `GraphEdge`, `KnowledgeMapSelection`, `ProjectedNode`
-- `knowledge-map-constants.ts`: `CATEGORY_COLORS`, `CROSS_DOMAIN_MEMBERSHIPS`, `RELATED_SKILL_LINKS`
-- `create-knowledge-graph.ts`: current `createGraph()` and small math helpers
-- `selection.ts`: `createRootSelection()`, normalization helpers, selected metadata derivation
-
-This is the safest first extraction because it has no DOM or OGL dependency.
-
-#### 2. OGL engine layer (imperative runtime)
-- `shaders.ts`: node and edge shader source
-- `build-scene.ts`: renderer, camera, graph transform, node meshes, edge meshes, disposal
-- `animate-scene.ts`: bobbing + rotation interpolation
-- `project-nodes.ts`: world/projected node calculations for picking
-- `pick-node.ts`: hit testing from client coordinates
-- `update-highlight.ts`: current `syncHighlight()` logic
-
-This keeps render-time React code pure and pushes side effects into one lifecycle boundary, which aligns with React guidance that side effects belong outside render. Source: React docs on component purity.
-
-#### 3. Hook/controller layer
-- `use-reduced-motion.ts`: wraps `matchMedia`
-- `use-knowledge-map-scene.ts`: mount/unmount canvas, resize observer, pointer listeners, animation frame, calls OGL engine helpers
-- `use-knowledge-map-controller.ts`: resolves controlled/uncontrolled selection, active group, selected neighbors, labels, and button actions
-
-This is the seam between React and OGL.
-
-#### 4. UI composition layer
-- `knowledge-map-selection-panel.tsx`
-- `knowledge-map-connected-points.tsx`
-- `knowledge-map-category-grid.tsx`
-- `knowledge-map-canvas-panel.tsx`
-- `knowledge-map-legend.tsx`
-- `knowledge-map-sidebar.tsx`
-
-`SkillsKnowledgeMap.tsx` should mostly assemble these pieces and pass props.
-
-### Boundary Rule For The Map
-
-**Do not split by visual chunk alone. Split by responsibility:**
-- pure graph math
-- imperative OGL runtime
-- React control state
-- presentational UI
-
-That gives maintainability without scattering one interaction across ten shallow wrappers.
+**Important boundary:**
+- UI panels must never mutate OGL objects directly.
+- They emit intent (`focus node`, `reset`, `hover label`, `show pending`) back up to the coordinator/map composer.
+- The runtime stays a pure imperative engine behind `viewport.tsx`.
 
 ## Architectural Patterns
 
-### Pattern 1: Thin server composition root
+### Pattern 1: Server section inside client reveal wrapper
 
-**What:** `app/page.tsx` loads content once, then composes sections.
-**When to use:** Everywhere in this app except the interactive map feature.
-**Trade-offs:** Slightly more files, much better change isolation.
+**What:** Keep content server-rendered, add motion with a tiny client shell.
+**When to use:** Section reveals, staggered list entrances, subtle CTA polish.
+**Trade-offs:** Slight client JS cost, but much smaller than converting sections to client components.
 
 **Example:**
 ```tsx
-export default async function Home() {
-  const content = await getPortfolioContent();
+import { RevealOnScroll } from "@/app/components/motion/reveal-on-scroll";
 
+export function EducationSection({ education }: Props) {
   return (
-    <main>
-      <HeroSection hero={content.hero} contact={content.contact} relocation={content.relocation} summary={content.summary} />
-      <KnowledgeExperienceCoordinator skillGroups={content.skills} experience={content.experience} />
-      <EducationSection education={content.education} />
-      <LanguagesSection languages={content.languages} />
-      <RelocationSection relocation={content.relocation} />
-      <ContactSection contact={content.contact} />
-    </main>
+    <RevealOnScroll preset="section">
+      <SectionShell density="comfortable">
+        {/* server-rendered content */}
+      </SectionShell>
+    </RevealOnScroll>
   );
 }
 ```
 
-### Pattern 2: Client feature island around shared state
+### Pattern 2: Persistent content + pending overlay
 
-**What:** Keep sections 01 and 02 under one client coordinator because they share selection state.
-**When to use:** When two adjacent surfaces must stay synchronized.
-**Trade-offs:** Slightly larger island than a single widget, but avoids prop-drilling and split-brain state.
+**What:** Never replace already-visible map/timeline content with blank loading UI during interaction.
+**When to use:** Map selection changes and timeline resorting.
+**Trade-offs:** Slightly more state wiring, much better perceived continuity.
 
 **Example:**
 ```tsx
-"use client";
+const [isPending, startTransition] = useTransition();
 
-export function KnowledgeExperienceCoordinator({ skillGroups, experience }: Props) {
-  const controller = useKnowledgeExperienceController({ skillGroups, experience });
-
-  return (
-    <>
-      <SkillsKnowledgeMap {...controller.mapProps} />
-      <ExperienceTimelineSection {...controller.timelineProps} />
-    </>
-  );
+function handleSelection(next: KnowledgeMapSelection) {
+  startTransition(() => setSelection(next));
 }
+
+<ExperienceTimelineSection
+  entries={ranked.entries}
+  helperCopy={ranked.helperCopy}
+  isFallback={ranked.isFallback}
+  isPending={isPending}
+/>
 ```
 
-### Pattern 3: React shell around imperative renderer
+### Pattern 3: OGL readiness handoff
 
-**What:** React owns layout and state; OGL owns canvas internals behind a hook/runtime boundary.
-**When to use:** Any canvas/WebGL subfeature in this app.
-**Trade-offs:** Requires disciplined prop contracts, but prevents a JSX file from becoming an engine file.
+**What:** Show a canvas-shaped skeleton until the scene is mounted and first render completed.
+**When to use:** Initial hydration of the map client island.
+**Trade-offs:** Adds a small ready-state handshake, but avoids a dead/blank canvas box.
 
 **Example:**
 ```tsx
-function KnowledgeMapCanvasPanel(props: CanvasPanelProps) {
-  const viewportRef = useKnowledgeMapScene(props.sceneArgs);
-
-  return <div ref={viewportRef} className="absolute inset-0" />;
-}
+<KnowledgeMapCanvasShell>
+  {!isSceneReady ? <KnowledgeMapSkeleton /> : null}
+  <KnowledgeMapViewport
+    graphData={graphData}
+    selectedNodeId={selectedNodeId}
+    onPickNode={applySelection}
+    onSceneReady={() => setSceneReady(true)}
+  />
+</KnowledgeMapCanvasShell>
 ```
 
 ## Data Flow
@@ -314,83 +299,72 @@ app/page.tsx
   ↓
 getPortfolioContent()
   ↓
-Server section organisms + client props for KnowledgeExperienceCoordinator
+server-rendered sections in final DOM order
   ↓
-Client selection state changes
+client hydration for motion wrappers + knowledge map island
   ↓
-rankExperienceBySelection() + map highlight updates
+KnowledgeMapViewport boots OGL scene
+  ↓
+scene ready → map skeleton fades out
 ```
 
 ### State Management
 
 ```text
-KnowledgeExperienceCoordinator state
-    ↓
-normalized selection
-    ├── SkillsKnowledgeMap UI state/labels
-    ├── OGL highlight + picking sync
-    └── ranked experience entries/helper copy
+KnowledgeExperienceCoordinator
+    ↓ owns
+selection + isPending
+    ├── SkillsKnowledgeMap (panels + viewport props)
+    ├── rankExperienceBySelection()
+    └── ExperienceTimelineSection (reordered cards + pending overlay)
 ```
 
 ### Key Data Flows
 
-1. **Static content flow:** `cv.json` → `getPortfolioContent()` → server section organisms.
-2. **Interactive recruiter flow:** selected map node → normalized selection → experience ranking + map highlight update.
-3. **Canvas interaction flow:** pointer event → projected node pick → controller selection update → UI and timeline refresh.
+1. **Initial page load:** `cv.json` → `getPortfolioContent()` → server sections render real recruiter-facing content.
+2. **Section motion:** server section markup → `RevealOnScroll` client wrapper → visible enter transition only.
+3. **Map boot:** `SkillsKnowledgeMap` mounts → `viewport.tsx` creates scene via `runtime.ts` → `onSceneReady` clears canvas skeleton.
+4. **Map selection:** user click/tap/button → coordinator transition update → ranked timeline recalculates → map highlight syncs.
+5. **Responsive restructuring:** `app/page.tsx` composes same sections in same DOM order → `responsive-section-grid.tsx` changes only visual grouping.
 
-## Build Order For Incremental Refactor
+## Scaling Considerations
 
-1. **Extract shared atoms and molecules first**
-   - Move `EmailIcon`, `ContactLink`, `ContactIconLink`, and duplicated `SectionHeading` out of `app/page.tsx` and `KnowledgeExperienceCoordinator`.
-   - Lowest regression risk; immediate deduplication.
+| Scale | Architecture Adjustments |
+|-------|--------------------------|
+| Current single-page portfolio | Current architecture is enough; optimize polish, not topology |
+| More sections/content density | Add more server sections and reuse motion/layout recipes |
+| More interactive visualizations | Add separate client islands; do not expand the map island into page-wide state |
 
-2. **Extract server section organisms from `app/page.tsx`**
-   - `HeroSection`, `EducationSection`, `LanguagesSection`, `RelocationSection`, `ContactSection`.
-   - Keep props close to current content shape to avoid transformation bugs.
+### Scaling Priorities
 
-3. **Thin `app/page.tsx` to composition only**
-   - Once sections are extracted, remove local helpers and inline block markup.
-
-4. **Stabilize the feature boundary for sections 01 and 02**
-   - Move/rename `KnowledgeExperienceCoordinator` into a feature folder, but keep its external API unchanged.
-   - This reduces import churn while internals are being split.
-
-5. **Extract pure knowledge-map model logic**
-   - Move constants, graph creation, selection helpers, and related derivations into `model/`.
-   - Add or extend tests here first; this is the safest place to lock behavior.
-
-6. **Extract OGL engine helpers behind one hook**
-   - Build `use-knowledge-map-scene.ts` and move renderer lifecycle, resize, animation, projection, picking, and cleanup behind it.
-   - Keep the current `SkillsKnowledgeMap` public props unchanged during this step.
-
-7. **Split map UI panels last**
-   - Sidebar, legend, connected points, category grid, and canvas panel.
-   - By doing this after controller/runtime extraction, UI splits become mechanical.
-
-8. **Optional cleanup in `app/layout.tsx`**
-   - Only after page and map refactors are stable. Layout is not the risk hotspot.
-
-This order minimizes regression risk because it goes from pure presentational extraction → server composition cleanup → pure model extraction → imperative engine extraction.
+1. **First bottleneck:** too much client JS from over-wrapping sections. Fix by keeping motion wrappers tiny and server content pure.
+2. **Second bottleneck:** mobile GPU cost in OGL runtime. Fix in `runtime.ts` with compact-screen quality policy before touching page architecture.
 
 ## Anti-Patterns
 
-### Anti-Pattern 1: Turning the whole page into a client tree
+### Anti-Pattern 1: Fake skeletons over real SSR content
 
-**What people do:** Move section extraction into a top-level `'use client'` page or provider because the map is interactive.
-**Why it's wrong:** It increases bundle size and breaks the current server-first architecture for no product gain.
-**Do this instead:** Keep one client island around the shared map/timeline feature only.
+**What people do:** Replace server-rendered hero/summary/contact content with placeholders just to look "modern".
+**Why it's wrong:** Hurts scan speed and weakens the recruiter-first value prop.
+**Do this instead:** Render real server content immediately and animate it in lightly.
 
-### Anti-Pattern 2: Splitting the OGL file by arbitrary line count
+### Anti-Pattern 2: Motion provider at the page root
 
-**What people do:** Create many tiny files that still share hidden mutable scene state.
-**Why it's wrong:** The code becomes harder to trace and easier to break.
-**Do this instead:** Split by responsibility: model, controller hooks, engine helpers, and UI panels.
+**What people do:** Wrap `<main>` or the whole page in a client motion shell.
+**Why it's wrong:** Pulls too much of the tree into the client bundle.
+**Do this instead:** Add client wrappers only around sections or controls that need browser APIs.
 
-### Anti-Pattern 3: Combining folder moves with behavior changes
+### Anti-Pattern 3: Letting map UI own runtime state
 
-**What people do:** Reorganize files and tweak interaction logic at the same time.
-**Why it's wrong:** Brownfield regressions become hard to isolate, especially in the map.
-**Do this instead:** Preserve public props and recruiter-facing behavior while changing internals underneath.
+**What people do:** Panels/buttons reach into OGL scene internals.
+**Why it's wrong:** Couples layout polish to rendering engine details and makes regressions hard to isolate.
+**Do this instead:** Keep coordinator intent-driven; keep runtime imperative and isolated.
+
+### Anti-Pattern 4: Responsive behavior via `window.innerWidth` state
+
+**What people do:** Move layout decisions into client hooks.
+**Why it's wrong:** Causes hydration risk and unnecessary JS.
+**Do this instead:** Use CSS grid/layout recipes and only use JS for map runtime quality tuning.
 
 ## Integration Points
 
@@ -398,36 +372,77 @@ This order minimizes regression risk because it goes from pure presentational ex
 
 | Service | Integration Pattern | Notes |
 |---------|---------------------|-------|
-| Iubenda widget | Keep in `app/layout.tsx` root shell | Global concern; not worth atomizing into small UI pieces |
-| Google Tag Manager | Keep in `app/layout.tsx` root shell | Same rationale; global infrastructure, not page composition |
+| Iubenda widget | Leave in `app/layout.tsx` | Global shell concern; unrelated to UX motion architecture |
+| GTM | Leave in `app/layout.tsx` | Do not couple analytics scripts to section transitions |
 
 ### Internal Boundaries
 
 | Boundary | Communication | Notes |
 |----------|---------------|-------|
-| `app/page.tsx` ↔ server section organisms | typed props | No section should fetch its own portfolio data |
-| `app/page.tsx` ↔ `KnowledgeExperienceCoordinator` | serializable props | Pass only `skillGroups` and `experience` |
-| coordinator ↔ map model | direct pure function calls | Good place for tests |
-| coordinator ↔ OGL scene hook | hook args + callback props | Stable contract required during refactor |
-| map UI ↔ selection controller | props/events | No direct scene mutation from UI panels |
-| OGL engine ↔ React tree | `useEffect` lifecycle only | Avoid side effects during render |
+| `app/page.tsx` ↔ sections | typed props | Still one server fetch, no section-local data loading |
+| sections ↔ `motion/*` | `children` slot + simple preset props | Best way to add motion without over-clientifying sections |
+| `app/page.tsx` ↔ `KnowledgeExperienceCoordinator` | serializable `experience` + `skillGroups` props | Keep island boundary narrow |
+| coordinator ↔ map | callbacks + derived props | Coordinator owns pending state |
+| viewport ↔ runtime | imperative scene API only | Runtime does not know section layout |
+| map ↔ timeline | shared selection state only | No direct component coupling |
+| page layout ↔ responsive recipes | server-safe class variants | Layout changes stay CSS-first |
+
+## Recommended Build Order
+
+1. **Stabilize shared tokens first**
+   - Modify `section-card-styles.ts` and `section-shell.tsx`.
+   - Add spacing-density variants and motion tokens.
+   - Lowest regression risk; everything else composes on top.
+
+2. **Add motion wrappers without restructuring layout**
+   - Create `motion/reveal-on-scroll.tsx` and `motion/use-reduced-motion.ts`.
+   - Wrap existing sections one by one.
+   - This proves the server/client boundary remains healthy before changing grids.
+
+3. **Add map boot skeleton and ready-state handshake**
+   - Create `loading/knowledge-map-skeleton.tsx`.
+   - Modify `skills-knowledge-map.tsx`, `knowledge-map-panels.tsx`, and `viewport.tsx` to support `onSceneReady`.
+   - This isolates canvas polish before touching interaction logic.
+
+4. **Introduce coordinator pending state for timeline/map transitions**
+   - Modify `knowledge-experience-coordinator.tsx`, `experience-timeline-section.tsx`, and `experience-card.tsx`.
+   - Keep current content visible; add pending overlay and reorder transitions.
+   - Lower risk than changing page layout because it stays inside the existing client island.
+
+5. **Tune OGL runtime interaction polish**
+   - Modify `runtime.ts` and `viewport.tsx` for compact-screen quality policy, drag hints, ready callbacks, and optional interaction-state callbacks.
+   - Do this after ready-state plumbing exists, so regressions stay inside the map boundary.
+
+6. **Extract responsive layout recipes and restructure page composition**
+   - Add `layout/page-rhythm.ts` and `layout/responsive-section-grid.tsx`.
+   - Modify `app/page.tsx` and section components only after motion + map states are stable.
+   - This is the most visually disruptive step, so do it late.
+
+7. **Add optional `app/loading.tsx` last**
+   - Only if route-level fallback still feels worth it after the rest of the polish lands.
+   - Nice-to-have, not core to this milestone.
 
 ## Sources
 
 - Local code inspection:
-  - `/workspaces/94lama/app/page.tsx`
-  - `/workspaces/94lama/app/layout.tsx`
-  - `/workspaces/94lama/app/components/knowledge-experience-coordinator.tsx`
-  - `/workspaces/94lama/app/components/skills-knowledge-map.tsx`
-  - `/workspaces/94lama/app/components/experience-timeline-section.tsx`
-  - `/workspaces/94lama/app/components/experience-card.tsx`
-  - `/workspaces/94lama/app/components/section-card-styles.ts`
-  - `/workspaces/94lama/src/content/portfolio/get-portfolio-content.ts`
-  - `/workspaces/94lama/src/content/portfolio/rank-experience-by-selection.ts`
-- Next.js docs: Server and Client Components — https://nextjs.org/docs/app/getting-started/server-and-client-components (version 16.2.3, last updated 2026-04-08) — HIGH confidence
-- Next.js docs: `layout.js` file convention — https://nextjs.org/docs/app/api-reference/file-conventions/layout (version 16.2.3, last updated 2026-04-08) — HIGH confidence
-- React docs: Components and Hooks must be pure — https://react.dev/reference/rules/components-and-hooks-must-be-pure — HIGH confidence
+  - `/home/riccardolm/github/94lama/.planning/PROJECT.md`
+  - `/home/riccardolm/github/94lama/app/page.tsx`
+  - `/home/riccardolm/github/94lama/app/layout.tsx`
+  - `/home/riccardolm/github/94lama/app/components/section-shell.tsx`
+  - `/home/riccardolm/github/94lama/app/components/section-card-styles.ts`
+  - `/home/riccardolm/github/94lama/app/components/hero-section.tsx`
+  - `/home/riccardolm/github/94lama/app/components/contact-section.tsx`
+  - `/home/riccardolm/github/94lama/app/components/knowledge-experience-coordinator.tsx`
+  - `/home/riccardolm/github/94lama/app/components/skills-knowledge-map.tsx`
+  - `/home/riccardolm/github/94lama/app/components/knowledge-map/knowledge-map-panels.tsx`
+  - `/home/riccardolm/github/94lama/app/components/knowledge-map/viewport.tsx`
+  - `/home/riccardolm/github/94lama/app/components/knowledge-map/runtime.ts`
+  - `/home/riccardolm/github/94lama/src/content/portfolio/get-portfolio-content.ts`
+- Next.js docs: Server and Client Components — https://nextjs.org/docs/app/getting-started/server-and-client-components (v16.2.4, updated 2026-04-15) — HIGH confidence
+- Next.js docs: `loading.js` file convention — https://nextjs.org/docs/app/api-reference/file-conventions/loading (v16.2.4, updated 2026-04-15) — HIGH confidence
+- React docs: `<Suspense>` — https://react.dev/reference/react/Suspense — HIGH confidence
+- OGL README — https://github.com/oframe/ogl — MEDIUM confidence for library positioning, HIGH confidence for “minimal WebGL library” scope
 
 ---
-*Architecture research for: v1.1 atomization of components*
-*Researched: 2026-04-13*
+*Architecture research for: recruiter-facing portfolio UX/UI improvement milestone v1.2*
+*Researched: 2026-04-21*

@@ -1,25 +1,38 @@
-import { sectionCardClassName, sectionPanelClassName } from "@/app/components/section-card-styles";
+import {
+  sectionCardClassName,
+  sectionPanelClassName,
+} from "@/app/components/section-card-styles";
+import { sectionRhythm } from "@/app/components/layout/page-rhythm";
 
 type SectionShellProps = {
   children: React.ReactNode;
   className?: string;
   contentClassName?: string;
+  density?: keyof typeof sectionRhythm;
 };
 
-export const sectionShellClassName = `${sectionPanelClassName} px-5 py-6 sm:px-6 sm:py-7 xl:px-8`;
+export const sectionShellClassName = sectionPanelClassName;
 
 export const sectionGlowClassName =
-  "pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.1),transparent_28%)]";
+  "pointer-events-none absolute inset-0";
 
-export const sectionInnerCardClassName = `${sectionCardClassName} px-4 py-4`;
+export const sectionInnerCardClassNames = {
+  comfortable: `${sectionCardClassName} ${sectionRhythm.comfortable.inner}`,
+  compact: `${sectionCardClassName} ${sectionRhythm.compact.inner}`,
+} as const;
+
+export const sectionInnerCardClassName = sectionInnerCardClassNames.comfortable;
 
 export function SectionShell({
   children,
   className,
   contentClassName = "relative",
+  density = "comfortable",
 }: Readonly<SectionShellProps>) {
+  const shellClassName = `${sectionShellClassName} ${sectionRhythm[density].shell}`;
+
   return (
-    <article className={className ? `${sectionShellClassName} ${className}` : sectionShellClassName}>
+    <article className={className ? `${shellClassName} ${className}` : shellClassName}>
       <div className={sectionGlowClassName} />
       <div className={contentClassName}>{children}</div>
     </article>

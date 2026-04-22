@@ -11,12 +11,22 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 ## Current State
 
 - Latest shipped milestone: `v1.1 implement atomization of components` on 2026-04-13.
-- Current planned milestone: not defined yet.
+- Current planned milestone: `v1.2 improve ux and ui`.
 - The live app is a recruiter-focused one-page portfolio built on Next.js 16, React 19, Tailwind 4, and OGL.
 - Shared portfolio content is currently loaded from `public/assets/cv.json` into the server-rendered page through typed portfolio models.
 - The page includes a hero, knowledge-map-driven skill navigation, synced experience timeline, education, languages, relocation, contact actions, legal footer links, and layout-level consent and analytics wiring.
 - The page now renders through extracted server sections plus shared atomic primitives, while `app/page.tsx` stays a thin server composition root.
 - The knowledge-map hotspot is now decomposed across model, selection, runtime, UI-panel, and viewport boundaries.
+
+## Current Milestone: v1.2 improve ux and ui
+
+**Goal:** Improve recruiter-facing polish through smoother motion, stronger responsive behavior, better loading states, and better spacing rhythm, with freedom for larger layout restructuring if it improves UX.
+
+**Target features:**
+- Add consistent motion system across components, reveals, and section loading transitions.
+- Refine micro-interactions plus smoother knowledge-map, panel, and timeline transitions.
+- Rebalance padding and spacing rhythm across sections and improve responsive layout behavior.
+- Add skeleton screens or equivalent loading-state polish where they improve perceived performance.
 
 ## Latest Milestone: v1.1 implement atomization of components
 
@@ -42,16 +52,17 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 
 ### Active
 
-- [ ] Define the next milestone after v1.1.
+- [ ] Recruiters experience smoother and more intentional motion across sections, loading states, and interactive components.
+- [ ] Recruiters can scan and interact with the portfolio comfortably across desktop and mobile through improved spacing and responsive layout behavior.
+- [ ] Recruiters experience more polished micro-interactions and smoother map, panel, and timeline transitions without losing clarity or contact paths.
+- [ ] This milestone may restructure layout or section composition where it clearly improves UX/UI quality for recruiter-facing flows.
 
 ### Out of Scope
 
-- New recruiter-facing sections in this milestone - architecture refactor comes before feature expansion.
-- Visual redesign or interaction redesign in this milestone - the UI should stay effectively the same while the internals change.
-- Strict class-heavy OOP across the entire app - use OOP only where it clearly improves structure.
-- Replacing OGL or the current knowledge-map interaction model - refactor the implementation, not the product behavior.
-- Changing the single-page information architecture until the recruiter flow itself needs to change.
-- Changing the maintained portfolio content source away from `public/assets/cv.json` without a stronger workflow reason.
+- New product-surface expansion such as project showcase, dedicated CV view, or UI-variant switching - this milestone focuses on improving the current recruiter experience before adding new features.
+- Rewriting the content workflow or replacing `public/assets/cv.json` - not required for UX/UI polish and would dilute focus.
+- Framework churn or replacing OGL only for novelty - experience quality matters more than stack experimentation in this milestone.
+- Decorative motion that hurts readability, accessibility, or perceived performance - polish should support recruiter comprehension, not distract from it.
 
 ## Context
 
@@ -68,13 +79,12 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 ## Constraints
 
 - **Tech stack**: Stay within the existing Next.js 16, React 19, Tailwind 4, and OGL app.
-- **UI parity**: Keep the current recruiter-facing UI and behavior effectively unchanged during the refactor.
-- **Scope**: Refactor the entire rendered app in this milestone, not only one section.
-- **Server/client boundary**: Keep `app/page.tsx` server-first and avoid spreading client-only state through the whole tree.
+- **Core value**: Preserve fast recruiter understanding and clear contact paths even if layout or section composition changes.
+- **UX scope**: Motion, spacing, loading states, responsive behavior, and layout composition can change if they materially improve recruiter experience.
+- **Rendering**: Preserve fast initial scan speed and SEO-safe content delivery while improving perceived performance and motion quality.
+- **Performance/accessibility**: Animation and loading polish must stay responsive, accessible, and respectful of reduced-motion and mobile constraints.
 - **Content source**: Keep `public/assets/cv.json` as the maintained runtime content source unless a stronger workflow is chosen deliberately.
-- **Map behavior**: Preserve current knowledge-map selection, highlighting, and full-timeline experience visibility.
-- **Architecture style**: Use atomic component architecture as the primary goal; apply OOP only where it naturally helps.
-- **Quality bar**: Maintain responsive behavior, accessibility, and recruiter scan speed while restructuring internals.
+- **Quality bar**: Improve desktop/mobile responsiveness, motion consistency, and spacing rhythm without making primary recruiter actions harder to find.
 
 ## Key Decisions
 
@@ -91,6 +101,8 @@ A recruiter can understand Riccardo's positioning and know how to contact him wi
 | Treat OOP as a supporting tool, not a strict rewrite doctrine | The user wants cleaner structure without forcing class-heavy patterns where they add friction | ✓ Good - shipped in v1.1 |
 | Add `.planning/ARCHITECTURE.md` as a baseline before refactoring | The milestone needs an explicit inventory of pages and components before the structure changes | ✓ Good - shipped in v1.1 |
 | Run Playwright against a dedicated production port | Reusing an existing local server can produce false parity failures unrelated to shipped behavior | ✓ Good - shipped in v1.1 |
+| Start v1.2 as a recruiter-facing UX/UI improvement milestone | The architecture refactor is shipped, so next leverage should go into smoother experience quality and responsive polish | - Pending |
+| Allow broader layout restructuring during v1.2 | UX/UI improvements may require more than parity-safe tuning to materially improve desktop and mobile experience | - Pending |
 
 ## Evolution
 
@@ -110,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-13 after milestone v1.1 shipment*
+*Last updated: 2026-04-21 after milestone v1.2 kickoff*

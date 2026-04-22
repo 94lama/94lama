@@ -1,351 +1,420 @@
 # Pitfalls Research
 
-**Domain:** Atomization refactor of an existing Next.js 16 + React 19 + OGL recruiter portfolio
-**Researched:** 2026-04-13
-**Confidence:** MEDIUM
+**Domain:** UX/UI polish on an existing recruiter-focused Next.js 16 + React 19 + Tailwind 4 + OGL portfolio
+**Researched:** 2026-04-21
+**Confidence:** HIGH
 
 ## Critical Pitfalls
 
-### Pitfall 1: Client-boundary creep turns a server-first page into a client-heavy tree
+### Pitfall 1: Decorative motion overwhelms recruiter comprehension
 
 **What goes wrong:**
-While extracting atoms, developers move reusable UI into a file marked with `"use client"`, or import client-only code too high in the tree. That silently pulls more of `app/page.tsx` and its children into the client bundle, weakening the current server-first composition model.
+Animations make the page feel “active” but reduce scan speed. Headings, CTAs, cards, and the map all compete for attention, so the recruiter notices motion before they notice positioning, summary, experience, and contact actions.
 
 **Why it happens:**
-In Next.js App Router, `"use client"` defines a module boundary, and everything imported below that boundary becomes client code. Refactors often optimize for reuse first and boundary discipline second.
+Polish work often optimizes for delight in isolation instead of the portfolio’s core job: let a recruiter understand Riccardo and reach contact paths in under a minute.
 
 **How to avoid:**
-- Keep `app/page.tsx` as a thin server composition root.
-- Extract static atoms as server components by default.
-- Keep the client island narrow: coordinator + map-only behavior, not generic section shells.
-- Add explicit server/client ownership notes for every extracted component.
-- Mark server-only loaders with `server-only` if they risk being imported from client code later.
+- Define motion hierarchy before implementation: hero/section reveal is secondary, CTA and reading flow are primary.
+- Reserve stronger motion for user-triggered actions only: map selection, panel updates, timeline emphasis.
+- Keep ambient motion subtle or remove it entirely outside the OGL map.
+- Require every new animation to answer: “What decision becomes easier because of this?”
 
 **Warning signs:**
-- New `"use client"` directives appear in shared layout, section, or content components.
-- `getPortfolioContent()` or other server-only utilities get imported into client files.
-- Static sections start requiring serialized props that used to stay server-side.
-- Bundle size or hydration cost jumps after a “pure refactor.”
+- Review feedback says “cool” more often than “clear”.
+- Recruiter-critical content appears later or competes with moving chrome.
+- Sections feel slower to scan even when performance metrics are fine.
+- Primary CTA is visually quieter than decorative motion.
 
 **Phase to address:**
-Phase 1 — Baseline and boundaries, then enforce again in Phase 2 during static-surface atomization.
+Phase 1 — UX guardrails and motion principles.
 
 ---
 
-### Pitfall 2: Over-abstraction replaces one monolith with many meaningless wrappers
+### Pitfall 2: Motion ignores reduced-motion, keyboard, and focus behavior
 
 **What goes wrong:**
-The refactor creates many tiny atoms, wrappers, hooks, or classes that add naming overhead but do not clarify ownership. The result is harder navigation, duplicated prop plumbing, and slower future edits despite “better structure.”
+Transitions look fine for mouse users on a fast machine, but keyboard users lose focus context, reduced-motion users still get panning/scaling effects, and interactive elements only communicate state on hover.
 
 **Why it happens:**
-Atomization efforts often optimize for decomposition count instead of stable responsibilities. This codebase already shows pressure points like duplicated `SectionHeading` logic; the risk is extracting everything mechanically instead of around clear boundaries.
+Teams often add hover transforms and JS-driven animation first, then treat accessibility as cleanup. MDN explicitly recommends reducing or replacing non-essential motion for users who request reduced motion.
 
 **How to avoid:**
-- Extract only components with stable responsibility: section shell, heading, metadata row, CTA group, card, map renderer adapter.
-- Prefer composition over introducing abstract base components or class hierarchies.
-- Use OOP only for the imperative OGL lifecycle if it reduces effect complexity.
-- Require each extracted module to answer: “What invariant does this own?”
-- Merge wrappers that only forward classes/children without adding behavior.
+- Make reduced-motion support part of the motion API, not an override added later.
+- Prefer opacity/color changes over scale/pan/parallax in reduced-motion mode.
+- Ensure every hover affordance has keyboard-visible/focus-visible and pressed-state equivalents.
+- Test map, CTAs, chips, and timeline controls with keyboard only and with reduced motion enabled.
 
 **Warning signs:**
-- Components exist only to pass `className`, `children`, and one label through.
-- The same data gets threaded through 4–5 layers with no transformation.
-- A future editor cannot tell where styles, semantics, or interaction ownership live.
-- New classes or hooks are added mainly to satisfy an architectural ideal.
+- Motion checks rely only on `motion-safe:` hover utilities.
+- Focus rings disappear during transitions or after layout changes.
+- Reduced-motion mode still rotates, drifts, or scales large surfaces.
+- Important states are only discoverable by pointer hover.
 
 **Phase to address:**
-Phase 1 — Define extraction criteria before moving files; Phase 2 — enforce during page atomization.
+Phase 2 — shared motion primitives and accessibility contracts.
 
 ---
 
-### Pitfall 3: Styling drift from splitting inline markup into reusable atoms
+### Pitfall 3: JS reveal patterns hide already-server-rendered content until hydration
 
 **What goes wrong:**
-The visible UI changes slightly even though the milestone forbids it: spacing shifts, border radius changes, heading rhythm changes, CTA sizing drifts, dark-mode tokens diverge, or section shells stop matching exactly.
+Server-rendered sections initially mount hidden (`opacity: 0`, translated off-screen, collapsed) and only appear after client JavaScript runs. The page feels blank, late, or unstable even though the content was already delivered by the server.
 
 **Why it happens:**
-This page currently relies on inline Tailwind class composition plus shared style tokens. When markup is split apart, small class omissions or reordered wrappers can change layout and visual hierarchy.
+Developers import “scroll reveal” patterns from client-heavy sites into a server-first page. That fights the existing architecture, where `app/page.tsx` already delivers recruiter-visible content on the first response.
 
 **How to avoid:**
-- Extract current class recipes before changing structure.
-- Make section shell, inner card, section heading, chips, and CTA variants explicit shared primitives.
-- Preserve semantic tags and wrapper depth unless there is a documented reason to change them.
-- Use screenshot comparison and viewport parity checks on desktop + mobile before/after each extraction batch.
-- Refactor one section family at a time instead of rewriting the whole page tree at once.
+- Keep initial content visible by default; only animate enhancement layers, not baseline readability.
+- Use CSS that renders a valid resting state without JS.
+- Treat “no JS / slow JS / delayed hydration” as a first-class QA mode.
+- Do not gate hero, summary, contact, or section headings behind client reveal state.
 
 **Warning signs:**
-- Repeated one-off class tweaks appear after extraction.
-- The same atom needs per-call “temporary” spacing overrides everywhere.
-- Recruiter scan rhythm changes: hero height, section spacing, CTA prominence, or card density feel off.
-- Dark mode or hover/focus styles no longer match across identical surfaces.
+- Initial HTML contains the content but it is visually hidden until hydration.
+- Lighthouse/real-device tests show blank or low-information first paint.
+- Scroll reveal code gets added high in the tree and spreads `use client` boundaries.
+- Recruiter-critical copy appears after a visible delay with no real data dependency.
 
 **Phase to address:**
-Phase 2 — Static surface atomization; verify again in Phase 4 parity hardening.
+Phase 1 — rendering guardrails; verify again in Phase 5.
 
 ---
 
-### Pitfall 4: Shared selection semantics drift between the map and the timeline
+### Pitfall 4: Skeleton screens are added where no real loading boundary exists
 
 **What goes wrong:**
-The knowledge-map still renders, and the experience list still renders, but they stop agreeing on what a selection means. Typical failures: wrong `activeIndex`, broken `core` reset semantics, category selection reorders the wrong roles, or sidebar state no longer matches timeline ranking.
+Skeletons flash for content that is already available from server render, or they never appear at the right time because the loading work happens inside effects or local state transitions. The result is fake loading, flicker, and reduced trust.
 
 **Why it happens:**
-The selection contract is currently duplicated conceptually across coordinator, map behavior, and ranking logic. Refactors that split files without first centralizing this contract often introduce subtle divergence.
+React Suspense only works for Suspense-enabled loading sources; it does not activate for data fetched inside effects. Next.js `loading.tsx` is route-segment based, while this portfolio is a single page already loading content on the server from `getPortfolioContent()`.
 
 **How to avoid:**
-- Define one canonical `KnowledgeMapSelection` type and keep it shared.
-- Treat `core` overview behavior as an invariant with tests.
-- Extract pure selection-normalization helpers before moving UI.
-- Keep ranking logic pure and independent from presentation.
-- Add regression tests for skill, category, unmatched, and reset-to-overview flows.
+- Only add skeletons where there is a genuine async boundary or a delayed client-only surface.
+- Prefer inline stale-state treatment or subtle pending indicators for panel/timeline transitions.
+- If a skeleton is used, match final dimensions closely and keep copy hierarchy recognizable.
+- Avoid skeletons for hero and static recruiter content already present in the initial HTML.
 
 **Warning signs:**
-- The same selection shape/type is declared in multiple modules.
-- “Reset to overview” works visually but not in timeline ordering.
-- Category buttons highlight one field while the sidebar or timeline behaves like another.
-- Refactor PRs contain “temporary mapping” code between similar selection models.
+- Skeletons appear after content was already visible.
+- Skeleton components are driven by arbitrary timers rather than real pending state.
+- The page shows placeholder UI for `cv.json` content already delivered server-side.
+- Reviewers describe the loading state as “busy” or “fake”.
 
 **Phase to address:**
-Phase 2 — lock the shared contract before deeper map splitting; Phase 3 — preserve it during renderer decomposition.
+Phase 3 — loading-state design and real async boundary selection.
 
 ---
 
-### Pitfall 5: OGL lifecycle churn causes leaks, duplicate canvases, or animation resets
+### Pitfall 5: Skeletons and transitions introduce layout shift instead of perceived speed
 
 **What goes wrong:**
-After splitting `SkillsKnowledgeMap`, the scene is recreated too often or cleaned up incompletely. That leads to duplicate canvases, stacked event listeners, stale `ResizeObserver`s, multiple animation loops, memory leaks, or a graph that visibly resets on normal state changes.
+Placeholders, expanding panels, animated height changes, and responsive rearrangements push visible content around. Recruiters lose reading position or tap the wrong control. The page feels fragile even if it looks refined in static screenshots.
 
 **Why it happens:**
-The current component mixes scene creation, render loop, resize handling, interaction, and highlight syncing in one effect-heavy file. Breaking it apart without a strict init/update/dispose model is the highest-risk technical regression in this milestone.
+web.dev’s CLS guidance is clear: unexpected movement hurts usability, and animating layout properties or inserting unsized content is a common cause.
 
 **How to avoid:**
-- Separate responsibilities explicitly:
-  - pure graph data builder
-  - scene/renderer setup + disposal
-  - interaction/picking controller
-  - React UI shell
-- Make scene creation happen once per graph dataset, not once per incidental UI state change.
-- Keep imperative OGL objects behind refs or a dedicated controller object.
-- Ensure every setup path has mirrored cleanup for RAF, pointer listeners, and `ResizeObserver`.
-- Test in React Strict Mode to catch missing cleanup.
+- Match placeholder height, spacing, and aspect ratio to final content.
+- Prefer `transform` and `opacity` transitions over animating `top/left/width/height`.
+- Reserve stable space for map, panel, and timeline surfaces before async or interactive changes.
+- Measure CLS in lab and spot-check visually on mobile.
 
 **Warning signs:**
-- The canvas flashes or remounts when selection changes.
-- CPU usage climbs after navigating or hot reloading.
-- Pointer interactions degrade after repeated renders or viewport changes.
-- Multiple canvases exist in the DOM, or the graph loses its previous rotation unexpectedly.
+- Section headings jump after load.
+- The map or side panel changes height and pushes the timeline unexpectedly.
+- Transitions depend on `height: auto` hacks or top/left animation.
+- Mobile scroll position shifts during panel open/close or image load.
 
 **Phase to address:**
-Phase 3 — Knowledge-map decomposition. This is the earliest high-risk milestone-specific refactor hotspot.
+Phase 3 — loading-state implementation; harden again in Phase 5.
 
 ---
 
-### Pitfall 6: Pointer, resize, and picking regressions break the existing map interaction model
+### Pitfall 6: OGL map transitions are wired to React rerenders and recreate the scene
 
 **What goes wrong:**
-Users can still see the map, but selection feels wrong: taps miss nodes, dragging triggers accidental selection, hit areas drift after resize, or neighbor highlighting no longer matches the chosen point.
+Map selection, reduced-motion toggles, or new transition state remount the canvas runtime, causing flashes, lost rotation state, listener churn, or CPU spikes.
 
 **Why it happens:**
-Picking currently depends on projected node coordinates, drag thresholds, viewport bounds, and z-order heuristics. These are easy to break when extracting math and event handling into separate modules.
+The current `KnowledgeMapViewport` initialization effect depends on `graphData`, `onPickNode`, `prefersReducedMotion`, and `selectedNodeId`. That means added polish work can easily turn highlight changes into full scene teardown/rebuild cycles.
 
 **How to avoid:**
-- Preserve the current interaction contract before refactoring: tap selects, drag rotates, reset returns to overview.
-- Extract projection/picking logic into pure helpers with targeted tests.
-- Add manual QA scenarios for mobile tap, desktop drag, resize, reduced-motion mode, and repeated selection changes.
-- Keep drag threshold and hit-radius behavior stable unless intentionally changed.
+- Separate scene creation from scene updates: initialize once, then sync highlight and motion state incrementally.
+- Stabilize callbacks passed into the viewport.
+- Keep OGL objects behind refs/controller state instead of rerender-driven setup.
+- Add explicit checks for duplicate canvases, RAF loops, and pointer listeners.
 
 **Warning signs:**
-- Mobile taps need multiple tries.
-- A click after dragging selects an unexpected node.
-- Resize makes nodes visually drift away from their clickable area.
-- Sidebar metadata updates for a different node than the one the user intended.
+- Canvas flashes on simple selection changes.
+- Rotation resets after panel/timeline interaction.
+- CPU or GPU usage climbs after repeated interactions.
+- Debugging shows repeated setup/cleanup around normal state changes.
 
 **Phase to address:**
-Phase 3 — alongside renderer decomposition; validate again in Phase 4.
+Phase 2 — map/runtime hardening before broader motion polish.
 
 ---
 
-### Pitfall 7: Effect dependency churn recreates graph state on every render
+### Pitfall 7: Motion tokens drift into per-component one-offs
 
 **What goes wrong:**
-The map becomes subtly unstable because split hooks/effects depend on objects or callbacks recreated during render. Scene setup or expensive graph construction reruns more often than intended, causing jitter, lost rotation state, or unnecessary work.
+Every section gets its own easing, duration, delay, hover lift, and reveal distance. The page feels inconsistent, and later tuning becomes expensive because “small” changes require editing many unrelated components.
 
 **Why it happens:**
-React effects rerun when dependencies change, and refactors often introduce new inline objects/functions. With an imperative renderer, unnecessary reruns are much more expensive than in plain DOM UI.
+Existing styling is already centralized in `section-card-styles.ts` for visual tokens, but motion can still fragment if added ad hoc inside each component.
 
 **How to avoid:**
-- Keep expensive graph construction in pure memoized functions.
-- Separate “initialize scene” effects from “update highlight” effects.
-- Avoid dependency suppression; instead stabilize inputs or move non-reactive logic outside render.
-- Store long-lived imperative instances in refs, not state.
-- Treat selection updates as data updates, not renderer recreation triggers.
+- Define a small motion scale: e.g. instant, subtle, emphasis, map-only.
+- Centralize durations/easings/distance tokens alongside existing section style tokens.
+- Make “no motion” and “reduced motion” valid first-class variants.
+- Forbid inline magic numbers unless there is a documented exception.
 
 **Warning signs:**
-- Small prop changes cause scene teardown/rebuild.
-- Rotation snaps back after unrelated UI updates.
-- Linters are silenced around `useEffect` dependencies.
-- Debug logging shows repeated setup/cleanup during normal use.
+- Multiple components use slightly different `duration-*` and transform amounts for the same intent.
+- Designers or reviewers cannot describe the motion system consistently.
+- Tweaking rhythm requires a repo-wide hunt.
+- Hover, reveal, and pending states feel unrelated.
 
 **Phase to address:**
-Phase 3 — during hook/controller extraction.
+Phase 2 — motion system foundation.
 
 ---
 
-### Pitfall 8: Test coverage stays logic-only and misses composition regressions
+### Pitfall 8: Responsive restructuring preserves breakpoints but breaks narrative order
 
 **What goes wrong:**
-Existing tests keep passing while the actual shipped page regresses: section order changes, duplicate heading semantics appear, CTA wiring changes, map/timeline wiring breaks, or visual parity slips.
+Desktop and mobile layouts technically “fit”, but the recruiter-first story degrades: contact moves too low, supporting content interrupts the main scan path, or the map dominates small screens and hides proof of experience.
 
 **Why it happens:**
-Current coverage focuses on contact validation, ranking logic, and a small amount of page wiring. That is not enough for an architecture refactor whose main risk is boundary and composition regression rather than new business logic.
+Responsive work often focuses on columns, spacing, and overflow instead of information priority. This milestone explicitly allows layout restructuring, so narrative regressions are a real risk.
 
 **How to avoid:**
-- Add baseline regression tests before major extraction.
-- Cover section presence/order, coordinator wiring, overview fallback behavior, and key CTA/label semantics.
-- Add screenshot or DOM-structure parity checks for the static page shell.
-- Create a short manual QA checklist for the knowledge map because not all OGL behavior is easy to assert in unit tests.
+- Define required reading order per viewport before restructuring.
+- Protect primary flow: hero → proof of role/value → skills/experience → contact.
+- On mobile, optimize for short vertical scan and thumb-safe contact actions.
+- Validate with real-content screenshots, not empty-wireframe spacing.
 
 **Warning signs:**
-- A large refactor lands with only renamed-file test updates.
-- No test fails when wrapper depth, section order, or heading semantics change.
-- Review feedback relies on “looks the same locally” only.
-- Bugs are found only after deployment or browser QA.
+- Desktop looks better but mobile requires excessive scrolling before contact or experience.
+- Side-by-side sections collapse into an awkward alternating rhythm.
+- The map becomes the dominant first-screen element on small viewports.
+- Reviewers say the page feels “designed” but harder to understand quickly.
 
 **Phase to address:**
-Phase 1 — establish baseline tests first; Phase 4 — expand final regression verification.
+Phase 4 — responsive restructure and narrative validation.
 
 ---
 
-### Pitfall 9: Accessibility and semantics regress during “pure” UI extraction
+### Pitfall 9: Responsive polish breaks interaction ergonomics on touch devices
 
 **What goes wrong:**
-The page looks unchanged but becomes worse to use: focus outlines disappear, buttons become generic divs, links lose labels, section headings become inconsistent, or screen-reader cues drift.
+Tap targets get too small, sticky/fixed effects cover content, the map steals gestures, horizontal overflow appears, or buttons become hard to reach near the thumb zone.
 
 **Why it happens:**
-Atomic extraction often prioritizes visual reuse and class reuse over semantic reuse. This page already has meaningful links, buttons, and headings that are easy to accidentally flatten while creating generic primitives.
+The portfolio includes an interactive map plus dense content sections. Motion and spacing changes that feel elegant on desktop often reduce usability on mobile.
 
 **How to avoid:**
-- Preserve semantic element choice (`section`, `article`, `button`, `a`, headings) in extracted atoms.
-- Keep existing `aria-label`, `title`, and focus-visible behavior as part of the component contract.
-- Include keyboard and screen-reader smoke checks in the refactor QA pass.
-- Prefer semantic primitives over one generic “Box” component.
+- Test touch behavior on real mobile widths, not only responsive devtools.
+- Verify map drag vs tap thresholds after layout changes.
+- Maintain comfortable tap target sizes and spacing between actions.
+- Audit for horizontal overflow and sticky overlap at every breakpoint.
 
 **Warning signs:**
-- Extracted atoms default to `div` wrappers.
-- Focus styling becomes inconsistent after consolidation.
-- Heading levels or landmark structure change without intent.
-- Icon-only actions lose accessible names.
+- Mobile taps on map nodes require multiple tries.
+- Contact buttons or chips are visually polished but cramped.
+- Panels overlap the canvas or push content off-screen.
+- Scrolling near the map triggers accidental interactions.
 
 **Phase to address:**
-Phase 2 — when extracting reusable atoms; Phase 4 — verify final parity.
+Phase 4 — mobile interaction hardening.
 
 ---
 
-### Pitfall 10: Layout-level integrations drift while moving shared UI pieces around
+### Pitfall 10: Polished transitions break state synchronization between map, panel, and timeline
 
 **What goes wrong:**
-The visible product seems unchanged, but legal/footer/script behavior regresses: footer placement changes, consent widget fails, analytics scripts duplicate or disappear, or global shell classes move accidentally.
+The animation looks smooth, but content briefly disagrees: the panel highlights one skill while the timeline still reflects another, reset-to-overview lags, or exit/enter transitions reveal stale helper copy.
 
 **Why it happens:**
-Refactors often focus on page content and forget that `app/layout.tsx` owns non-visual but still user-impacting wiring. Shared component extraction can unintentionally move or duplicate that wiring.
+Animation often adds intermediate visual states, but the underlying selection model still needs a single source of truth. This app already coordinates shared state through `KnowledgeExperienceCoordinator`, so transition wrappers can accidentally desynchronize derived UI.
 
 **How to avoid:**
-- Treat `app/layout.tsx` as a protected shell boundary unless there is a specific reason to change it.
-- Verify footer presence, consent bootstrap, and script placement after any shared-layout extraction.
-- Keep layout concerns separate from page atomization concerns.
-- Add one regression checklist item for third-party/legal wiring, even though it is not the main refactor target.
+- Keep one canonical selection state and derive all visual states from it.
+- Animate presentation around stable data, not with temporary duplicated selection state.
+- Treat reset/core/category/skill transitions as explicit regression cases.
+- If stale content is intentionally shown during transition, label and dim it rather than pretending it is current.
 
 **Warning signs:**
-- Refactor PRs move footer or script code “for consistency.”
-- Consent/legal behavior breaks without any page-level UI change.
-- Duplicate script providers appear after component consolidation.
-- Root body/html classes change as a side effect of unrelated extraction.
+- Helper copy updates before the highlighted card list, or vice versa.
+- Reset to overview appears animated but leaves old emphasis visible.
+- Animation code introduces duplicate “current” and “next” selection objects.
+- Bug reports mention “momentarily wrong” content instead of outright failure.
 
 **Phase to address:**
-Phase 4 — final hardening, with light guardrails already noted in Phase 1.
+Phase 3 — transition integration on shared interactive state.
+
+---
+
+### Pitfall 11: Bundle growth and client-boundary creep erase the gains of polish
+
+**What goes wrong:**
+Adding animation helpers, observers, and client-only wrappers increases JS cost, hydration work, and complexity across a page whose value depends on fast initial comprehension.
+
+**Why it happens:**
+It is tempting to solve every transition with a new client library or move shared sections into client components for convenience. But this app is intentionally server-first with a narrow client island.
+
+**How to avoid:**
+- Default to CSS/Tailwind transitions and existing React primitives first.
+- Keep static sections server-rendered.
+- Evaluate any animation library against actual missing capability, not perceived convenience.
+- Track bundle size and hydration-sensitive surfaces during implementation.
+
+**Warning signs:**
+- New `use client` directives appear in static section components.
+- A motion library is introduced for patterns CSS already handles.
+- JS increases while actual UX clarity barely improves.
+- First interaction feels slower after a “polish” milestone.
+
+**Phase to address:**
+Phase 1 — architectural constraints; enforce again in Phase 5.
+
+---
+
+### Pitfall 12: Visual polish is approved without recruiter-task verification
+
+**What goes wrong:**
+The milestone ships because the page looks smoother, but real recruiter tasks are not measurably easier: finding positioning, scanning experience, and reaching contact still take the same time or get worse.
+
+**Why it happens:**
+Polish work is easy to judge aesthetically and easy to under-test functionally. Existing tests already protect structural behavior; this milestone needs UX-specific verification, not just snapshot approval.
+
+**How to avoid:**
+- Define milestone success in recruiter tasks, not only visuals.
+- Add checks for time-to-first-meaningful-scan, contact discoverability, reduced-motion parity, and mobile ease.
+- Use before/after manual QA scripts with real tasks.
+- Keep “less distracting” as a valid success outcome, even if that means fewer animations.
+
+**Warning signs:**
+- Acceptance criteria say “feels smoother” but not “improves scan and contact clarity”.
+- Reviews focus on motion aesthetics without task-based walkthroughs.
+- No mobile, reduced-motion, or low-power verification occurs.
+- A lot changed visually, but no one can explain the recruiter benefit.
+
+**Phase to address:**
+Phase 5 — verification, regression, and recruiter-task signoff.
 
 ## Technical Debt Patterns
 
-Shortcuts that feel efficient during refactor but create lasting fragility.
+Shortcuts that seem efficient during polish work but make the portfolio fragile.
 
 | Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
 |----------|-------------------|----------------|-----------------|
-| Marking a shared atom `"use client"` to make imports easier | Faster extraction | Boundary creep, larger bundles, lost server-first page model | Never for purely presentational atoms |
-| Copy-pasting Tailwind classes into new atoms instead of centralizing the stable recipe | Low friction | Styling drift and inconsistent parity fixes | Only as a short-lived intermediate step within the same PR |
-| Splitting the map into many hooks before defining its invariant contract | Feels modular | Hard-to-debug lifecycle bugs and duplicated state semantics | Never |
-| Adding class-heavy OOP across generic UI atoms | Superficial “architecture” | More indirection with no user benefit | Rarely; mainly justified for imperative OGL controller code |
-| Delaying regression tests until after the refactor | More coding time now | Slower reviews and brittle parity checking | Never for this milestone |
+| Add hidden-on-mount reveal wrappers around server-rendered sections | Fast “wow” factor | Blank first paint, hydration-dependent readability, weaker server-first UX | Never for recruiter-critical content |
+| Use timer-driven skeletons instead of real pending state | Easy demo | Fake loading, flicker, mistrust, harder testing | Never |
+| Animate layout properties (`height`, `top`, `left`) for convenience | Easy accordion/transition implementation | Jank, CLS, inconsistent mobile behavior | Rarely; only for tiny isolated regions with stable reserved space |
+| Introduce a heavy animation library for simple fades/lifts | Faster authoring at first | Bundle growth, more client code, harder reduced-motion parity | Only if a clearly missing capability justifies it |
+| Store duplicate “visual transition” state separate from canonical selection state | Easy enter/exit choreography | Desync between map, panel, and timeline | Never without strict derived-state rules |
 
 ## Integration Gotchas
 
 | Integration | Common Mistake | Correct Approach |
 |-------------|----------------|------------------|
-| Next.js server/client boundary | Pulling shared sections into client land via one interactive import | Keep static atoms server-side and isolate client behavior to coordinator/map modules |
-| OGL scene management | Letting React rerenders own scene lifecycle directly | Put scene lifecycle behind a stable ref/controller with explicit init/update/dispose |
-| CV content loading | Moving `cv.json` reads into client effects for convenience | Keep content loading on the server and pass only needed props into client islands |
-| Legal/analytics wiring | Duplicating or moving layout scripts during shared component extraction | Leave layout integrations at the root and verify them separately from page atomization |
+| Next.js server-first page | Converting static sections to client components just to animate them | Keep initial content server-rendered and layer CSS or narrowly scoped client enhancement on top |
+| React Suspense / loading UI | Assuming Suspense catches effect-based loading or arbitrary local transitions | Use real Suspense-enabled boundaries only; otherwise use explicit pending UI |
+| OGL map runtime | Coupling motion state to scene initialization effect dependencies | Initialize scene once, then push highlight/motion updates incrementally |
+| Shared selection coordinator | Adding animated intermediate states outside the canonical selection model | Derive all panel/timeline/map states from one selection contract |
+| Root layout integrations | Moving scripts/footer/layout shell during visual restructure | Treat `app/layout.tsx` as protected shell wiring and verify separately |
 
 ## Performance Traps
 
-Relevant for a portfolio-scale app: these break perceived quality before they break scale.
-
 | Trap | Symptoms | Prevention | When It Breaks |
 |------|----------|------------|----------------|
-| Recreating the OGL renderer on selection changes | Canvas flash, lost rotation, CPU spikes | Separate initialization from highlight updates | Immediately visible during normal interaction |
-| Over-clientizing static sections | Slower hydration, more JS for a mostly static page | Keep static UI as server components | Immediately on first load |
-| Recomputing graph data from unstable inputs | Stutter during interaction or resize | Pure graph builder + stable memoization | Visible as soon as rerenders become frequent |
-| Too many wrapper components in the hot path | Harder memoization and noisier renders | Extract by responsibility, not by smallest size | Usually noticeable during maintenance before runtime |
+| Hydration-dependent reveals | Blank or low-information first paint | Keep baseline content visible without JS | Immediately on slow devices or blocked JS |
+| Scene recreation during map interaction | Canvas flash, listener churn, CPU spikes | Split init from update and stabilize dependencies | Immediately during normal interaction |
+| Skeleton dimension mismatch | Content jumps when real UI arrives | Match final geometry and reserve space | Immediately on load or state changes |
+| Per-component motion one-offs | Inconsistent feel and repeated repaints | Use shared motion tokens and limited variants | Becomes obvious by mid-implementation |
+| Over-clientizing static sections | More JS, slower hydration, harder QA | Preserve narrow client islands | Immediately on first load |
+
+## Security / Privacy Mistakes
+
+This milestone has no new major domain-specific security surface, but two privacy-related mistakes are still relevant.
+
+| Mistake | Risk | Prevention |
+|---------|------|------------|
+| Breaking consent or analytics wiring during layout polish | Incorrect script behavior, compliance drift, inconsistent analytics | Keep layout scripts in the root shell and regression-test presence/placement |
+| Logging interaction-heavy polish instrumentation too broadly | Collecting noisy or unnecessary behavioral data | Instrument only what is needed to validate UX changes |
 
 ## UX Pitfalls
 
 | Pitfall | User Impact | Better Approach |
 |---------|-------------|-----------------|
-| Slight CTA/layout drift during atomization | Recruiter scan speed drops even if content is unchanged | Preserve existing visual hierarchy with parity checks |
-| Map interaction changes under the label of “cleanup” | Existing recruiter exploration flow breaks | Preserve current drag/select/reset behavior exactly |
-| Losing full-timeline visibility on filtered states | Experience narrative becomes narrower and less trustworthy | Keep current “reorder, don’t hide” model as a hard invariant |
+| “Smoother” means slower | Recruiter waits for content to settle before scanning | Favor immediate readability and subtle enhancement |
+| Skeletons on already-known content | Portfolio feels fake or unstable | Use real content immediately when available |
+| Mobile layout prioritizes visuals over narrative | Recruiter sees decoration before proof and contact paths | Protect reading order and CTA visibility |
+| Micro-interactions only visible on hover | Touch and keyboard users miss affordances | Mirror states across hover, focus, pressed, and selected |
+| Transition hides state changes instead of clarifying them | User is unsure what changed after a map interaction | Use motion to explain cause/effect, not to decorate it |
 
 ## "Looks Done But Isn't" Checklist
 
-- [ ] **Server/client boundaries:** `app/page.tsx` is still server-first and no static section was clientized accidentally.
-- [ ] **Knowledge map parity:** drag, tap/click select, reset to overview, resize behavior, and reduced-motion behavior still work.
-- [ ] **Timeline behavior:** selecting a skill/category still reorders entries without hiding the full timeline.
-- [ ] **Styling parity:** hero, section spacing, card radii, CTA sizing, and dark-mode surfaces match before/after screenshots.
-- [ ] **Accessibility:** focus states, link labels, heading order, and icon-only actions still expose the same semantics.
-- [ ] **Layout wiring:** legal footer, consent widget, and analytics bootstrap still render once in the expected place.
+- [ ] **Motion system:** Reduced-motion mode meaningfully reduces or replaces non-essential movement, not just hover lift.
+- [ ] **Initial render:** Hero, summary, key headings, and primary contact action are visible before client JS enhancement.
+- [ ] **Skeletons:** Every skeleton corresponds to a real pending boundary; none are timer-driven or purely decorative.
+- [ ] **Visual stability:** Map, panel, timeline, and section shells keep stable space and do not produce noticeable CLS.
+- [ ] **Map runtime:** Selection changes do not recreate the OGL scene, duplicate canvases, or reset rotation unexpectedly.
+- [ ] **Responsive narrative:** On mobile and desktop, the recruiter can still understand positioning and find contact paths quickly.
+- [ ] **Interaction parity:** Hover, focus, touch, pressed, and selected states all communicate clearly.
+- [ ] **Shell integrity:** Legal footer, consent widget, and analytics wiring still render once in the correct root shell.
 
 ## Recovery Strategies
 
 | Pitfall | Recovery Cost | Recovery Steps |
 |---------|---------------|----------------|
-| Client-boundary creep | MEDIUM | Move `"use client"` downward, restore server-only imports, re-split static atoms from interactive shells |
-| Styling drift | MEDIUM | Recompare against baseline screenshots/DOM, restore shared tokens, remove accidental wrapper changes |
-| Map lifecycle leaks | HIGH | Roll back to a stable single mount path, add explicit controller cleanup, then re-split behind tested boundaries |
-| Selection contract drift | MEDIUM | Centralize the shared selection model, restore invariant tests for `core`, category, skill, and unmatched states |
-| Test gap regressions | LOW/MEDIUM | Add baseline tests immediately, then fix surfaced parity issues before continuing atomization |
+| Decorative motion harming comprehension | MEDIUM | Remove or downgrade non-essential motion, re-check CTA prominence, re-run recruiter-task walkthroughs |
+| Hidden-on-mount reveals | MEDIUM | Restore visible default state, keep only progressive enhancement animations, re-test no-JS/slow-JS behavior |
+| Fake or flickering skeletons | LOW/MEDIUM | Delete timer-based placeholders, bind pending UI to real async state, reserve stable geometry |
+| OGL scene recreation | HIGH | Re-split viewport init/update responsibilities, stabilize callbacks, verify single canvas/single RAF lifecycle |
+| Narrative regression after responsive restructure | MEDIUM/HIGH | Restore priority order first, then reintroduce layout changes incrementally by viewport |
+| State desync during transitions | MEDIUM | Remove duplicate transition state, derive all views from canonical selection, add regression tests for reset/category/skill flows |
 
 ## Pitfall-to-Phase Mapping
 
+Suggested milestone phase structure:
+- **Phase 1:** UX guardrails, architecture constraints, and baseline checks
+- **Phase 2:** Shared motion system + OGL/runtime hardening
+- **Phase 3:** Loading states and transition integration
+- **Phase 4:** Responsive restructuring and mobile interaction hardening
+- **Phase 5:** Performance, accessibility, and recruiter-task verification
+
 | Pitfall | Prevention Phase | Verification |
 |---------|------------------|--------------|
-| Client-boundary creep | Phase 1: Baseline and boundaries | Server/client ownership documented; no unnecessary new client directives in static surfaces |
-| Over-abstraction | Phase 1: Extraction rules | Each extracted module has a clear invariant and non-trivial responsibility |
-| Styling drift | Phase 2: Static surface atomization | Before/after screenshots and DOM checks match within agreed tolerance |
-| Selection contract drift | Phase 2: Shared state contract | Tests pass for core/category/skill/unmatched selection behavior |
-| OGL lifecycle churn | Phase 3: Knowledge-map decomposition | Single canvas, stable cleanup, no duplicate listeners/RAF, no remount on simple selection |
-| Pointer and picking regressions | Phase 3: Knowledge-map decomposition | Manual QA passes for drag/select/reset/resize/mobile interaction |
-| Effect dependency churn | Phase 3: Hook/controller extraction | No unnecessary setup/cleanup cycles during normal map use |
-| Test coverage gap | Phase 1 and Phase 4 | Baseline tests exist early; final regression suite covers page composition and interaction invariants |
-| Accessibility regressions | Phase 2 and Phase 4 | Keyboard/focus/labels/headings checked before signoff |
-| Layout integration drift | Phase 4: Final hardening | Footer, consent, and analytics remain present once and in the correct shell |
+| Decorative motion overwhelms comprehension | Phase 1 | Reviewer can explain why each motion element improves scan or interaction clarity |
+| Reduced-motion / keyboard parity missing | Phase 2 | Reduced-motion, keyboard-only, and focus-visible QA passes |
+| Hidden-on-mount reveal of SSR content | Phase 1 | Initial content is readable before hydration-dependent enhancement |
+| Skeletons without real async boundaries | Phase 3 | Every skeleton maps to an actual pending state or Suspense boundary |
+| CLS from skeletons and layout transitions | Phase 3 and Phase 5 | Mobile visual pass and CLS-oriented checks show stable layout |
+| OGL scene recreation from transition state | Phase 2 | Single canvas, stable rotation, no duplicate listeners/RAF after repeated interaction |
+| Motion token drift | Phase 2 | Shared durations/easings/distances are centralized and reused |
+| Responsive narrative regression | Phase 4 | Desktop and mobile preserve recruiter-first reading order and contact discoverability |
+| Touch ergonomics regressions | Phase 4 | Real-device mobile QA passes for tap targets, overflow, map gestures, and scrolling |
+| Map/panel/timeline transition desync | Phase 3 | Reset/category/skill flows stay visually and semantically synchronized |
+| Client-boundary creep and bundle growth | Phase 1 and Phase 5 | Static sections remain server-first; added JS is justified and measured |
+| Visual approval without task validation | Phase 5 | Before/after recruiter-task checklist shows equal or better clarity and contact access |
 
 ## Sources
 
-- Current project baseline: `/workspaces/94lama/.planning/PROJECT.md` and `/workspaces/94lama/.planning/ARCHITECTURE.md` — HIGH confidence
-- Current implementation evidence: `app/page.tsx`, `app/components/knowledge-experience-coordinator.tsx`, `app/components/skills-knowledge-map.tsx`, `app/layout.tsx`, `src/content/portfolio/get-portfolio-content.ts`, `src/content/portfolio/rank-experience-by-selection.ts` — HIGH confidence
-- Current test coverage baseline: `tests/phase-04-knowledge-experience.test.ts` — HIGH confidence
-- Next.js 16 docs, Server and Client Components (updated 2026-04-08): https://nextjs.org/docs/app/getting-started/server-and-client-components — HIGH confidence
+- Current milestone and constraints: `/home/riccardolm/github/94lama/.planning/PROJECT.md` — HIGH confidence
+- Current architecture baseline: `/home/riccardolm/github/94lama/.planning/ARCHITECTURE.md` — HIGH confidence
+- Current server/client composition: `/home/riccardolm/github/94lama/app/page.tsx`, `/home/riccardolm/github/94lama/app/components/knowledge-experience-coordinator.tsx`, `/home/riccardolm/github/94lama/app/components/skills-knowledge-map.tsx` — HIGH confidence
+- Current OGL lifecycle hotspot: `/home/riccardolm/github/94lama/app/components/knowledge-map/viewport.tsx`, `/home/riccardolm/github/94lama/app/components/knowledge-map/runtime.ts` — HIGH confidence
+- Current style token baseline: `/home/riccardolm/github/94lama/app/components/section-card-styles.ts`, `/home/riccardolm/github/94lama/app/globals.css` — HIGH confidence
+- Current verification baseline: `/home/riccardolm/github/94lama/tests/e2e/portfolio-parity.spec.ts`, `/home/riccardolm/github/94lama/tests/phase-04-knowledge-experience.test.ts` — HIGH confidence
+- Next.js 16 `loading.js` / streaming docs (last updated 2026-04-15): https://nextjs.org/docs/app/api-reference/file-conventions/loading — HIGH confidence
+- React docs, `<Suspense>`: https://react.dev/reference/react/Suspense — HIGH confidence
 - React docs, `useEffect`: https://react.dev/reference/react/useEffect — HIGH confidence
+- MDN, `prefers-reduced-motion` (last modified 2026-04-20): https://developer.mozilla.org/en-US/docs/Web/CSS/%40media/prefers-reduced-motion — HIGH confidence
+- web.dev, CLS guidance (updated 2023-04-12): https://web.dev/articles/cls — MEDIUM confidence for metric guidance, still current enough for these principles
 
 ---
-*Pitfalls research for: v1.1 implement atomization of components*
-*Researched: 2026-04-13*
+*Pitfalls research for: v1.2 improve ux and ui*
+*Researched: 2026-04-21*
