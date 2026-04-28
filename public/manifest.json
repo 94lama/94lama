@@ -1,0 +1,45 @@
+
+{
+	"name": "Riccardo La Malfa — Frontend-Focused Full-Stack Developer",
+	"short_name": "Riccardo La Malfa",
+	"description": "Portfolio with skills, experience, and contact details.",
+	"start_url": "/?source=pwa",
+	"scope": "/",
+	"display": "standalone",
+	"orientation": "portrait",
+	"background_color": "#0c0c0f",
+	"theme_color": "#60a5fa",
+	"lang": "en-US",
+	"icons": [
+		{
+			"src": "/assets/icon.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/assets/icon.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/assets/readme/icon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		}
+	],
+	"shortcuts": [
+		{
+			"name": "Contact",
+			"short_name": "Contact",
+			"description": "Open the contact section",
+			"url": "/#contact",
+			"icons": [{ "src": "/assets/icon.png", "sizes": "192x192" }]
+		}
+	],
+	"categories": ["portfolio", "personal"],
+	"related_applications": [],
+	"prefer_related_applications": false
+}

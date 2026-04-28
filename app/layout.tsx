@@ -22,10 +22,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/assets/readme/icon.svg", type: "image/svg+xml" },
-      { url: "/assets/icon.png", type: "image/png", sizes: "1024x1024" },
+      { url: "/assets/icon.svg", type: "image/svg+xml", sizes: "192x192" },
     ],
-    shortcut: "/assets/icon.png",
+    shortcut: "/assets/icon.svg",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
