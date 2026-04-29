@@ -51,8 +51,6 @@ export default function RootLayout({
         {children}
         <LegalFooter />
 
-        {/* GTM */}
-        <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
         {/* Google tag */}
         <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />
       </body>
