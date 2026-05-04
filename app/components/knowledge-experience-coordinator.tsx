@@ -171,7 +171,7 @@ export function KnowledgeExperienceCoordinator({
         />
       </section>
 
-      <section className="space-y-7 lg:space-y-8">
+      <section className="space-y-7 lg:space-y-8 xl:ml-[75vw] xl:w-[25vw] xl:pr-6">
         <SectionHeading
           index="02"
           title="Experience"

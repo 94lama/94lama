@@ -128,7 +128,7 @@ export function SkillsKnowledgeMap({
   return (
     <div className="relative left-1/2 transform -translate-x-1/2 w-screen">
       <div className="grid gap-6 xl:grid-cols-[3fr_1fr] xl:items-stretch">
-        <div className="map-column">
+        <div className="map-column xl:sticky xl:top-0 xl:h-screen">
           <KnowledgeMapCanvasShell
             mapReady={mapReady}
             pending={pendingSelection !== null}
@@ -146,7 +146,7 @@ export function SkillsKnowledgeMap({
         </div>
 
         <div className="details-column w-full xl:pt-6 xl:pl-6 xl:pr-4">
-          <div className="max-h-screen overflow-auto">
+          <div>
             <KnowledgeMapDetailsPanel
               activeGroupIndex={activeGroupIndex}
               mappedTechnologyCounts={mappedTechnologyCounts}
