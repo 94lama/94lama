@@ -126,39 +126,45 @@ export function SkillsKnowledgeMap({
   }, [mapReady, onSelectionSettled, pendingSelection]);
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:items-stretch">
-      <KnowledgeMapDetailsPanel
-        activeGroupIndex={activeGroupIndex}
-        mappedTechnologyCounts={mappedTechnologyCounts}
-        onFocusNode={applySelection}
-        pending={pendingSelection !== null}
-        pendingSelectedGroupNames={pendingSelectedGroupNames}
-        pendingSelectedKindLabel={pendingSelectedKindLabel}
-        pendingSelectedKnowledgeValue={pendingSelectedKnowledgeValue}
-        pendingSelectedLabel={pendingSelectedNode?.label ?? null}
-        pendingSelectedNeighborNodes={pendingSelectedNeighborNodes}
-        selectedGroupNames={selectedGroupNames}
-        selectedKindLabel={selectedKindLabel}
-        selectedKnowledgeValue={selectedKnowledgeValue}
-        selectedLabel={selectedNode?.label ?? "Knowledge Graph"}
-        selectedNeighborNodes={selectedNeighborNodes}
-        skillGroups={skillGroups}
-      />
-
-      <KnowledgeMapCanvasShell
-        mapReady={mapReady}
-        pending={pendingSelection !== null}
-        prefersReducedMotion={prefersReducedMotion}
-        resolvedSelectedNodeId={resolvedSelectedNodeId}
-      >
-        <KnowledgeMapViewport
-          graphData={graphData}
-          onReadyChange={setMapReady}
-          onPickNode={applySelection}
-          prefersReducedMotion={prefersReducedMotion}
-          selectedNodeId={pendingSelection?.id ?? resolvedSelectedNodeId}
+    <div className="relative">
+      {/* Details first in DOM so mobile shows selector before map. On xl screens position as overlay top-left. */}
+      <div className="relative z-20 px-0 xl:absolute xl:inset-y-0 xl:left-6 xl:top-6 xl:w-[38%] xl:max-w-[44rem]">
+        <KnowledgeMapDetailsPanel
+          activeGroupIndex={activeGroupIndex}
+          mappedTechnologyCounts={mappedTechnologyCounts}
+          onFocusNode={applySelection}
+          pending={pendingSelection !== null}
+          pendingSelectedGroupNames={pendingSelectedGroupNames}
+          pendingSelectedKindLabel={pendingSelectedKindLabel}
+          pendingSelectedKnowledgeValue={pendingSelectedKnowledgeValue}
+          pendingSelectedLabel={pendingSelectedNode?.label ?? null}
+          pendingSelectedNeighborNodes={pendingSelectedNeighborNodes}
+          selectedGroupNames={selectedGroupNames}
+          selectedKindLabel={selectedKindLabel}
+          selectedKnowledgeValue={selectedKnowledgeValue}
+          selectedLabel={selectedNode?.label ?? "Knowledge Graph"}
+          selectedNeighborNodes={selectedNeighborNodes}
+          skillGroups={skillGroups}
         />
-      </KnowledgeMapCanvasShell>
+      </div>
+
+      <div className="mt-6 xl:mt-0">
+        <KnowledgeMapCanvasShell
+          mapReady={mapReady}
+          pending={pendingSelection !== null}
+          prefersReducedMotion={prefersReducedMotion}
+          resolvedSelectedNodeId={resolvedSelectedNodeId}
+        >
+          <KnowledgeMapViewport
+            graphData={graphData}
+            onReadyChange={setMapReady}
+            onPickNode={applySelection}
+            prefersReducedMotion={prefersReducedMotion}
+            selectedNodeId={pendingSelection?.id ?? resolvedSelectedNodeId}
+          />
+        </KnowledgeMapCanvasShell>
+      </div>
     </div>
   );
 }
+
