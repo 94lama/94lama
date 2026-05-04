@@ -27,11 +27,20 @@
       "@/*": [
         "./*"
       ],
+      "@/app/*": [
+        "./app/*"
+      ],
+      "@/src/app/*": [
+        "./app/*"
+      ],
       "@components/*": [
         "./app/components/*"
       ],
+      "@app/*": [
+        "./app/*"
+      ],
       "@i18n/*": [
-        "./i18n/*"
+        "./src/i18n/*"
       ]
     }
   },
@@ -45,6 +54,7 @@
   ],
   "exclude": [
     "node_modules",
+    "src/app",
     "types/validator.ts",
     "types/routes.d.ts"
   ]

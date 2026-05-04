@@ -4,14 +4,14 @@ import path from "node:path";
 import test from "node:test";
 
 import { rankExperienceBySelection } from "../src/content/portfolio/rank-experience-by-selection.ts";
-import { createKnowledgeMapGraph } from "../app/components/knowledge-map/model.ts";
+import { createKnowledgeMapGraph } from "../src/app/components/knowledge-map/model.ts";
 import {
   createRootSelection,
   getSelectionTriggerSkillLabels,
   getSelectedKindLabel,
   normalizeSelection,
   selectionFromNode,
-} from "../app/components/knowledge-map/selection.ts";
+} from "../src/app/components/knowledge-map/selection.ts";
 import type { ExperienceEntry, SkillGroup } from "../src/content/portfolio/types.ts";
 
 const skillGroups: SkillGroup[] = [
