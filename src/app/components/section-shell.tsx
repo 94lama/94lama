@@ -33,7 +33,8 @@ export function SectionShell({
   density = "comfortable",
 }: Readonly<SectionShellProps>) {
   const shellRef = useRef<HTMLElement | null>(null);
-  const shellClassName = `${sectionShellClassName} ${sectionRhythm[density].shell}`;
+  const heightClass = density === "comfortable" ? "min-h-screen min-h-[calc(var(--vh,1vh)*100)]" : "";
+  const shellClassName = `${sectionShellClassName} ${heightClass} ${sectionRhythm[density].shell}`;
 
   useEffect(() => {
     const el = shellRef.current;
