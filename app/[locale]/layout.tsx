@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { MotionController } from "@components/motion-controller";
+import { VhFixer } from "@components/vh-fixer";
 import { defaultLocale, getStaticLocaleParams, isLocale } from "@i18n/request";
 
 const geistSans = Geist({
