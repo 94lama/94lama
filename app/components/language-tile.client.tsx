@@ -1,8 +1,5 @@
-"use client";
-
 import React from "react";
 import { LanguageEntry } from "@/src/content/portfolio/types";
-import { switchLanguage } from "@/app/components/language-switch.action";
 
 type Props = {
   language: LanguageEntry;
@@ -20,12 +17,9 @@ export default function LanguageTile({
 }: Props) {
 
   return (
-    <button
-      onClick={() => switchLanguage(language.lang)}
-      className={className}
-      aria-label={`Switch site language to ${language.label}`}>
+    <article className={className} aria-label={`${language.label}: ${language.level}`}>
       <p className={titleClassName}>{language.label}</p>
       <p className={eyebrowClassName}>{language.level}</p>
-    </button>
+    </article>
   );
 }
