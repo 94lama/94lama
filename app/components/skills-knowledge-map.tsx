@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/app/components/knowledge-map/knowledge-map-panels";
+import { ExperienceTimelineSection } from "@/app/components/experience-timeline-section";
+import type { ExperienceEntry } from "@/src/content/portfolio/types";
 import { createKnowledgeMapGraph } from "@/app/components/knowledge-map/model";
 import {
   getSelectedGroupNames,
@@ -26,6 +28,14 @@ type SkillsKnowledgeMapProps = {
   selectedNodeId?: string;
   onSelectionChange?: (selection: KnowledgeMapSelection) => void;
   onSelectionSettled?: (selection: KnowledgeMapSelection) => void;
+  // Experience props (optional) — when provided, experience timeline renders inside details column
+  experienceEntries?: ExperienceEntry[];
+  experienceHelperCopy?: string;
+  experienceIsFallback?: boolean;
+  experiencePending?: boolean;
+  experiencePendingHelperCopy?: string | null;
+  experiencePendingSelectionLabel?: string | null;
+  experiencePendingSelectionKind?: string | null;
 };
 
 export function SkillsKnowledgeMap({
@@ -35,6 +45,14 @@ export function SkillsKnowledgeMap({
   pendingSelection = null,
   selectedNodeId: controlledSelectedNodeId,
   skillGroups,
+,
+  experienceEntries,
+  experienceHelperCopy,
+  experienceIsFallback,
+  experiencePending,
+  experiencePendingHelperCopy,
+  experiencePendingSelectionLabel,
+  experiencePendingSelectionKind,
 }: Readonly<SkillsKnowledgeMapProps>) {
   const graphData = useMemo(() => createKnowledgeMapGraph(skillGroups), [skillGroups]);
   const mappedTechnologyCounts = useMemo(
@@ -164,6 +182,20 @@ export function SkillsKnowledgeMap({
               selectedNeighborNodes={selectedNeighborNodes}
               skillGroups={skillGroups}
             />
+
+            {experienceEntries ? (
+              <div className="mt-6">
+                <ExperienceTimelineSection
+                  entries={experienceEntries}
+                  helperCopy={experienceHelperCopy ?? ""}
+                  isFallback={experienceIsFallback ?? false}
+                  pendingHelperCopy={experiencePendingHelperCopy ?? null}
+                  pendingSelectionLabel={experiencePendingSelectionLabel ?? null}
+                  pendingSelectionKind={experiencePendingSelectionKind ?? null}
+                  pending={experiencePending ?? false}
+                />
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

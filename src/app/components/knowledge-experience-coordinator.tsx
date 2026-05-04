@@ -168,24 +168,13 @@ export function KnowledgeExperienceCoordinator({
           pendingSelection={safePendingSelection}
           selectedNodeId={safeSelection.id}
           skillGroups={skillGroups}
-        />
-      </section>
-
-      <section className="space-y-7 lg:space-y-8 xl:ml-[75vw] xl:w-[25vw] xl:pr-6">
-        <SectionHeading
-          index="02"
-          title="Experience"
-          description="Every experience entry stays visible while related roles move higher and receive emphasis from the same map selection state."
-        />
-
-        <ExperienceTimelineSection
-          entries={rankedExperience.entries}
-          helperCopy={rankedExperience.helperCopy}
-          isFallback={rankedExperience.isFallback}
-          pendingHelperCopy={pendingExperience?.helperCopy ?? null}
-          pendingSelectionLabel={safePendingSelection?.label ?? null}
-          pendingSelectionKind={safePendingSelection?.kind ?? null}
-          pending={safePendingSelection !== null}
+          experienceEntries={rankedExperience.entries}
+          experienceHelperCopy={rankedExperience.helperCopy}
+          experienceIsFallback={rankedExperience.isFallback}
+          experiencePending={safePendingSelection !== null}
+          experiencePendingHelperCopy={pendingExperience?.helperCopy ?? null}
+          experiencePendingSelectionLabel={safePendingSelection?.label ?? null}
+          experiencePendingSelectionKind={safePendingSelection?.kind ?? null}
         />
       </section>
     </div>
