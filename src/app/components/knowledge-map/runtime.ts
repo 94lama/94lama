@@ -158,7 +158,8 @@ export function syncHighlight(
 
   const selectedNode = nodeMap.get(selectedNodeId) ?? nodeMap.get("core");
   const neighbors = new Set(selectedNode?.neighbors ?? []);
-  const baseDimmedNodeAlpha = 0.34;
+  // Increase opacity of unselected nodes by 5% (was 0.34)
+  const baseDimmedNodeAlpha = 0.39;
   const relatedNodeAlpha = 0.82;
 
   for (const visual of scene.nodeVisuals) {
