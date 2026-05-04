@@ -210,6 +210,15 @@ function parseExperience(lines: string[]): ExperienceEntry[] {
 }
 
 function parseLanguages(lines: string[]): LanguageEntry[] {
+  function mapLabelToLang(label: string) {
+    const key = label.trim().toLowerCase();
+    if (key.includes("ital")) return "it";
+    if (key.includes("english")) return "en";
+    if (key.includes("french") || key.includes("franc")) return "fr";
+    if (key.includes("spanish") || key.includes("espa")) return "es";
+    return key.slice(0, 2);
+  }
+
   return lines
     .flatMap((line) => line.split(","))
     .map((entry) => normalizeLine(entry))
@@ -217,16 +226,21 @@ function parseLanguages(lines: string[]): LanguageEntry[] {
     .map((entry) => {
       const match = entry.match(/^(.*?)\s+\((.*?)\)$/);
 
-      if (!match) {
-        throw new Error(`Invalid language entry: ${entry}`);
+      if (match) {
+        const [, label, level] = match;
+        return {
+          label: label.trim(),
+          level: level.trim(),
+          lang: mapLabelToLang(label),
+        } as LanguageEntry;
       }
 
-      const [, label, level] = match;
-
+      // Fallback: treat entire entry as label, empty level
       return {
-        label: label.trim(),
-        level: level.trim(),
-      };
+        label: entry.trim(),
+        level: "",
+        lang: mapLabelToLang(entry),
+      } as LanguageEntry;
     });
 }
 

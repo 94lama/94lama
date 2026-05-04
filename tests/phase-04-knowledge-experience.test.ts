@@ -244,7 +244,7 @@ test("viewport scene creation stays separate from selection highlight sync", asy
   assert.match(viewportSource, /syncHighlight\(sceneRef\.current, graphData\.nodeMap, selectedNodeId\)/);
   assert.match(
     viewportSource,
-    /\}, \[graphData, onPickNode, onReadyChange, prefersReducedMotion\]\);/,
+    /\}, \[graphData, handleHoverNode, onPickNode, onReadyChange, prefersReducedMotion\]\);/,
   );
   assert.doesNotMatch(
     viewportSource,

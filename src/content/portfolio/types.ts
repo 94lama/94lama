@@ -31,6 +31,7 @@ export interface ExperienceEntry {
 
 export interface LanguageEntry {
   label: string;
+  lang: string;
   level: string;
 }
 

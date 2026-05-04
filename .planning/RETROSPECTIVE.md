@@ -8,7 +8,7 @@
 **Phases:** 3 | **Plans:** 7 | **Sessions:** 3
 
 ### What Was Built
-- A typed server-side portfolio content pipeline sourced from `public/assets/cv.md`.
+- A typed server-side portfolio content pipeline sourced from `public/assets/cv.json` (markdown source migrated into JSON for runtime consumption).
 - A bold recruiter-focused one-page portfolio with a content-driven hero, grouped credentials, and an integrated experience map.
 - An email-first contact flow with authored GitHub and LinkedIn secondary actions.
 

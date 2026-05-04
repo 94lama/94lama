@@ -1,0 +1,15 @@
+{
+  "site": {
+    "title": "Riccardo La Malfa | Sviluppatore Full-Stack orientato al frontend",
+    "description": "Portfolio focalizzato sui recruiter per Riccardo La Malfa, che copre riepilogo, competenze, esperienza, trasferimento e contatti."
+  },
+  "languages": {
+    "title": "Lingue",
+    "levels": {
+      "native": "Madrelingua",
+      "fluent": "Fluente",
+      "intermediate": "Intermedio",
+      "beginner": "Principiante"
+    }
+  }
+}

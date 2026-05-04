@@ -100,6 +100,7 @@ export type SceneState = {
   nodeVisuals: NodeVisual[];
   edgeVisuals: EdgeVisual[];
   projectedNodes: ProjectedNode[];
+  hoveredNodeId: string | null;
   dispose: () => void;
 };
 
@@ -108,6 +109,7 @@ type CreateKnowledgeMapSceneArgs = {
   graphData: KnowledgeMapGraph;
   prefersReducedMotion: boolean;
   onPickNode: (nodeId: string) => void;
+  onHoverNode?: (nodeId: string | null) => void;
 };
 
 function clamp(value: number, min: number, max: number) {
@@ -238,6 +240,7 @@ export function createKnowledgeMapScene({
   graphData,
   prefersReducedMotion,
   onPickNode,
+  onHoverNode,
 }: CreateKnowledgeMapSceneArgs) {
   const renderer = new Renderer({
     alpha: true,
@@ -342,6 +345,7 @@ export function createKnowledgeMapScene({
     nodeVisuals,
     edgeVisuals,
     projectedNodes: [],
+    hoveredNodeId: null,
     dispose: () => {
       if (gl.canvas.parentNode === container) {
         container.removeChild(gl.canvas);
@@ -364,6 +368,8 @@ export function createKnowledgeMapScene({
   let startRotationY = 0;
   let pointerId = -1;
   let startTime = 0;
+  let previousHoveredId: string | null = null;
+  const hoverBaseAlpha = new Map<string, number>();
 
   const resize = () => {
     const nextWidth = container.clientWidth;
@@ -447,6 +453,31 @@ export function createKnowledgeMapScene({
     gl.canvas.setPointerCapture(event.pointerId);
   };
 
+  const pickHoverNode = (clientX: number, clientY: number): string | null => {
+    const bounds = container.getBoundingClientRect();
+    const x = clientX - bounds.left;
+    const y = clientY - bounds.top;
+
+    let winner: ProjectedNode | null = null;
+
+    for (const candidate of state.projectedNodes) {
+      if (candidate.z < -1 || candidate.z > 1) {
+        continue;
+      }
+
+      const distance = Math.hypot(candidate.x - x, candidate.y - y);
+      if (distance > candidate.radius) {
+        continue;
+      }
+
+      if (!winner || candidate.z < winner.z) {
+        winner = candidate;
+      }
+    }
+
+    return winner?.id ?? null;
+  };
+
   const onPointerMove = (event: PointerEvent) => {
     if (!isDragging || event.pointerId !== pointerId) {
       return;
@@ -461,6 +492,19 @@ export function createKnowledgeMapScene({
 
     targetRotationY = startRotationY + deltaX * 0.0085;
     targetRotationX = clamp(startRotationX + deltaY * 0.0065, -0.95, 0.95);
+  };
+
+  const onGlobalPointerMove = (event: PointerEvent) => {
+    if (isDragging) {
+      return;
+    }
+
+    const nextHoveredId = pickHoverNode(event.clientX, event.clientY);
+
+    if (nextHoveredId !== state.hoveredNodeId) {
+      state.hoveredNodeId = nextHoveredId;
+      onHoverNode?.(nextHoveredId);
+    }
   };
 
   const onPointerUp = (event: PointerEvent) => {
@@ -522,6 +566,36 @@ export function createKnowledgeMapScene({
       );
     }
 
+    for (const visual of nodeVisuals) {
+      if (!visual.mesh) {
+        continue;
+      }
+
+      const isHovered = visual.data.id === state.hoveredNodeId;
+      const wasHovered = visual.data.id === previousHoveredId;
+
+      if (isHovered) {
+        if (!wasHovered) {
+          hoverBaseAlpha.set(visual.data.id, visual.program.uniforms.uAlpha.value);
+        }
+        const base = hoverBaseAlpha.get(visual.data.id) ?? visual.program.uniforms.uAlpha.value;
+        visual.program.uniforms.uGlow.value = 0.45;
+        visual.program.uniforms.uAlpha.value = Math.min(1, base + 0.15);
+        const hoverScale = visual.baseScale * 1.12;
+        visual.mesh.scale.set(hoverScale, hoverScale, hoverScale);
+      } else if (wasHovered && !isHovered) {
+        const base = hoverBaseAlpha.get(visual.data.id);
+        if (base !== undefined) {
+          visual.program.uniforms.uAlpha.value = base;
+        }
+        visual.program.uniforms.uGlow.value = 0;
+        visual.mesh.scale.set(visual.baseScale, visual.baseScale, visual.baseScale);
+        hoverBaseAlpha.delete(visual.data.id);
+      }
+    }
+
+    previousHoveredId = state.hoveredNodeId;
+
     renderer.render({ scene, camera, sort: false, frustumCull: false });
     updateProjectedNodes();
   };
@@ -532,10 +606,26 @@ export function createKnowledgeMapScene({
   resize();
   render(0);
 
+  const onPointerLeave = () => {
+    for (const [id, base] of hoverBaseAlpha) {
+      const v = nodeVisuals.find((n) => n.data.id === id);
+      if (v && v.mesh) {
+        v.program.uniforms.uAlpha.value = base;
+        v.program.uniforms.uGlow.value = 0;
+        v.mesh.scale.set(v.baseScale, v.baseScale, v.baseScale);
+      }
+    }
+    hoverBaseAlpha.clear();
+    state.hoveredNodeId = null;
+    onHoverNode?.(null);
+  };
+
   gl.canvas.addEventListener("pointerdown", onPointerDown);
   gl.canvas.addEventListener("pointermove", onPointerMove);
   gl.canvas.addEventListener("pointerup", onPointerUp);
   gl.canvas.addEventListener("pointercancel", onPointerUp);
+  gl.canvas.addEventListener("pointermove", onGlobalPointerMove);
+  gl.canvas.addEventListener("pointerleave", onPointerLeave);
 
   return {
     state,
@@ -546,6 +636,8 @@ export function createKnowledgeMapScene({
       gl.canvas.removeEventListener("pointermove", onPointerMove);
       gl.canvas.removeEventListener("pointerup", onPointerUp);
       gl.canvas.removeEventListener("pointercancel", onPointerUp);
+      gl.canvas.removeEventListener("pointermove", onGlobalPointerMove);
+      gl.canvas.removeEventListener("pointerleave", onPointerLeave);
       state.dispose();
     },
   };

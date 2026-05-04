@@ -47,3 +47,41 @@
 **What's next:** Define the next milestone around project showcase, CV access, or alternate UI variants while preserving the shared content pipeline.
 
 ---
+
+## v1.0.1 Content source migration (Solved: 2026-04-30)
+
+**Delivered:** Migrated the runtime source-of-truth for portfolio content from `public/assets/cv.md` to `public/assets/cv.json`.
+
+**Key changes:**
+- Added `public/assets/cv.json` and switched the server loader to read JSON directly.
+- Updated regression tests to validate the JSON source of truth.
+
+**Why:** JSON improves deterministic loading, simplifies tests, and avoids runtime markdown parsing in the server path.
+
+**Evidence:** `.planning/quick/260412-grk-transform-public-assets-cv-md-into-json/260412-grk-SUMMARY.md`, `src/content/portfolio/get-portfolio-content.ts`, `public/assets/cv.json`.
+
+
+---
+
+## v1.2 Internationalization with next-intl (Planned: 2026-04-30)
+
+**Goal:** Add site-level internationalization using `next-intl` and ship Italian (`it`) and French (`fr`) translations for recruiter-facing portfolio content while preserving server-first rendering and SEO.
+
+**Phases planned:** 11-14 (4 plans)
+
+**Key deliverables:**
+- Add `next-intl` dependency and TypeScript types; configure loader and typed messages.
+- Wrap root `layout.tsx` with server-side `NextIntlProvider` and load locale messages during SSR.
+- Extract UI strings into translation keys and provide `public/locales/{en,it,fr}.json` files covering hero, experience, contact, languages, and relocation sections.
+- Implement language switcher component with locale-aware navigation and add `hreflang` meta/link tags for SEO.
+- Extend Playwright and node tests to validate localized pages and fallback behavior.
+
+**Acceptance criteria:**
+- `npm run build` passes with `next-intl` integration.
+- English `en` remains default and unknown locales fallback to `en`.
+- `it` and `fr` pages render translated recruiter-facing copy for hero, contact, languages, and experience.
+- Playwright tests confirm localized routes return 200 and contain expected localized strings.
+
+**What's next:** Kick off Phase 11: add dependency and loader, wire `NextIntlProvider` in root layout, extract strings into locales, implement language switcher, update tests, then verify build and e2e.
+
+---
