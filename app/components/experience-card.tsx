@@ -35,29 +35,23 @@ export function ExperienceCard({
           : ""
       }`}
     >
-      <div className="grid gap-6 lg:grid-cols-[auto_minmax(0,1fr)]">
-        <div className="flex items-start gap-4 lg:flex-col lg:gap-8">
-          <span className={`${sectionChipClassName} inline-flex min-h-11 min-w-11 items-center justify-center bg-black/4 px-0 py-0 text-[0.7rem] text-slate-500 dark:bg-white/4 dark:text-white/48`}>
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <p
-            className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] lg:max-w-40 ${sectionEyebrowToneClassName}`}
-          >
-            {entry.dateRange}
-          </p>
-        </div>
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className={`${sectionChipClassName} inline-flex min-h-9 min-w-9 items-center justify-center bg-black/4 px-0 py-0 text-[0.7rem] text-slate-500 dark:bg-white/4 dark:text-white/48`}>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <p className={`font-mono text-[0.72rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
+              {entry.dateRange}
+            </p>
+          </div>
 
-        <div className="space-y-5">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-3">
-              <p
-                className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}
-              >
+          <div className="flex items-start gap-4">
+            <div>
+              <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.22em] ${sectionEyebrowToneClassName}`}>
                 {entry.company}
               </p>
-              <h3
-                className={`text-3xl font-semibold tracking-tight sm:text-[2.2rem] ${sectionTitleToneClassName}`}
-              >
+              <h3 className={`text-xl font-semibold tracking-tight sm:text-[1.25rem] ${sectionTitleToneClassName}`}>
                 {entry.role}
               </h3>
             </div>
@@ -77,20 +71,20 @@ export function ExperienceCard({
               </div>
             ) : null}
           </div>
-
-          <ul className={`space-y-3 text-base leading-7 ${sectionBodyToneClassName}`}>
-            {entry.highlights.map((highlight) => (
-              <li key={highlight} className="flex gap-3">
-                <span
-                  className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
-                    isHighlighted ? "bg-accent" : "bg-slate-300 dark:bg-white/24"
-                  }`}
-                />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
         </div>
+
+        <ul className={`mt-2 text-base leading-7 ${sectionBodyToneClassName}`}>
+          {entry.highlights.map((highlight) => (
+            <li key={highlight} className="flex gap-3 py-1">
+              <span
+                className={`mt-1 h-2 w-2 shrink-0 rounded-full ${
+                  isHighlighted ? "bg-accent" : "bg-slate-300 dark:bg-white/24"
+                }`}
+              />
+              <span className="w-full">{highlight}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </article>
   );
