@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/app/components/knowledge-map/knowledge-map-panels";
-import { ExperienceTimelineSection } from "@/app/components/experience-timeline-section";
+import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/src/app/components/knowledge-map/knowledge-map-panels";
+import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
 import type { ExperienceEntry } from "@/src/content/portfolio/types";
-import { createKnowledgeMapGraph } from "@/app/components/knowledge-map/model";
+import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
 import {
   getSelectedGroupNames,
   getSelectedKnowledgeValue,
@@ -14,8 +14,8 @@ import {
   getSelectedNode,
   normalizeSelection,
   selectionFromNode,
-} from "@/app/components/knowledge-map/selection";
-import { KnowledgeMapViewport } from "@/app/components/knowledge-map/viewport";
+} from "@/src/app/components/knowledge-map/selection";
+import { KnowledgeMapViewport } from "@/src/app/components/knowledge-map/viewport";
 import type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-map-selection";
 import type { SkillGroup } from "@/src/content/portfolio/types";
 
@@ -162,7 +162,7 @@ export function SkillsKnowledgeMap({
           </KnowledgeMapCanvasShell>
         </div>
 
-        <div className="details-column w-full xl:pt-6 xl:pl-6 xl:pr-4">
+        <div className="details-column w-full xl:pt-6 xl:px-0">
           <div>
             <KnowledgeMapDetailsPanel
               activeGroupIndex={activeGroupIndex}

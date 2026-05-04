@@ -1,16 +1,16 @@
 "use client";
 
-import { animate, remove } from "@/app/lib/animation";
+import { animate, remove } from "@/src/app/lib/animation";
 import { useLayoutEffect, useRef } from "react";
 
-import { ExperienceCard } from "@/app/components/experience-card";
+import { ExperienceCard } from "@/src/app/components/experience-card";
 import {
   sectionBodyToneClassName,
   sectionCardClassName,
   sectionContinuityPendingClassName,
   sectionContinuityShellClassName,
   sectionEyebrowToneClassName,
-} from "@/app/components/section-card-styles";
+} from "@/src/app/components/section-card-styles";
 import type { RankedExperienceEntry } from "@/src/content/portfolio/rank-experience-by-selection";
 
 type ExperienceTimelineSectionProps = {

@@ -1,5 +1,5 @@
-import { EmailIcon, GitHubIcon, LinkedInIcon, PhoneIcon } from "@/app/components/portfolio-icons";
-import { sectionChipClassName } from "@/app/components/section-card-styles";
+import { EmailIcon, GitHubIcon, LinkedInIcon, PhoneIcon } from "@/src/app/components/portfolio-icons";
+import { sectionChipClassName } from "@/src/app/components/section-card-styles";
 
 type ContactActionProps = {
   href: string;

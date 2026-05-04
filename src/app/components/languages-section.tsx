@@ -4,7 +4,7 @@ import {
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
 } from "@/src/app/components/section-card-styles";
-import LanguageTile from "@/app/components/language-tile.client";
+import LanguageTile from "@/src/app/components/language-tile.client";
 import type { LanguageEntry } from "@/src/content/portfolio/types";
 
 export function LanguagesSection({languages}: {languages: LanguageEntry[]}) {

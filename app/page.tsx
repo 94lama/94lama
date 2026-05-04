@@ -1,12 +1,12 @@
-import { CertificatesSection } from "@/app/components/certificates-section";
-import { EducationSection } from "@/app/components/education-section";
-import { HeroSection } from "@/app/components/hero-section";
-import { KnowledgeExperienceCoordinator } from "@/app/components/knowledge-experience-coordinator";
-import { pageRhythm } from "@/app/components/layout/page-rhythm";
-import { ResponsiveSectionGrid } from "@/app/components/layout/responsive-section-grid";
-import { LanguagesSection } from "@/app/components/languages-section";
-// import { PageLoaderOverlay } from "@/app/components/loading/page-loader-overlay";
-import { RelocationSection } from "@/app/components/relocation-section";
+import { CertificatesSection } from "@/src/app/components/certificates-section";
+import { EducationSection } from "@/src/app/components/education-section";
+import { HeroSection } from "@/src/app/components/hero-section";
+import { KnowledgeExperienceCoordinator } from "@/src/app/components/knowledge-experience-coordinator";
+import { pageRhythm } from "@/src/app/components/layout/page-rhythm";
+import { ResponsiveSectionGrid } from "@/src/app/components/layout/responsive-section-grid";
+import { LanguagesSection } from "@/src/app/components/languages-section";
+// import { PageLoaderOverlay } from "@/src/app/components/loading/page-loader-overlay";
+import { RelocationSection } from "@/src/app/components/relocation-section";
 import { ExperienceEntry, LanguageEntry } from "@/src/content/portfolio/types";
 import content from "@/public/assets/cv.json";
 

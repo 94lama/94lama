@@ -1,10 +1,10 @@
 "use client";
 
-import { animate, remove } from "@/app/lib/animation";
+import { animate, remove } from "@/src/app/lib/animation";
 import { useEffect, useRef, useState } from "react";
 
-import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell } from "@/app/components/section-shell";
+import { SectionHeading } from "@/src/app/components/section-heading";
+import { SectionShell } from "@/src/app/components/section-shell";
 import {
   sectionBodyToneClassName,
   sectionCardClassName,
@@ -12,7 +12,7 @@ import {
   sectionEyebrowToneClassName,
   sectionPrimaryActionClassName,
   sectionTitleToneClassName,
-} from "@/app/components/section-card-styles";
+} from "@/src/app/components/section-card-styles";
 import type { CertificateEntry } from "@/src/content/portfolio/types";
 
 type CertificatesSectionProps = {

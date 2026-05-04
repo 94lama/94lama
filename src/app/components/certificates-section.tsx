@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, remove } from "@/app/lib/animation";
+import { animate, remove } from "@/src/app/lib/animation";
 import { useEffect, useRef, useState } from "react";
 
 import { SectionHeading } from "@/src/app/components/section-heading";

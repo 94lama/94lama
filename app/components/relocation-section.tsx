@@ -1,10 +1,10 @@
-import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassNames } from "@/app/components/section-shell";
+import { SectionHeading } from "@/src/app/components/section-heading";
+import { SectionShell, sectionInnerCardClassNames } from "@/src/app/components/section-shell";
 import {
   sectionBodyToneClassName,
   sectionEyebrowToneClassName,
   sectionPillClassName,
-} from "@/app/components/section-card-styles";
+} from "@/src/app/components/section-card-styles";
 import type { RelocationInfo } from "@/src/content/portfolio/types";
 
 type RelocationSectionProps = {

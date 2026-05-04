@@ -4,17 +4,17 @@ import { useMemo, useState } from "react";
 
 import {
   createKnowledgeMapGraph,
-} from "@/app/components/knowledge-map/model";
+} from "@/src/app/components/knowledge-map/model";
 import {
   getSelectionTriggerSkillLabels,
-} from "@/app/components/knowledge-map/selection";
+} from "@/src/app/components/knowledge-map/selection";
 import {
   SkillsKnowledgeMap,
   type KnowledgeMapSelection,
-} from "@/app/components/skills-knowledge-map";
-import { ExperienceTimelineSection } from "@/app/components/experience-timeline-section";
-import { pageRhythm } from "@/app/components/layout/page-rhythm";
-import { SectionHeading } from "@/app/components/section-heading";
+} from "@/src/app/components/skills-knowledge-map";
+import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
+import { pageRhythm } from "@/src/app/components/layout/page-rhythm";
+import { SectionHeading } from "@/src/app/components/section-heading";
 import { rankExperienceBySelection } from "@/src/content/portfolio/rank-experience-by-selection";
 import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
 

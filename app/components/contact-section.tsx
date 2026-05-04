@@ -1,13 +1,13 @@
-import { ContactIconAction } from "@/app/components/contact-actions";
-import { EmailIcon } from "@/app/components/portfolio-icons";
-import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassNames } from "@/app/components/section-shell";
+import { ContactIconAction } from "@/src/app/components/contact-actions";
+import { EmailIcon } from "@/src/app/components/portfolio-icons";
+import { SectionHeading } from "@/src/app/components/section-heading";
+import { SectionShell, sectionInnerCardClassNames } from "@/src/app/components/section-shell";
 import {
   sectionBodyToneClassName,
   sectionEyebrowToneClassName,
   sectionPrimaryActionClassName,
   sectionTitleToneClassName,
-} from "@/app/components/section-card-styles";
+} from "@/src/app/components/section-card-styles";
 import type { ContactInfo } from "@/src/content/portfolio/types";
 
 type ContactSectionProps = {

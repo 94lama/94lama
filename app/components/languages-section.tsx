@@ -1,9 +1,9 @@
-import { SectionHeading } from "@/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassNames } from "@/app/components/section-shell";
+import { SectionHeading } from "@/src/app/components/section-heading";
+import { SectionShell, sectionInnerCardClassNames } from "@/src/app/components/section-shell";
 import {
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
-} from "@/app/components/section-card-styles";
+} from "@/src/app/components/section-card-styles";
 import LanguageTile from "./language-tile.client";
 import type { LanguageEntry } from "@/src/content/portfolio/types";
 

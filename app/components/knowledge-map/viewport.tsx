@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { KnowledgeMapGraph } from "@/app/components/knowledge-map/model";
-import { createKnowledgeMapScene, syncHighlight, type SceneState } from "@/app/components/knowledge-map/runtime";
+import type { KnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
+import { createKnowledgeMapScene, syncHighlight, type SceneState } from "@/src/app/components/knowledge-map/runtime";
 
 type KnowledgeMapViewportProps = {
   graphData: KnowledgeMapGraph;

@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, remove } from "@/app/lib/animation";
+import { animate, remove } from "@/src/app/lib/animation";
 import { useLayoutEffect, useRef } from "react";
 
 function prefersReducedMotion() {

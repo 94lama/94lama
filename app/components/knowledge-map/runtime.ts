@@ -10,7 +10,7 @@ import {
 } from "ogl";
 import type { CSSProperties } from "react";
 
-import type { GraphNode, KnowledgeMapGraph } from "@/app/components/knowledge-map/model";
+import type { GraphNode, KnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
 
 const NODE_VERTEX_SHADER = /* glsl */ `
 attribute vec3 position;

@@ -1,7 +1,7 @@
 import type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-map-selection";
 import type { SkillGroup } from "@/src/content/portfolio/types";
 
-import type { GraphNode, KnowledgeMapGraph } from "@/app/components/knowledge-map/model";
+import type { GraphNode, KnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
 
 export function createRootSelection(skillGroups: SkillGroup[]): KnowledgeMapSelection {
   return {
