@@ -11,13 +11,15 @@
   "skills": [
     {
       "category": "Frontend",
-      "items": ["React", "Next.js", "Svelte", "Javascript", "TypeScript", "Tailwind"],
+      "items": ["HTML", "CSS", "Javascript", "TypeScript", "React", "Next.js", "Svelte", "Tailwind"],
       "entries": [
+        { "label": "HTML", "knowledge": 0.9 },
+        { "label": "CSS", "knowledge": 0.7 },
+        { "label": "Javascript", "knowledge": 0.8 },
+        { "label": "TypeScript", "knowledge": 0.6 },
         { "label": "React", "knowledge": 1 },
         { "label": "Next.js", "knowledge": 0.8 },
         { "label": "Svelte", "knowledge": 0.6 },
-        { "label": "Javascript", "knowledge": 0.8 },
-        { "label": "TypeScript", "knowledge": 0.6 },
         { "label": "Tailwind", "knowledge": 0.6 }
       ]
     },
@@ -53,6 +55,73 @@
         { "label": "MinIO", "knowledge": 0.2 },
         { "label": "Redis", "knowledge": 0.3 }
       ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Python Developer",
+      "company": "Nuvolaris",
+      "dateRange": "10/2025 – Present",
+      "highlights": [
+        "Built front-end applications (PoC → production) with React/Svelte",
+        "Built serverless applications (PoC → production) with Python/OpenWhisk backend",
+        "Built AI-based workflows for data extraction and processing",
+        "Presented technical solutions to clients",
+        "Deployed a Nuvolaris cluster (Kubernetes) project in production"
+      ],
+      "relatedDomains": ["Frontend", "Backend", "DevOps"],
+      "relatedSkills": [
+        "React",
+        "Svelte",
+        "Javascript",
+        "TypeScript",
+        "Python",
+        "Serverless (OpenWhisk)",
+        "Docker",
+        "Linux",
+        "Bash",
+        "PostgreSQL",
+        "OpenAI API",
+        "Ollama API",
+        "MinIO",
+        "Redis",
+        "MongoDB",
+        "Git"
+      ]
+    },
+    {
+      "role": "Full-Stack Developer",
+      "company": "Aroma S.r.l.",
+      "dateRange": "10/2024 – 06/2025",
+      "highlights": [
+        "Developed scalable frontend architecture with React",
+        "Implemented features across frontend and backend (Laravel)",
+        "Managed deployments using Docker and Linux environments"
+      ],
+      "relatedDomains": ["Frontend", "Backend"],
+      "relatedSkills": [
+        "React",
+        "Javascript",
+        "TypeScript",
+        "PHP",
+        "Laravel",
+        "Docker",
+        "Linux",
+        "Git"
+      ]
+    },
+    {
+      "role": "Full-Stack Developer",
+      "company": "Loliv",
+      "dateRange": "06/2024 – 12/2024",
+      "highlights": [
+        "Designed and developed a front-end web application",
+        "Designed and developer a back-end application",
+        "Managed database architecture and deployments",
+        "Coordinated small technical team"
+      ],
+      "relatedDomains": ["Frontend", "Backend", "Databases"],
+      "relatedSkills": ["Javascript", "Typescript", "React", "PHP", "Laravel", "MySQL", "Git"]
     }
   ],
   "education": [
@@ -103,9 +172,9 @@
     }
   ],
   "languages": [
-    { "label": "Italian", "level": "Native" },
-    { "label": "English", "level": "C1" },
-    { "label": "French", "level": "A2" }
+    { "label": "Italian", "level": "Native", "lang": "it" },
+    { "label": "English", "level": "C1", "lang": "en" },
+    { "label": "French", "level": "A2", "lang": "fr" }
   ],
   "relocation": {
     "summary": "Open to relocation across EU (Netherlands, France, Denmark preferred)",

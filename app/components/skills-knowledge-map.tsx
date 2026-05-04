@@ -126,7 +126,7 @@ export function SkillsKnowledgeMap({
   }, [mapReady, onSelectionSettled, pendingSelection]);
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+    <div className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:items-stretch">
       <KnowledgeMapDetailsPanel
         activeGroupIndex={activeGroupIndex}
         mappedTechnologyCounts={mappedTechnologyCounts}

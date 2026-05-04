@@ -4,7 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { MotionController } from "./components/motion-controller";
-import { LegalFooter } from "./components/legal-footer";
+import { cookies } from "next/headers";
+import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,14 +30,18 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookie = await cookies();
+  const cookieLocale = cookie.get("NEXT_LOCALE")?.value;
+  let locale = cookieLocale ?? "en";
+
   return (
     <html
-      lang="en"
+      lang={locale}
       data-motion="ready"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
@@ -48,8 +53,9 @@ export default function RootLayout({
           strategy="lazyOnload"
           type="text/javascript"
         />
-        {children}
-        <LegalFooter />
+        <NextIntlClientProvider>
+          {children}
+        </NextIntlClientProvider>
 
         {/* Google tag */}
         <GoogleTagManager gtmId="G-Y55KQQ4S9Z" />

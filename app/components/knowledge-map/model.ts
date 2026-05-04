@@ -23,12 +23,14 @@ const CROSS_DOMAIN_MEMBERSHIPS: Record<string, string[]> = {
 };
 
 const RELATED_SKILL_LINKS: Record<string, string[]> = {
-  React: ["Javascript", "Next.js", "TypeScript", "Tailwind", "Svelte"],
-  "Next.js": ["React", "Javascript", "TypeScript", "Tailwind", "Serverless (OpenWhisk)"],
-  Svelte: ["Javascript", "React", "TypeScript"],
-  Javascript: ["React", "Next.js", "Svelte", "TypeScript", "Laravel", "Serverless (OpenWhisk)"],
-  TypeScript: ["Javascript", "React", "Next.js", "Svelte", "Tailwind", "Serverless (OpenWhisk)"],
-  Tailwind: ["React", "Next.js", "TypeScript", "Javascript"],
+  HTML: ["CSS", "Javascript", "React", "Next.js", "Svelte", "Tailwind"],
+  CSS: ["HTML", "Javascript", "React", "Next.js", "Svelte", "Tailwind"],
+  React: ["HTML", "CSS", "Javascript", "Next.js", "TypeScript", "Tailwind", "Svelte"],
+  "Next.js": ["HTML", "CSS", "React", "Javascript", "TypeScript", "Tailwind", "Serverless (OpenWhisk)"],
+  Svelte: ["HTML", "CSS", "Javascript", "React", "TypeScript"],
+  Javascript: ["HTML", "CSS", "React", "Next.js", "Svelte", "TypeScript", "Laravel", "Serverless (OpenWhisk)"],
+  TypeScript: ["HTML", "CSS", "Javascript", "React", "Next.js", "Svelte", "Tailwind", "Serverless (OpenWhisk)"],
+  Tailwind: ["HTML", "CSS", "React", "Next.js", "TypeScript", "Javascript"],
   Python: ["Django", "Serverless (OpenWhisk)", "Docker", "Linux", "Bash", "PostgreSQL"],
   PHP: ["Laravel", "MySQL", "Javascript"],
   Laravel: ["PHP", "MySQL", "Javascript"],

@@ -55,7 +55,7 @@ export function PageLoaderOverlay() {
   return (
     <div
       ref={overlayRef}
-      className="pointer-events-none fixed inset-0 z-[65] grid place-items-center overflow-hidden bg-[#02040a]"
+      className="pointer-events-none fixed inset-0 z-65 grid place-items-center overflow-hidden bg-[#02040a]"
       aria-hidden="true"
     >
       <EclipseLoader />
