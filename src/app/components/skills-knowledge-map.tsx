@@ -126,7 +126,7 @@ export function SkillsKnowledgeMap({
   }, [mapReady, onSelectionSettled, pendingSelection]);
 
   return (
-    <div className="relative w-[calc(100vw-2rem)] -mx-4 sm:-mx-6 lg:-mx-8 xl:mx-0 xl:w-full">
+    <div className="relative left-1/2 transform -translate-x-1/2 w-screen">
       <div className="grid gap-6 xl:grid-cols-[3fr_1fr] xl:items-stretch">
         <div className="map-column">
           <KnowledgeMapCanvasShell
