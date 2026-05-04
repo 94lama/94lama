@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/src/app/components/knowledge-map/knowledge-map-panels";
 import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
 import type { ExperienceEntry } from "@/src/content/portfolio/types";
-import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
+import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model"
 import {
   getSelectedGroupNames,
   getSelectedKnowledgeValue,
@@ -45,7 +45,6 @@ export function SkillsKnowledgeMap({
   pendingSelection = null,
   selectedNodeId: controlledSelectedNodeId,
   skillGroups,
-,
   experienceEntries,
   experienceHelperCopy,
   experienceIsFallback,

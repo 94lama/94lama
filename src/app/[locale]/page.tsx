@@ -31,8 +31,8 @@ export default async function Home() {
           <ResponsiveSectionGrid className={pageRhythm.supportingBlock} variant="balanced">
             <EducationSection education={content.education} />
             <CertificatesSection certificates={content.certificates ?? []} />
+            <LanguagesSection languages={content.languages as LanguageEntry[]} />
           </ResponsiveSectionGrid>
-          <LanguagesSection languages={content.languages as LanguageEntry[]} />
           <RelocationSection relocation={content.relocation} />
         </div>
         {/* <PageLoaderOverlay /> */}

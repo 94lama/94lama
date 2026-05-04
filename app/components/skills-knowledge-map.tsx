@@ -45,7 +45,6 @@ export function SkillsKnowledgeMap({
   pendingSelection = null,
   selectedNodeId: controlledSelectedNodeId,
   skillGroups,
-,
   experienceEntries,
   experienceHelperCopy,
   experienceIsFallback,
