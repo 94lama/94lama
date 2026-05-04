@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
-import { MotionController } from "./components/motion-controller";
+import { MotionController } from "@components/motion-controller";
 import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
