@@ -54,6 +54,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         <MotionController />
+        <VhFixer />
         <Script
           id="iubenda-widget-bootstrap"
           src="https://embeds.iubenda.com/widgets/283fdcdd-8702-47d7-84ee-59bc1203b52c.js"
