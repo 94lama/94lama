@@ -1,0 +1,15 @@
+{
+  "site": {
+    "title": "Riccardo La Malfa | Frontend-Focused Full-Stack Developer",
+    "description": "Recruiter-focused portfolio for Riccardo La Malfa, covering summary, skills, experience, relocation, and contact details."
+  },
+  "languages": {
+    "title": "Languages",
+    "levels": {
+      "native": "Native",
+      "fluent": "Fluent",
+      "intermediate": "Intermediate",
+      "beginner": "Beginner"
+    }
+  }
+}

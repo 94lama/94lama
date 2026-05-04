@@ -12,9 +12,11 @@
     ],
     "relatedDomains": ["Frontend", "Backend", "DevOps"],
     "relatedSkills": [
+      "HTML",
+      "CSS",
+      "Javascript",
       "React",
       "Svelte",
-      "Javascript",
       "TypeScript",
       "Python",
       "Serverless (OpenWhisk)",
@@ -41,9 +43,11 @@
     ],
     "relatedDomains": ["Frontend", "Backend"],
     "relatedSkills": [
-      "React",
+      "HTML",
+      "CSS",
       "Javascript",
       "TypeScript",
+      "React",
       "PHP",
       "Laravel",
       "Docker",
@@ -62,6 +66,6 @@
       "Coordinated small technical team"
     ],
     "relatedDomains": ["Frontend", "Backend", "Databases"],
-    "relatedSkills": ["Javascript", "Typescript", "React", "PHP", "Laravel", "MySQL", "Git"]
+    "relatedSkills": ["HTML", "CSS", "Javascript", "Typescript", "React", "PHP", "Laravel", "MySQL", "Git"]
   }
 ]

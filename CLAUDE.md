@@ -14,7 +14,7 @@ A recruiter-focused portfolio webapp for Riccardo La Malfa. It presents his fron
 - **Tech stack**: Stay within the existing Next.js 16, React 19, and Tailwind 4 app - use the current codebase rather than replatforming.
 - **Scope**: One page only - keep the first milestone tight and shippable.
 - **Brand**: Bold/creative presentation - the final design should feel intentional, not like the starter template.
-- **Content source**: Use `public/assets/cv.md` as the planning source of truth - avoid depending on the outdated profile README.
+- **Content source**: Use `public/assets/cv.json` as the planning source of truth - avoid depending on the outdated profile README.
 - **Contact dependency**: LinkedIn is approved for the contact section, but the actual profile URL still needs to be supplied before implementation is complete.
 <!-- GSD:project-end -->
 

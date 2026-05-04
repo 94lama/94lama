@@ -223,10 +223,10 @@ export function KnowledgeMapCanvasShell({
 }: Readonly<KnowledgeMapCanvasShellProps>) {
   return (
     <div
-      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6"
+      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 flex flex-col xl:h-full"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
-      <div className="relative h-96 overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))] sm:h-120">
+      <div className="relative flex-1 overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))]">
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${
@@ -263,7 +263,8 @@ export function KnowledgeMapCanvasShell({
           Tap any point to move related experience higher in section 02.
         </div>
       </div>
-      <div className="rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/4 sm:px-5 xl:col-start-2">
+
+      <div className="flex-none mt-4 h-28 sm:h-32 rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/4 sm:px-5">
         <div className="flex flex-col gap-3 text-[0.68rem] uppercase tracking-[0.22em] text-black/45 dark:text-white/45 sm:flex-row sm:items-end sm:justify-between">
           <div className="space-y-2">
             <p>Link legend</p>
