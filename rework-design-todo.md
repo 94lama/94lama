@@ -6,10 +6,10 @@ Guidelines
 - Use this file for branch-scoped changes only (visual experiments, large refactors, prototype features).
 
 Branch tasks
-- [ ] Use anime.js to rework the animations of the webapp
-- [ ] Each section has vh-min
-- [ ] Each component (section and backgrounds aside has to be draggable)
-- [ ] Move the knowledge map as background for the section, and move the selector in the upper left corner of the screen (desktop view) or before the map (mobile)
+- [x] Use anime.js to rework the animations of the webapp — commit 30315f3
+- [x] Each section has vh-min — commit 39fed0e
+- [x] Each component (section and backgrounds aside has to be draggable) — commit 7deac78
+- [x] Move the knowledge map as background for the section, and move the selector in the upper left corner of the screen (desktop view) or before the map (mobile) — commit cab480f
 
 Notes
 - Keep commits small and focused; use Conventional Commits.
