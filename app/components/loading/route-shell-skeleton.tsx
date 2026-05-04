@@ -151,6 +151,10 @@ export function RouteShellSkeleton() {
       data-route-shell="portfolio-loading"
     >
       <EclipseLoader />
+
+      {/* Hero loading shell */}
+      {/* Interactive section loading shell */}
+      {/* Lower content grids loading shell */}
     </main>
   );
 }

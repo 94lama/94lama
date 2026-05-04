@@ -33,3 +33,11 @@
 - [x] use icons for links instead of cards with anchor tag
 - [x] remove the relocation info (there is already a dedicated section)
 - [ ] Use an icon also for the email button
+
+## Branch: rework-design (branch-only)
+
+This subsection tracks tasks that apply only to the rework-design branch. Keep experimental or WIP items here; do not merge these items into main or other branches without review.
+
+- [ ] Add branch-specific tasks here (e.g. finalize hero redesign, knowledge map 3D layout)
+- [ ] When an item is ready for merge, either move it to the main TODO or open a focused PR that references this subsection.
+
