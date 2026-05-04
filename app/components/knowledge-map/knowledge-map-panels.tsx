@@ -223,10 +223,10 @@ export function KnowledgeMapCanvasShell({
 }: Readonly<KnowledgeMapCanvasShellProps>) {
   return (
     <div
-      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 flex flex-col xl:h-full"
+      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 flex flex-col w-full h-[64vh] md:h-[72vh] lg:h-[78vh] xl:h-[80vh]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
-      <div className="relative flex-1 overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))]">
+      <div className="relative flex-1 min-h-0 h-full w-full overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))]">
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${
