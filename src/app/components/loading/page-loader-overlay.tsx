@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, remove } from "animejs";
+import { animate, remove } from "@/app/lib/animation";
 import { useLayoutEffect, useRef } from "react";
 
 import { EclipseLoader } from "@/app/components/loading/route-shell-skeleton";

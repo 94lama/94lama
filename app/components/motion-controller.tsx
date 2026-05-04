@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, remove } from "animejs";
+import { animate, remove } from "@/app/lib/animation";
 import { useEffect } from "react";
 
 const hoverSelector = ".motion-image, .motion-control, .motion-surface";
