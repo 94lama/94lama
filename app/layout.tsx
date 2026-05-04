@@ -4,7 +4,6 @@ import Script from "next/script";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { MotionController } from "./components/motion-controller";
-import { cookies } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = Geist({
@@ -35,13 +34,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookie = await cookies();
-  const cookieLocale = cookie.get("NEXT_LOCALE")?.value;
-  let locale = cookieLocale ?? "en";
 
   return (
     <html
-      lang={locale}
       data-motion="ready"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
