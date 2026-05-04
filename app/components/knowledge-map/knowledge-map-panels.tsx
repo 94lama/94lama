@@ -223,7 +223,7 @@ export function KnowledgeMapCanvasShell({
 }: Readonly<KnowledgeMapCanvasShellProps>) {
   return (
     <div
-      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-4 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-6 flex flex-col w-full h-[64vh] md:h-[72vh] lg:h-[78vh] xl:h-[80vh]"
+      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-2 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-4 flex flex-col w-full h-screen"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
       <div className="relative flex-1 min-h-0 h-full w-full overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))]">
@@ -249,6 +249,54 @@ export function KnowledgeMapCanvasShell({
           <span>Drag to rotate</span>
         </div>
 
+        {/* Legend: compact, top-right */}
+        <div className="pointer-events-none absolute top-3 right-3 z-40 rounded-xl border border-black/10 bg-white/72 px-3 py-2 text-[0.68rem] uppercase tracking-[0.14em] text-black/55 backdrop-blur dark:border-white/10 dark:bg-white/6 dark:text-white/55">
+          <div className="flex items-start gap-3">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-4 bg-[rgb(171,181,204)]" />
+                <span>Hub</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-px w-4 bg-[rgb(84,156,245)]" />
+                <span>Domain</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="h-px w-4 bg-[rgb(232,115,209)]" />
+                <span>Technology</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1 text-[0.62rem]">
+              <div className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-0.5 rounded-full border border-black/10 px-1 py-0.5 dark:border-white/10">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <span
+                      key={`legend-1-${index}`}
+                      className={`h-1 w-[6px] rounded-full ${
+                        index < 1 ? "bg-black/60 dark:bg-white/70" : "bg-black/12 dark:bg-white/12"
+                      }`}
+                    />
+                  ))}
+                </span>
+                <span>1/5</span>
+              </div>
+              <div className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center gap-0.5 rounded-full border border-black/10 px-1 py-0.5 dark:border-white/10">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <span
+                      key={`legend-3-${index}`}
+                      className={`h-1 w-[6px] rounded-full ${
+                        index < 3 ? "bg-black/60 dark:bg-white/70" : "bg-black/12 dark:bg-white/12"
+                      }`}
+                    />
+                  ))}
+                </span>
+                <span>3/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className={`absolute inset-0 ${sectionContinuityShellClassName} ${pending ? sectionContinuityPendingClassName : ""}`}>
           {children}
         </div>
@@ -264,54 +312,7 @@ export function KnowledgeMapCanvasShell({
         </div>
       </div>
 
-      <div className="flex-none mt-4 h-28 sm:h-32 rounded-[1.4rem] border border-black/10 bg-white/60 px-4 py-3 backdrop-blur dark:border-white/10 dark:bg-white/4 sm:px-5">
-        <div className="flex flex-col gap-3 text-[0.68rem] uppercase tracking-[0.22em] text-black/45 dark:text-white/45 sm:flex-row sm:items-end sm:justify-between">
-          <div className="space-y-2">
-            <p>Link legend</p>
-            <div className="flex flex-wrap gap-3 text-[0.62rem]">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(171,181,204)]" />
-                Hub
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(84,156,245)]" />
-                Domain
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="h-px w-5 bg-[rgb(232,115,209)]" />
-                Technology
-              </span>
-            </div>
-          </div>
-
-          <div className="space-y-2 text-[0.62rem]">
-            <p>Skill knowledge = battery level</p>
-            <div className="flex flex-wrap gap-3">
-              {[
-                { label: "1/5", filled: 1 },
-                { label: "3/5", filled: 3 },
-                { label: "5/5", filled: 5 },
-              ].map((level) => (
-                <span key={level.label} className="inline-flex items-center gap-2">
-                  <span className="inline-flex items-center gap-0.5 rounded-full border border-black/10 px-1.5 py-1 dark:border-white/10">
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <span
-                        key={`${level.label}-${index}`}
-                        className={`h-2 w-1.5 rounded-full ${
-                          index < level.filled
-                            ? "bg-black/60 dark:bg-white/70"
-                            : "bg-black/12 dark:bg-white/12"
-                        }`}
-                      />
-                    ))}
-                  </span>
-                  {level.label}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Bottom compact bar removed; primary selector below map handled outside. */}
     </div>
   );
 }
