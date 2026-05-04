@@ -29,16 +29,29 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+export function generateStaticParams() {
+  // Return an array of objects matching your folder segments
+  return [
+    { locale: 'en' },
+    { locale: 'it' },
+    { locale: 'fr' }
+  ];
+}
+
 export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  const { locale } = await params;
 
   return (
     <html
       data-motion="ready"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang={locale}
     >
       <body className="min-h-full bg-background text-foreground flex flex-col antialiased selection:bg-accent/30">
         <MotionController />
