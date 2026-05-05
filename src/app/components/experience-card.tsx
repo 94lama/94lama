@@ -8,7 +8,7 @@ import {
   sectionControlMotionClassName,
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
-} from "@/src/app/components/section-card-styles";
+} from "@/components/section-card-styles";
 
 type ExperienceCardProps = {
   entry: ExperienceEntry;

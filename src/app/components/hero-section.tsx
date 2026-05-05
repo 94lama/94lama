@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-import { ContactIconAction } from "@/src/app/components/contact-actions";
+import { ContactIconAction } from "@/components/contact-actions";
 import {
   sectionCardClassName,
   sectionEyebrowToneClassName,
   sectionPanelClassName,
   sectionPillClassName,
   sectionTitleToneClassName,
-} from "@/src/app/components/section-card-styles";
+} from "@/components/section-card-styles";
 import type { ContactInfo, HeroContent, RelocationInfo } from "@/src/content/portfolio/types";
 
 type HeroSectionProps = {

@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import {
   sectionCardClassName,
   sectionPanelClassName,
-} from "@/src/app/components/section-card-styles";
-import { sectionRhythm } from "@/src/app/components/layout/page-rhythm";
+} from "@/components/section-card-styles";
+import { sectionRhythm } from "@/components/layout/page-rhythm";
 
 type SectionShellProps = {
   children: React.ReactNode;

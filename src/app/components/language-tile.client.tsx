@@ -1,4 +1,3 @@
-import React from "react";
 import { LanguageEntry } from "@/src/content/portfolio/types";
 
 type Props = {

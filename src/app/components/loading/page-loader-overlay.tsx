@@ -1,9 +1,9 @@
 "use client";
 
-import { animate, remove } from "@/src/app/lib/animation";
+import { animate, remove } from "@/lib/animation";
 import { useLayoutEffect, useRef } from "react";
 
-import { EclipseLoader } from "@/src/app/components/loading/route-shell-skeleton";
+import { EclipseLoader } from "@/components/loading/route-shell-skeleton";
 
 function prefersReducedMotion() {
   if (typeof window === "undefined") {

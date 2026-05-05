@@ -1,11 +1,11 @@
-import type { GraphNode } from "@/src/app/components/knowledge-map/model";
+import type { GraphNode } from "@/components/knowledge-map/model";
 import {
   sectionContinuityPendingClassName,
   sectionContinuityShellClassName,
   sectionChipClassName,
   sectionControlMotionClassName,
   sectionSkeletonBlockClassName,
-} from "@/src/app/components/section-card-styles";
+} from "@/components/section-card-styles";
 import type { SkillGroup } from "@/src/content/portfolio/types";
 
 type KnowledgeMapDetailsPanelProps = {

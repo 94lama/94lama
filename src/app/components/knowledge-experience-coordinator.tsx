@@ -3,16 +3,16 @@
 import { useMemo, useState } from "react";
 import {
   createKnowledgeMapGraph,
-} from "@/src/app/components/knowledge-map/model";
+} from "@/components/knowledge-map/model";
 import {
   getSelectionTriggerSkillLabels,
-} from "@/src/app/components/knowledge-map/selection";
+} from "@/components/knowledge-map/selection";
 import {
   SkillsKnowledgeMap,
   type KnowledgeMapSelection,
-} from "@/src/app/components/skills-knowledge-map";
-import { pageRhythm } from "@/src/app/components/layout/page-rhythm";
-import { SectionHeading } from "@/src/app/components/section-heading";
+} from "@/components/skills-knowledge-map";
+import { pageRhythm } from "@/components/layout/page-rhythm";
+import { SectionHeading } from "@/components/section-heading";
 import { rankExperienceBySelection } from "@/src/content/portfolio/rank-experience-by-selection";
 import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
 

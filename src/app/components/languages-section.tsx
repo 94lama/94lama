@@ -1,10 +1,10 @@
-import { SectionHeading } from "@/src/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassNames } from "@/src/app/components/section-shell";
+import { SectionHeading } from "@/components/section-heading";
+import { SectionShell, sectionInnerCardClassNames } from "@/components/section-shell";
 import {
   sectionEyebrowToneClassName,
   sectionTitleToneClassName,
-} from "@/src/app/components/section-card-styles";
-import LanguageTile from "@/src/app/components/language-tile.client";
+} from "@/components/section-card-styles";
+import LanguageTile from "@/components/language-tile.client";
 import type { LanguageEntry } from "@/src/content/portfolio/types";
 
 export function LanguagesSection({languages}: {languages: LanguageEntry[]}) {

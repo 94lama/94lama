@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
+import { ExperienceTimelineSection } from "@/components/experience-timeline-section";
 import {
   KnowledgeMapCanvasShell,
   KnowledgeMapDetailsPanel,
-} from "@/src/app/components/knowledge-map/knowledge-map-panels";
-import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
+} from "@/components/knowledge-map/knowledge-map-panels";
+import { createKnowledgeMapGraph } from "@/components/knowledge-map/model";
 import {
   getSelectedGroupNames,
   getSelectedKnowledgeValue,
@@ -16,8 +16,8 @@ import {
   getSelectedNode,
   normalizeSelection,
   selectionFromNode,
-} from "@/src/app/components/knowledge-map/selection";
-import { KnowledgeMapViewport } from "@/src/app/components/knowledge-map/viewport";
+} from "@/components/knowledge-map/selection";
+import { KnowledgeMapViewport } from "@/components/knowledge-map/viewport";
 import type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-map-selection";
 import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
 import { RankedExperienceEntry } from "@/src/content/portfolio/rank-experience-by-selection";

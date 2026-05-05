@@ -1,6 +1,6 @@
-import { SectionHeading } from "@/src/app/components/section-heading";
-import { SectionShell, sectionInnerCardClassNames } from "@/src/app/components/section-shell";
-import { sectionBodyToneClassName } from "@/src/app/components/section-card-styles";
+import { SectionHeading } from "@/components/section-heading";
+import { SectionShell, sectionInnerCardClassNames } from "@/components/section-shell";
+import { sectionBodyToneClassName } from "@/components/section-card-styles";
 
 type EducationSectionProps = {
   education: string[];

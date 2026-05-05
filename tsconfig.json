@@ -27,19 +27,16 @@
       "@/*": [
         "./*"
       ],
-      "@/src/app/*": [
-        "./src/app/*"
-      ],
       "@/app/*": [
         "./src/app/*"
       ],
-      "@components/*": [
+      "@/components/*": [
         "./src/app/components/*"
       ],
-      "@app/*": [
-        "./src/app/*"
+      "@/lib/*": [
+        "./src/app/lib/*"
       ],
-      "@i18n/*": [
+      "@/i18n/*": [
         "./src/i18n/*"
       ]
     }

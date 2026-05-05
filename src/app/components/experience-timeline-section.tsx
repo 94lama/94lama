@@ -1,16 +1,16 @@
 "use client";
 
-import { animate, remove } from "@/src/app/lib/animation";
+import { animate, remove } from "@/lib/animation";
 import { useLayoutEffect, useRef } from "react";
 
-import { ExperienceCard } from "@/src/app/components/experience-card";
+import { ExperienceCard } from "@/components/experience-card";
 import {
   sectionBodyToneClassName,
   sectionCardClassName,
   sectionContinuityPendingClassName,
   sectionContinuityShellClassName,
   sectionEyebrowToneClassName,
-} from "@/src/app/components/section-card-styles";
+} from "@/components/section-card-styles";
 import type { RankedExperienceEntry } from "@/src/content/portfolio/rank-experience-by-selection";
 
 type ExperienceTimelineSectionProps = {
@@ -52,7 +52,7 @@ export function ExperienceTimelineSection({
       translateX: [48, 0],
       opacity: [0, 1],
       duration: 720,
-      delay: (_, index) => index * 55,
+      delay: (_: any, index: number) => index * 55,
       ease: "inOutCubic",
     });
   }, [entries]);

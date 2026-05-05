@@ -1,7 +1,7 @@
 import {
   sectionBodyToneClassName,
   sectionEyebrowToneClassName,
-} from "@/src/app/components/section-card-styles";
+} from "@/components/section-card-styles";
 
 type SectionHeadingProps = {
   index: string;
