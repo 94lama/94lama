@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { KnowledgeMapCanvasShell, KnowledgeMapDetailsPanel } from "@/src/app/components/knowledge-map/knowledge-map-panels";
 import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
-import type { ExperienceEntry } from "@/src/content/portfolio/types";
-import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model"
+import {
+  KnowledgeMapCanvasShell,
+  KnowledgeMapDetailsPanel,
+} from "@/src/app/components/knowledge-map/knowledge-map-panels";
+import { createKnowledgeMapGraph } from "@/src/app/components/knowledge-map/model";
 import {
   getSelectedGroupNames,
   getSelectedKnowledgeValue,
@@ -17,7 +19,8 @@ import {
 } from "@/src/app/components/knowledge-map/selection";
 import { KnowledgeMapViewport } from "@/src/app/components/knowledge-map/viewport";
 import type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-map-selection";
-import type { SkillGroup } from "@/src/content/portfolio/types";
+import type { ExperienceEntry, SkillGroup } from "@/src/content/portfolio/types";
+import { RankedExperienceEntry } from "@/src/content/portfolio/rank-experience-by-selection";
 
 export type { KnowledgeMapSelection } from "@/src/content/portfolio/knowledge-map-selection";
 
@@ -28,8 +31,7 @@ type SkillsKnowledgeMapProps = {
   selectedNodeId?: string;
   onSelectionChange?: (selection: KnowledgeMapSelection) => void;
   onSelectionSettled?: (selection: KnowledgeMapSelection) => void;
-  // Experience props (optional) — when provided, experience timeline renders inside details column
-  experienceEntries?: ExperienceEntry[];
+  experienceEntries?: RankedExperienceEntry[];
   experienceHelperCopy?: string;
   experienceIsFallback?: boolean;
   experiencePending?: boolean;
@@ -37,6 +39,10 @@ type SkillsKnowledgeMapProps = {
   experiencePendingSelectionLabel?: string | null;
   experiencePendingSelectionKind?: string | null;
 };
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
 
 export function SkillsKnowledgeMap({
   activeIndex: controlledActiveIndex,
@@ -67,6 +73,10 @@ export function SkillsKnowledgeMap({
   const [uncontrolledSelectedNodeId, setUncontrolledSelectedNodeId] = useState("core");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [mapReady, setMapReady] = useState(false);
+  const [horizontalTravel, setHorizontalTravel] = useState(0);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+
   const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;
   const selectedNodeId = controlledSelectedNodeId ?? uncontrolledSelectedNodeId;
   const safeSelection = normalizeSelection(
@@ -125,11 +135,7 @@ export function SkillsKnowledgeMap({
   }, []);
 
   useEffect(() => {
-    if (!pendingSelection) {
-      return;
-    }
-
-    if (!mapReady) {
+    if (!pendingSelection || !mapReady) {
       return;
     }
 
@@ -142,10 +148,110 @@ export function SkillsKnowledgeMap({
     };
   }, [mapReady, onSelectionSettled, pendingSelection]);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    const scroller = scrollerRef.current;
+
+    if (!section || !scroller) {
+      return;
+    }
+
+    let frame = 0;
+
+    const updateLayout = () => {
+      frame = 0;
+
+      const sectionWidth = section.clientWidth || window.innerWidth;
+      const nextTravel = Math.max(0, scroller.scrollWidth - sectionWidth);
+
+      setHorizontalTravel((current) =>
+        Math.abs(current - nextTravel) > 1 ? nextTravel : current,
+      );
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) {
+        return;
+      }
+
+      frame = window.requestAnimationFrame(updateLayout);
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    resizeObserver.observe(section);
+    resizeObserver.observe(scroller);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    scheduleUpdate();
+
+    return () => {
+      if (frame) {
+        window.cancelAnimationFrame(frame);
+      }
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [experienceEntries]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const scroller = scrollerRef.current;
+    if (!section || !scroller) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const rect = section.getBoundingClientRect();
+      const maxScrollLeft = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScrollLeft <= 0) return;
+
+      // section pinned when its top reached viewport and vertical progress within travel
+      const pinned = rect.top <= 0 && -rect.top <= maxScrollLeft;
+      if (!pinned) return;
+
+      const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
+      if (delta === 0) return;
+      const deltaScale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? scroller.clientWidth : 1;
+      const amount = delta * deltaScale;
+      const prev = scroller.scrollLeft;
+      const target = clamp(prev + amount, 0, maxScrollLeft);
+
+      if (target !== prev) {
+        e.preventDefault();
+        scroller.scrollLeft = target;
+      }
+    };
+
+    section.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      section.removeEventListener("wheel", handleWheel);
+    };
+  }, [horizontalTravel, experienceEntries]);
+
+  // Keep visual width equal to viewport but avoid page overflow by subtracting scrollbar width
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const applyWidth = () => {
+      const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+      el.style.width = `calc(100vw - ${scrollbarWidth}px)`;
+    };
+
+    applyWidth();
+    window.addEventListener("resize", applyWidth);
+
+    return () => window.removeEventListener("resize", applyWidth);
+  }, []);
+
   return (
-    <div className="relative left-1/2 transform -translate-x-1/2 w-screen">
-      <div className="grid gap-6 xl:grid-cols-[3fr_1fr] xl:items-stretch">
-        <div className="map-column xl:sticky xl:top-0 xl:h-screen">
+    <div
+      ref={sectionRef}
+      className="relative left-1/2 w-[100vw] -translate-x-1/2 transform box-border"
+      style={{ height: `calc(100vh + ${horizontalTravel}px)` }}
+    >
+      <div className="sticky top-0 h-screen w-full box-border">
+        <div className="knowledge-tree absolute inset-0 z-0 h-full w-full box-border">
           <KnowledgeMapCanvasShell
             mapReady={mapReady}
             pending={pendingSelection !== null}
@@ -162,39 +268,47 @@ export function SkillsKnowledgeMap({
           </KnowledgeMapCanvasShell>
         </div>
 
-        <div className="details-column w-full xl:pt-6 xl:pl-6 xl:pr-4">
-          <div>
-            <KnowledgeMapDetailsPanel
-              activeGroupIndex={activeGroupIndex}
-              mappedTechnologyCounts={mappedTechnologyCounts}
-              onFocusNode={applySelection}
-              pending={pendingSelection !== null}
-              pendingSelectedGroupNames={pendingSelectedGroupNames}
-              pendingSelectedKindLabel={pendingSelectedKindLabel}
-              pendingSelectedKnowledgeValue={pendingSelectedKnowledgeValue}
-              pendingSelectedLabel={pendingSelectedNode?.label ?? null}
-              pendingSelectedNeighborNodes={pendingSelectedNeighborNodes}
-              selectedGroupNames={selectedGroupNames}
-              selectedKindLabel={selectedKindLabel}
-              selectedKnowledgeValue={selectedKnowledgeValue}
-              selectedLabel={selectedNode?.label ?? "Knowledge Graph"}
-              selectedNeighborNodes={selectedNeighborNodes}
-              skillGroups={skillGroups}
-            />
+        <div className="inset-0 z-10 pointer-events-none">
+          <div
+            ref={scrollerRef}
+            className="inset-0 pointer-events-auto overflow-x-scroll overflow-y-hidden scrollbar-hidden"
+          >
+            <div className="flex h-full items-start gap-4 p-4 ml-[100vw] will-change-transform sm:gap-6 sm:px-6 sm:py-6">
 
-            {experienceEntries ? (
-              <div className="mt-6">
-                <ExperienceTimelineSection
-                  entries={experienceEntries}
-                  helperCopy={experienceHelperCopy ?? ""}
-                  isFallback={experienceIsFallback ?? false}
-                  pendingHelperCopy={experiencePendingHelperCopy ?? null}
-                  pendingSelectionLabel={experiencePendingSelectionLabel ?? null}
-                  pendingSelectionKind={experiencePendingSelectionKind ?? null}
-                  pending={experiencePending ?? false}
+              <div className="pointer-events-auto shrink-0 w-[min(82vw,34rem)] lg:w-[min(40vw,36rem)]">
+                <KnowledgeMapDetailsPanel
+                  activeGroupIndex={activeGroupIndex}
+                  mappedTechnologyCounts={mappedTechnologyCounts}
+                  onFocusNode={applySelection}
+                  pending={pendingSelection !== null}
+                  pendingSelectedGroupNames={pendingSelectedGroupNames}
+                  pendingSelectedKindLabel={pendingSelectedKindLabel}
+                  pendingSelectedKnowledgeValue={pendingSelectedKnowledgeValue}
+                  pendingSelectedLabel={pendingSelectedNode?.label ?? null}
+                  pendingSelectedNeighborNodes={pendingSelectedNeighborNodes}
+                  selectedGroupNames={selectedGroupNames}
+                  selectedKindLabel={selectedKindLabel}
+                  selectedKnowledgeValue={selectedKnowledgeValue}
+                  selectedLabel={selectedNode?.label ?? "Knowledge Graph"}
+                  selectedNeighborNodes={selectedNeighborNodes}
+                  skillGroups={skillGroups}
                 />
               </div>
-            ) : null}
+
+              {experienceEntries ? (
+                <div className="pointer-events-auto shrink-0 w-[min(92vw,42rem)] lg:w-[min(46vw,44rem)] lg:pr-10 overflow-y-auto max-h-[90vh] scrollbar-hidden">
+                  <ExperienceTimelineSection
+                    entries={experienceEntries}
+                    helperCopy={experienceHelperCopy ?? ""}
+                    isFallback={experienceIsFallback ?? false}
+                    pendingHelperCopy={experiencePendingHelperCopy ?? null}
+                    pendingSelectionLabel={experiencePendingSelectionLabel ?? null}
+                    pendingSelectionKind={experiencePendingSelectionKind ?? null}
+                    pending={experiencePending ?? false}
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
 import {
   createKnowledgeMapGraph,
 } from "@/src/app/components/knowledge-map/model";
@@ -12,7 +11,6 @@ import {
   SkillsKnowledgeMap,
   type KnowledgeMapSelection,
 } from "@/src/app/components/skills-knowledge-map";
-import { ExperienceTimelineSection } from "@/src/app/components/experience-timeline-section";
 import { pageRhythm } from "@/src/app/components/layout/page-rhythm";
 import { SectionHeading } from "@/src/app/components/section-heading";
 import { rankExperienceBySelection } from "@/src/content/portfolio/rank-experience-by-selection";
@@ -115,10 +113,10 @@ export function KnowledgeExperienceCoordinator({
     () =>
       safePendingSelection
         ? rankExperienceBySelection({
-            experience,
-            selection: safePendingSelection,
-            selectionSkillLabels: pendingSkillLabels,
-          })
+          experience,
+          selection: safePendingSelection,
+          selectionSkillLabels: pendingSkillLabels,
+        })
         : null,
     [experience, pendingSkillLabels, safePendingSelection],
   );
@@ -153,30 +151,28 @@ export function KnowledgeExperienceCoordinator({
   };
 
   return (
-    <div className={pageRhythm.proofBlock}>
-      <section className="space-y-7 lg:space-y-8">
-        <SectionHeading
-          index="01"
-          title="Skills"
-          description="Use the knowledge map as the primary skills surface and trace how each domain connects to the experience timeline below."
-        />
+    <section className={pageRhythm.proofBlock + " space-y-7 lg:space-y-8"}>
+      <SectionHeading
+        index="01"
+        title="Skills"
+        description="Use the knowledge map as the primary skills surface and trace how each domain connects to the experience timeline below."
+      />
 
-        <SkillsKnowledgeMap
-          activeIndex={safeSelection.activeIndex}
-          onSelectionChange={handleSelectionChange}
-          onSelectionSettled={handleSelectionSettled}
-          pendingSelection={safePendingSelection}
-          selectedNodeId={safeSelection.id}
-          skillGroups={skillGroups}
-          experienceEntries={rankedExperience.entries}
-          experienceHelperCopy={rankedExperience.helperCopy}
-          experienceIsFallback={rankedExperience.isFallback}
-          experiencePending={safePendingSelection !== null}
-          experiencePendingHelperCopy={pendingExperience?.helperCopy ?? null}
-          experiencePendingSelectionLabel={safePendingSelection?.label ?? null}
-          experiencePendingSelectionKind={safePendingSelection?.kind ?? null}
-        />
-      </section>
-    </div>
+      <SkillsKnowledgeMap
+        activeIndex={safeSelection.activeIndex}
+        onSelectionChange={handleSelectionChange}
+        onSelectionSettled={handleSelectionSettled}
+        pendingSelection={safePendingSelection}
+        selectedNodeId={safeSelection.id}
+        skillGroups={skillGroups}
+        experienceEntries={rankedExperience.entries}
+        experienceHelperCopy={rankedExperience.helperCopy}
+        experienceIsFallback={rankedExperience.isFallback}
+        experiencePending={safePendingSelection !== null}
+        experiencePendingHelperCopy={pendingExperience?.helperCopy ?? null}
+        experiencePendingSelectionLabel={safePendingSelection?.label ?? null}
+        experiencePendingSelectionKind={safePendingSelection?.kind ?? null}
+      />
+    </section>
   );
 }

@@ -67,7 +67,7 @@ export function KnowledgeMapDetailsPanel({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-6 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] ${sectionContinuityShellClassName} ${pending ? sectionContinuityPendingClassName : ""} dark:border-white/10 dark:bg-white/4 sm:p-8`}
+      className={`relative overflow-hidden rounded-4xl border border-black/10 bg-black/3 p-4 shadow-[0_30px_80px_-60px_rgba(15,23,42,0.55)] backdrop-blur-sm ${sectionContinuityShellClassName} ${pending ? sectionContinuityPendingClassName : ""} dark:border-white/10 dark:bg-white/4 sm:p-8`}
     >
       <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),transparent_62%)] dark:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.2),transparent_62%)]" />
       {pending ? (
@@ -223,7 +223,7 @@ export function KnowledgeMapCanvasShell({
 }: Readonly<KnowledgeMapCanvasShellProps>) {
   return (
     <div
-      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] p-2 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-4 flex flex-col w-full h-screen"
+      className="relative overflow-hidden rounded-4xl border border-black/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(245,247,250,0.78))] py-2 shadow-[0_35px_120px_-70px_rgba(37,99,235,0.45)] dark:border-white/10 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.78))] sm:p-4 flex flex-col w-full h-screen"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.12),transparent_46%),radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_30%)]" />
       <div className="relative flex-1 min-h-0 h-full w-full overflow-hidden rounded-[1.6rem] border border-black/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.84),rgba(226,232,240,0.35),rgba(148,163,184,0.08))] dark:border-white/10 dark:bg-[radial-gradient(circle_at_center,rgba(30,41,59,0.8),rgba(15,23,42,0.42),rgba(2,6,23,0.12))]">
