@@ -4,7 +4,6 @@ import {
   sectionCardClassName,
   sectionEyebrowToneClassName,
   sectionPanelClassName,
-  sectionTitleToneClassName,
 } from "@/src/app/components/section-card-styles";
 import type { ContactInfo, HeroContent, RelocationInfo } from "@/src/content/portfolio/types";
 import DragResize from "@/src/app/components/drag-resize/drag-resize.client";

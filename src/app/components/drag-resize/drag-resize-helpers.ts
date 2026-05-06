@@ -176,10 +176,10 @@ export function centerDelegateItems(container: HTMLElement, selector: string) {
       const h = Math.round(rect.height);
 
       el.style.position = "absolute";
-      el.style.left = `50%`;
-      el.style.top = `25%`;
-      el.style.width = `${w}px`;
-      el.style.height = `${h}px`;
+      el.style.left = `25%`;
+      el.style.top = `50%`;
+      el.style.width = `398px`;
+      el.style.height = `498px`;
       el.dataset.center = "true";
       el.style.zIndex = `${100 + i}`;
     });

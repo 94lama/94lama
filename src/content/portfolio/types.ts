@@ -5,6 +5,7 @@ export interface HeroPhoto {
 
 export interface HeroContent {
   name: string;
+  surname: string;
   role: string;
   photo?: HeroPhoto;
 }

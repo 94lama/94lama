@@ -1,6 +1,7 @@
 {
   "hero": {
-    "name": "Riccardo La Malfa",
+    "name": "Riccardo",
+    "surname": "La Malfa",
     "role": "Frontend-focused Full-Stack Developer (React, TypeScript, Python)",
     "photo": {
       "src": "/assets/foto-profilo.webp",
