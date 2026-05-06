@@ -4,8 +4,10 @@ import {
   sectionCardClassName,
   sectionEyebrowToneClassName,
   sectionPanelClassName,
+  sectionPillClassName,
+  sectionTitleToneClassName,
 } from "@/src/app/components/section-card-styles";
-import type { ContactInfo, HeroContent, RelocationInfo } from "@/src/content/portfolio/types";
+import type { ContactInfo, HeroContent, RelocationInfo, LanguageEntry } from "@/src/content/portfolio/types";
 import DragResize from "@/src/app/components/drag-resize/drag-resize.client";
 import { HeroContactLine } from "@/src/app/components/hero-contact-line";
 import { HeroBasedIn } from "@/src/app/components/hero-based-in";
@@ -15,9 +17,10 @@ type HeroSectionProps = {
   summary: string;
   contact: ContactInfo;
   relocation: RelocationInfo;
+  languages?: LanguageEntry[];
 };
 
-export function HeroSection({ hero, summary, contact, relocation }: Readonly<HeroSectionProps>) {
+export function HeroSection({ hero, summary, contact, relocation, languages = [] }: Readonly<HeroSectionProps>) {
   const heroRole = typeof hero?.role === "string" ? hero.role : "";
   const heroPhoto = hero?.photo;
   const summaryCopy = typeof summary === "string" ? summary : "";
@@ -52,8 +55,26 @@ export function HeroSection({ hero, summary, contact, relocation }: Readonly<Her
             </div>
           </div>
         </div>
+
         <HeroContactLine contact={contact} />
+
         <HeroBasedIn location={contactLocation} relocationSummary={relocationSummary} />
+
+        {/* Languages card moved into hero and made draggable/resizable */}
+        <div data-draggable-item data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
+          <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
+            Languages
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {languages.map((l) => (
+              <span key={l.label} className={sectionPillClassName}>
+                <span className="font-semibold">{l.label}</span>
+                <span className={`ml-2 text-sm ${sectionTitleToneClassName}`}>{l.level}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         <div className="space-y-5">
           {heroPhoto ? (
             <div data-draggable-item className="space-y-3 w-100">

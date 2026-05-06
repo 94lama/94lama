@@ -4,7 +4,6 @@ import { HeroSection } from "@/components/hero-section";
 import { KnowledgeExperienceCoordinator } from "@/components/knowledge-experience-coordinator";
 import { pageRhythm } from "@/components/layout/page-rhythm";
 import { ResponsiveSectionGrid } from "@/components/layout/responsive-section-grid";
-import { LanguagesSection } from "@/components/languages-section";
 // import { PageLoaderOverlay } from "@/components/loading/page-loader-overlay";
 import { RelocationSection } from "@/components/relocation-section";
 import { ExperienceEntry, LanguageEntry } from "@/src/content/portfolio/types";
@@ -21,6 +20,7 @@ export default async function Home() {
             hero={content.hero}
             relocation={content.relocation}
             summary={content.summary}
+            languages={content.languages as LanguageEntry[]}
           />
           <div className={pageRhythm.heroToProof}>
             <KnowledgeExperienceCoordinator
@@ -31,7 +31,6 @@ export default async function Home() {
           <ResponsiveSectionGrid className={pageRhythm.supportingBlock} variant="balanced">
             <EducationSection education={content.education} />
             <CertificatesSection certificates={content.certificates ?? []} />
-            <LanguagesSection languages={content.languages as LanguageEntry[]} />
           </ResponsiveSectionGrid>
           <RelocationSection relocation={content.relocation} />
         </div>
