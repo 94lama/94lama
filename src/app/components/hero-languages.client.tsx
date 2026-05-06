@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { sectionCardClassName, sectionEyebrowToneClassName, sectionPillClassName, sectionTitleToneClassName } from "@/src/app/components/section-card-styles";
+import { sectionCardClassName, sectionEyebrowToneClassName, sectionChipClassName } from "@/src/app/components/section-card-styles";
 import type { LanguageEntry } from "@/src/content/portfolio/types";
 import { isLocale } from "@/i18n/request";
 
@@ -24,25 +24,31 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
 
   if (!languages || languages.length === 0) return null;
 
+  const currentLocale = pathname?.split("/")[1];
+
   return (
     <div data-draggable-item data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
       <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
         Languages
       </p>
-      <div className="flex flex-wrap gap-2">
-        {languages.map((l) => (
-          <button
-            key={l.label}
-            onClick={() => changeLocale(l.lang)}
-            title={`Switch to ${l.label}`}
-            aria-label={`Switch language to ${l.label}`}
-            className={`inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm ${sectionPillClassName}`}
-          >
-            <FlagIcon code={l.lang} />
-            <span className="font-semibold">{l.label}</span>
-            <span className={`ml-2 text-sm ${sectionTitleToneClassName}`}>{l.level}</span>
-          </button>
-        ))}
+      <div className="flex items-center gap-3">
+        {languages.map((l) => {
+          const isActive = currentLocale && isLocale(currentLocale) && currentLocale === l.lang;
+          return (
+            <button
+              key={l.lang}
+              type="button"
+              onClick={() => changeLocale(l.lang)}
+              title={`Switch to ${l.label}`}
+              aria-label={`Switch language to ${l.label}`}
+              aria-pressed={isActive}
+              className={`${sectionChipClassName} inline-flex h-10 w-10 items-center justify-center p-0 text-slate-800 dark:text-white ${isActive ? "bg-accent/10" : ""}`}
+            >
+              <span className="sr-only">{l.label}</span>
+              <FlagIcon code={l.lang} />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -51,7 +57,7 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
 function FlagIcon({ code }: { code: string }) {
   if (code === "it") {
     return (
-      <svg width="20" height="14" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden>
+      <svg width="18" height="12" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden>
         <rect width="1" height="2" x="0" y="0" fill="#009246" />
         <rect width="1" height="2" x="1" y="0" fill="#FFFFFF" />
         <rect width="1" height="2" x="2" y="0" fill="#CE2B37" />
@@ -60,16 +66,16 @@ function FlagIcon({ code }: { code: string }) {
   }
   if (code === "fr") {
     return (
-      <svg width="20" height="14" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden>
+      <svg width="18" height="12" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden>
         <rect width="1" height="2" x="0" y="0" fill="#0055A4" />
         <rect width="1" height="2" x="1" y="0" fill="#FFFFFF" />
         <rect width="1" height="2" x="2" y="0" fill="#EF4135" />
       </svg>
     );
   }
-  // default: english (use UK flag simplified)
+  // default: english (use simplified UK/union jack)
   return (
-    <svg width="20" height="14" viewBox="0 0 60 30" aria-hidden>
+    <svg width="18" height="12" viewBox="0 0 60 30" aria-hidden>
       <rect width="60" height="30" fill="#00247d" />
       <path d="M0 0 L60 30 M60 0 L0 30" stroke="#fff" strokeWidth="6" />
       <path d="M0 0 L60 30 M60 0 L0 30" stroke="#cf142b" strokeWidth="4" />
