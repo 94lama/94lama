@@ -60,20 +60,8 @@ export function HeroSection({ hero, summary, contact, relocation, languages = []
 
         <HeroBasedIn location={contactLocation} relocationSummary={relocationSummary} />
 
-        {/* Languages card moved into hero and made draggable/resizable */}
-        <div data-draggable-item data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
-          <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
-            Languages
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {languages.map((l) => (
-              <span key={l.label} className={sectionPillClassName}>
-                <span className="font-semibold">{l.label}</span>
-                <span className={`ml-2 text-sm ${sectionTitleToneClassName}`}>{l.level}</span>
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* Languages card moved into hero and made draggable/resizable (client component) */}
+        <HeroLanguages languages={languages} />
 
         <div className="space-y-5">
           {heroPhoto ? (
