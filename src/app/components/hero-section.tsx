@@ -11,6 +11,7 @@ import type { ContactInfo, HeroContent, RelocationInfo, LanguageEntry } from "@/
 import DragResize from "@/src/app/components/drag-resize/drag-resize.client";
 import { HeroContactLine } from "@/src/app/components/hero-contact-line";
 import { HeroBasedIn } from "@/src/app/components/hero-based-in";
+import HeroLanguages from "@/src/app/components/hero-languages.client";
 
 type HeroSectionProps = {
   hero: HeroContent;
