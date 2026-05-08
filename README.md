@@ -1,27 +1,25 @@
 # Frontend‑focused Full‑Stack Engineer
 
-I build product UIs and the backend glue that makes them work: typed frontends, pragmatic APIs, and small, testable services. I prefer incremental delivery, clear interfaces, and straightforward engineering.
+I build product UIs and the backend glue that makes them work: typed frontends, pragmatic APIs, and small, testable services. I prefer incremental delivery, clear interfaces, and straightforward engin[...]
 
 ## Working set
 
-<p><!-- badges: single row -->
-  ![React](./public/assets/readme/badges/react.svg)
-  ![Next.js](./public/assets/readme/badges/nextjs.svg)
-  ![Svelte](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz1RzTzQFA_9h3qbValKOs0mjsATDkHwMOTA&s)
-  ![TypeScript](./public/assets/readme/badges/typescript.svg)
-  ![Tailwind](./public/assets/readme/badges/tailwind.svg)
-  ![Python](./public/assets/readme/badges/python.svg)
-  ![OpenWhisk](./public/assets/readme/badges/openwhisk.svg)
-  ![Laravel](./public/assets/readme/badges/laravel.svg)
-  ![PHP](./public/assets/readme/badges/php.svg)
-  ![Docker](./public/assets/readme/badges/docker.svg)
-  ![CI/CD](./public/assets/readme/badges/cicd.svg)
-  ![MySQL](./public/assets/readme/badges/mysql.svg)
-  ![PostgreSQL](./public/assets/readme/badges/postgres.svg)
-  ![Agentic AI](./public/assets/readme/badges/agentic-ai.svg)
-  ![Architecture](./public/assets/readme/badges/architecture.svg)
-</p>
-</p>
+<!-- badges: single row -->
+![React](public/assets/readme/badges/react.svg)
+![Next.js](public/assets/readme/badges/nextjs.svg)
+![Svelte](https://img.shields.io/badge/Svelte-FF3E00?logo=svelte&logoColor=white)
+![TypeScript](public/assets/readme/badges/typescript.svg)
+![Tailwind](public/assets/readme/badges/tailwind.svg)
+![Python](public/assets/readme/badges/python.svg)
+![OpenWhisk](public/assets/readme/badges/openwhisk.svg)
+![Laravel](public/assets/readme/badges/laravel.svg)
+![PHP](public/assets/readme/badges/php.svg)
+![Docker](public/assets/readme/badges/docker.svg)
+![CI/CD](public/assets/readme/badges/cicd.svg)
+![MySQL](public/assets/readme/badges/mysql.svg)
+![PostgreSQL](public/assets/readme/badges/postgres.svg)
+![Agentic AI](public/assets/readme/badges/agentic-ai.svg)
+![Architecture](public/assets/readme/badges/architecture.svg)
 
 ## Skill graph (roles)
 
