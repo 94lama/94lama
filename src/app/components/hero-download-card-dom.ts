@@ -140,6 +140,19 @@ export function stripDragChrome(root: HTMLElement) {
   root.querySelectorAll("[data-delegate-resize-handle]").forEach((el) => el.remove());
 }
 
+export function stripPdfBorders(root: HTMLElement) {
+  [root, ...Array.from(root.querySelectorAll<HTMLElement>("*"))].forEach((el) => {
+    el.style.border = "none";
+    el.style.borderTop = "none";
+    el.style.borderRight = "none";
+    el.style.borderBottom = "none";
+    el.style.borderLeft = "none";
+    el.style.borderColor = "transparent";
+    el.style.outline = "none";
+    el.style.boxShadow = "none";
+  });
+}
+
 export function removeDocumentStyles(doc: Document) {
   doc.querySelectorAll('style, link[rel="stylesheet"]').forEach((node) => node.remove());
 }

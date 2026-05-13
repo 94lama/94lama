@@ -10,6 +10,7 @@ import {
   resolveSafeStyleValue,
   sanitizeUnsupportedColorStyles,
   stripDragChrome,
+  stripPdfBorders,
 } from "@/src/app/components/hero-download-card-dom";
 
 type Props = {
@@ -92,6 +93,7 @@ export function HeroDownloadCard({ sectionRef, contact }: Readonly<Props>) {
           replaceInlineSvgWithImages(clonedSection);
           removeDocumentStyles(clonedDoc);
           sanitizeUnsupportedColorStyles(clonedSection);
+          stripPdfBorders(clonedSection);
         },
       });
 
