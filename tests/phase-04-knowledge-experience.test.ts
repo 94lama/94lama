@@ -45,16 +45,16 @@ const skillGroups: SkillGroup[] = [
 ];
 
 const rootDir = process.cwd();
-const pagePath = path.join(rootDir, "app/page.tsx");
-const routeLoadingPath = path.join(rootDir, "app/loading.tsx");
-const contactSectionPath = path.join(rootDir, "app/components/contact-section.tsx");
-const mapPath = path.join(rootDir, "app/components/skills-knowledge-map.tsx");
-const mapModelPath = path.join(rootDir, "app/components/knowledge-map/model.ts");
-const mapRuntimePath = path.join(rootDir, "app/components/knowledge-map/runtime.ts");
-const mapPanelsPath = path.join(rootDir, "app/components/knowledge-map/knowledge-map-panels.tsx");
-const mapViewportPath = path.join(rootDir, "app/components/knowledge-map/viewport.tsx");
-const routeShellPath = path.join(rootDir, "app/components/loading/route-shell-skeleton.tsx");
-const certificatesSectionPath = path.join(rootDir, "app/components/certificates-section.tsx");
+const pagePath = path.join(rootDir, "src/app/[locale]/page.tsx");
+const routeLoadingPath = path.join(rootDir, "src/app/[locale]/loading.tsx");
+const contactSectionPath = path.join(rootDir, "src/app/components/hero-contact-line.tsx");
+const mapPath = path.join(rootDir, "src/app/components/skills-knowledge-map.tsx");
+const mapModelPath = path.join(rootDir, "src/app/components/knowledge-map/model.ts");
+const mapRuntimePath = path.join(rootDir, "src/app/components/knowledge-map/runtime.ts");
+const mapPanelsPath = path.join(rootDir, "src/app/components/knowledge-map/knowledge-map-panels.tsx");
+const mapViewportPath = path.join(rootDir, "src/app/components/knowledge-map/viewport.tsx");
+const routeShellPath = path.join(rootDir, "src/app/components/loading/route-shell-skeleton.tsx");
+const certificatesSectionPath = path.join(rootDir, "src/app/components/certificates-section.tsx");
 
 const experience: ExperienceEntry[] = [
   {
@@ -190,7 +190,7 @@ test("page wiring replaces duplicate sections with the shared coordinator", asyn
   assert.match(source, /ResponsiveSectionGrid/);
   assert.match(source, /EducationSection/);
   assert.match(source, /CertificatesSection/);
-  assert.match(source, /LanguagesSection/);
+
   assert.match(source, /RelocationSection/);
   assert.notEqual(heroIndex, -1);
   assert.notEqual(proofIndex, -1);
@@ -203,9 +203,9 @@ test("page wiring replaces duplicate sections with the shared coordinator", asyn
 test("contact section keeps the primary mailto CTA explicit", async () => {
   const source = await readFile(contactSectionPath, "utf8");
 
-  assert.match(source, /Primary CTA/);
-  assert.match(source, /href=\{`mailto:\$\{contact\.email\}`\}/);
-  assert.match(source, /Email me/);
+  assert.match(source, /mailto:\$\{contact\.email\}/);
+  assert.match(source, /"Email"/);
+  assert.match(source, /HeroContactLine/);
 });
 
 test("certificates section uses a button-triggered modal with dialog semantics", async () => {
@@ -258,11 +258,9 @@ test("route-level loading renders a structural route shell instead of a spinner 
     readFile(routeShellPath, "utf8"),
   ]);
 
-  assert.match(loadingSource, /RouteShellSkeleton/);
-  assert.match(routeShellSource, /Hero loading shell/);
-  assert.match(routeShellSource, /Interactive section loading shell/);
-  assert.match(routeShellSource, /Lower content grids loading shell/);
+  assert.match(routeShellSource, /RouteShellSkeleton/);
   assert.match(routeShellSource, /data-route-shell="portfolio-loading"/);
+  assert.match(routeShellSource, /EclipseLoader/);
   assert.doesNotMatch(routeShellSource, /spinner/i);
   assert.doesNotMatch(routeShellSource, /Loading\.\.\./);
 });

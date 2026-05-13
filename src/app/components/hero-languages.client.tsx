@@ -27,13 +27,13 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
   const currentLocale = pathname?.split("/")[1];
 
   return (
-    <div data-draggable-item data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
+    <div data-draggable-item data-delegate-auto-height data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
       <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
         Languages
       </p>
       <div className="flex items-center gap-3">
         {languages.map((l) => {
-          const isActive = currentLocale && isLocale(currentLocale) && currentLocale === l.lang;
+          const isActive = Boolean(currentLocale && isLocale(currentLocale) && currentLocale === l.lang);
           return (
             <button
               key={l.lang}

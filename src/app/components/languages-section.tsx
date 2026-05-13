@@ -7,10 +7,16 @@ import {
 import LanguageTile from "@/components/language-tile.client";
 import type { LanguageEntry } from "@/src/content/portfolio/types";
 
-export function LanguagesSection({languages}: {languages: LanguageEntry[]}) {
+export function LanguagesSection({
+  languages,
+  title,
+}: {
+  languages: LanguageEntry[];
+  title: string;
+}) {
   return (
     <SectionShell density="compact">
-      <SectionHeading index="05" title="Languages" />
+      <SectionHeading index="05" title={title} />
       <div className="mt-6 grid gap-3 sm:mt-7 sm:grid-cols-3">
         {languages.map((entry) => (
           <LanguageTile

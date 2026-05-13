@@ -7,8 +7,8 @@ import type { PortfolioBaseContent } from "../src/content/portfolio/types.ts";
 const rootDir = process.cwd();
 const cvPath = path.join(rootDir, "public/assets/cv.json");
 const experiencePath = path.join(rootDir, "public/assets/experience.json");
-const pagePath = path.join(rootDir, "app/page.tsx");
-const heroSectionPath = path.join(rootDir, "app/components/hero-section.tsx");
+const pagePath = path.join(rootDir, "src/app/[locale]/page.tsx");
+const heroContactLinePath = path.join(rootDir, "src/app/components/hero-contact-line.tsx");
 
 test("Phase 3 authored portfolio JSON content includes GitHub, LinkedIn, and dedicated experience data", async () => {
   const [json, experienceJson] = await Promise.all([
@@ -27,16 +27,15 @@ test("Phase 3 authored portfolio JSON content includes GitHub, LinkedIn, and ded
 });
 
 test("Phase 3 page wiring uses shared contact content without hardcoded profile URLs", async () => {
-  const [pageSource, heroSource] = await Promise.all([
+  const [pageSource, contactSource] = await Promise.all([
     readFile(pagePath, "utf8"),
-    readFile(heroSectionPath, "utf8"),
+    readFile(heroContactLinePath, "utf8"),
   ]);
 
   assert.match(pageSource, /<HeroSection/);
-  assert.match(heroSource, /contactEmail/);
-  assert.match(heroSource, /href=\{`mailto:\$\{contactEmail\}`\}/);
-  assert.match(heroSource, /contact\.github/);
-  assert.match(heroSource, /contact\.linkedin/);
-  assert.doesNotMatch(heroSource, /https:\/\/github\.com\/94lama/);
-  assert.doesNotMatch(heroSource, /https:\/\/www\.linkedin\.com\/in\/riccardo-la-malfa/);
+  assert.match(contactSource, /mailto:\$\{contact\.email\}/);
+  assert.match(contactSource, /contact\.github/);
+  assert.match(contactSource, /contact\.linkedin/);
+  assert.doesNotMatch(contactSource, /https:\/\/github\.com\/94lama/);
+  assert.doesNotMatch(contactSource, /https:\/\/www\.linkedin\.com\/in\/riccardo-la-malfa/);
 });

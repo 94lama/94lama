@@ -171,15 +171,24 @@ export function centerDelegateItems(container: HTMLElement, selector: string) {
     const nodes = Array.from(container.querySelectorAll(selector)) as HTMLElement[];
     nodes.forEach((el, i) => {
       const rect = el.getBoundingClientRect();
-      // preserve size
-      const w = Math.round(rect.width);
-      const h = Math.round(rect.height);
 
       el.style.position = "absolute";
       el.style.left = `25%`;
       el.style.top = `50%`;
-      el.style.width = `398px`;
-      el.style.height = `498px`;
+
+      // Cards with data-delegate-auto-height use natural height, others get fixed 498px.
+      const isUnlocked =
+        el.hasAttribute("data-delegate-auto-height") ||
+        el.dataset.delegateAutoSize === "true";
+
+      if (isUnlocked) {
+        el.style.width = `398px`;
+        el.style.height = "auto";
+      } else {
+        el.style.width = `398px`;
+        el.style.height = `498px`;
+      }
+
       el.dataset.center = "true";
       el.style.zIndex = `${100 + i}`;
     });
