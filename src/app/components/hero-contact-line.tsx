@@ -5,7 +5,12 @@ import {
 } from "@/components/section-card-styles";
 import type { ContactInfo } from "@/src/content/portfolio/types";
 
-export function HeroContactLine({ contact }: { contact: ContactInfo | undefined }) {
+type HeroContactLineProps = {
+  contact?: ContactInfo;
+  draggable?: boolean;
+};
+
+export function HeroContactLine({ contact, draggable = false }: Readonly<HeroContactLineProps>) {
   if (!contact) return null;
 
   const actions = [
@@ -21,12 +26,19 @@ export function HeroContactLine({ contact }: { contact: ContactInfo | undefined 
       : null,
   ].filter((a): a is { href: string; label: string; icon: "email" | "phone" | "github" | "linkedin"; external: boolean } => Boolean(a));
 
+  const dragProps = draggable
+    ? { "data-draggable-item": true, "data-delegate-auto-height": true, "data-draggable-id": "hero-contact-line" }
+    : { "data-draggable-id": "hero-contact-line" };
+
   return (
-    <div data-draggable-item data-delegate-auto-height data-draggable-id="hero-contact-line" className={`${sectionCardClassName} @container flex flex-wrap gap-4 rounded-3xl p-5 sm:max-w-3xl sm:flex-row sm:items-center sm:justify-between sm:gap-6`}>
+    <div
+      {...dragProps}
+      className={`${sectionCardClassName} @container flex w-full flex-col gap-4 rounded-3xl p-4 sm:max-w-3xl sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5`}
+    >
       <h3 className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
         Contact line
       </h3>
-      <div className="flex flex-wrap @md:grid @md:grid-cols-2 gap-4 sm:justify-end">
+      <div className="flex flex-wrap gap-3 @md:grid @md:grid-cols-2 sm:justify-end sm:gap-4">
         {actions.map((action) => (
           <ContactIconAction key={action.label} external={action.external} href={action.href} icon={action.icon} label={action.label} />
         ))}

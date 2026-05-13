@@ -1,12 +1,21 @@
 "use client";
 
-import React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { sectionCardClassName, sectionEyebrowToneClassName, sectionChipClassName } from "@/src/app/components/section-card-styles";
-import type { LanguageEntry } from "@/src/content/portfolio/types";
-import { isLocale } from "@/i18n/request";
 
-export default function HeroLanguages({ languages }: { languages: LanguageEntry[] }) {
+import {
+  sectionCardClassName,
+  sectionChipClassName,
+  sectionEyebrowToneClassName,
+} from "@/src/app/components/section-card-styles";
+import { isLocale } from "@/i18n/request";
+import type { LanguageEntry } from "@/src/content/portfolio/types";
+
+type HeroLanguagesProps = {
+  languages: LanguageEntry[];
+  draggable?: boolean;
+};
+
+export default function HeroLanguages({ languages, draggable = false }: Readonly<HeroLanguagesProps>) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -14,7 +23,6 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
   const changeLocale = (lang: string) => {
     if (!pathname) return;
     const segments = pathname.split("/");
-    // ensure leading empty segment for root
     if (segments.length > 1 && isLocale(segments[1])) segments[1] = lang;
     else segments.splice(1, 0, lang);
     const newPath = segments.join("/") || "/";
@@ -25,27 +33,35 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
   if (!languages || languages.length === 0) return null;
 
   const currentLocale = pathname?.split("/")[1];
+  const dragProps = draggable
+    ? { "data-draggable-item": true, "data-delegate-auto-height": true, "data-draggable-id": "hero-languages" }
+    : { "data-draggable-id": "hero-languages" };
 
   return (
-    <div data-draggable-item data-delegate-auto-height data-draggable-id="hero-languages" className={`${sectionCardClassName} space-y-3 rounded-3xl p-5`}>
+    <div
+      {...dragProps}
+      className={`${sectionCardClassName} w-full space-y-3 rounded-3xl p-4 sm:w-auto sm:p-5`}
+    >
       <p className={`font-mono text-[0.68rem] font-semibold uppercase tracking-[0.24em] ${sectionEyebrowToneClassName}`}>
         Languages
       </p>
-      <div className="flex items-center gap-3">
-        {languages.map((l) => {
-          const isActive = Boolean(currentLocale && isLocale(currentLocale) && currentLocale === l.lang);
+      <div className="flex flex-wrap items-center gap-3">
+        {languages.map((language) => {
+          const isActive = Boolean(
+            currentLocale && isLocale(currentLocale) && currentLocale === language.lang,
+          );
           return (
             <button
-              key={l.lang}
+              key={language.lang}
               type="button"
-              onClick={() => changeLocale(l.lang)}
-              title={`Switch to ${l.label}`}
-              aria-label={`Switch language to ${l.label}`}
+              onClick={() => changeLocale(language.lang)}
+              title={`Switch to ${language.label}`}
+              aria-label={`Switch language to ${language.label}`}
               aria-pressed={isActive}
-              className={`${sectionChipClassName} inline-flex h-10 w-10 items-center justify-center p-0 text-slate-800 dark:text-white ${isActive ? "bg-accent/10" : ""}`}
+              className={`${sectionChipClassName} inline-flex h-9 w-9 items-center justify-center p-0 text-slate-800 dark:text-white sm:h-10 sm:w-10 ${isActive ? "bg-accent/10" : ""}`}
             >
-              <span className="sr-only">{l.label}</span>
-              <FlagIcon code={l.lang} />
+              <span className="sr-only">{language.label}</span>
+              <FlagIcon code={language.lang} />
             </button>
           );
         })}
@@ -54,7 +70,7 @@ export default function HeroLanguages({ languages }: { languages: LanguageEntry[
   );
 }
 
-function FlagIcon({ code }: { code: string }) {
+function FlagIcon({ code }: Readonly<{ code: string }>) {
   if (code === "it") {
     return (
       <svg width="18" height="12" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden>
@@ -73,7 +89,6 @@ function FlagIcon({ code }: { code: string }) {
       </svg>
     );
   }
-  // default: english (use simplified UK/union jack)
   return (
     <svg width="18" height="12" viewBox="0 0 60 30" aria-hidden>
       <rect width="60" height="30" fill="#00247d" />

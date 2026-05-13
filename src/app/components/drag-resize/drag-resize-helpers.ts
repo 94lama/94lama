@@ -161,34 +161,31 @@ export function absolutizeDelegateItems(container: HTMLElement, selector: string
   }
 }
 
-// Center delegate children exactly in container using percent transform
+// Center delegate children in container using responsive px layout
 export function centerDelegateItems(container: HTMLElement, selector: string) {
   try {
-    // ensure container is positioned so absolute children anchor to it
     const cs = window.getComputedStyle(container);
     if (cs.position === "static") container.style.position = "relative";
 
+    const containerRect = container.getBoundingClientRect();
+    const gutter = Math.max(16, Math.round(Math.min(containerRect.width, containerRect.height) * 0.04));
+    const maxWidth = Math.max(240, Math.min(398, Math.round(containerRect.width - gutter * 2)));
+    const maxHeight = Math.max(320, Math.min(498, Math.round(containerRect.height - gutter * 2)));
     const nodes = Array.from(container.querySelectorAll(selector)) as HTMLElement[];
+
     nodes.forEach((el, i) => {
       const rect = el.getBoundingClientRect();
-
-      el.style.position = "absolute";
-      el.style.left = `25%`;
-      el.style.top = `50%`;
-
-      // Cards with data-delegate-auto-height use natural height, others get fixed 498px.
       const isUnlocked =
         el.hasAttribute("data-delegate-auto-height") ||
         el.dataset.delegateAutoSize === "true";
+      const width = Math.min(maxWidth, Math.round(rect.width) || maxWidth);
+      const height = isUnlocked ? Math.round(rect.height) || maxHeight : maxHeight;
 
-      if (isUnlocked) {
-        el.style.width = `398px`;
-        el.style.height = "auto";
-      } else {
-        el.style.width = `398px`;
-        el.style.height = `498px`;
-      }
-
+      el.style.position = "absolute";
+      el.style.left = `${Math.round((containerRect.width - width) / 2)}px`;
+      el.style.top = `${Math.max(gutter, Math.round((containerRect.height - height) / 2))}px`;
+      el.style.width = `${width}px`;
+      el.style.height = isUnlocked ? "auto" : `${height}px`;
       el.dataset.center = "true";
       el.style.zIndex = `${100 + i}`;
     });
